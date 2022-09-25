@@ -8,6 +8,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository("repositorioProducto")
 public class RepositorioProductoImpl implements RepositorioProducto {
 
@@ -29,5 +31,11 @@ public class RepositorioProductoImpl implements RepositorioProducto {
     @Override
     public void agregarProducto(Producto producto) {
         sessionFactory.getCurrentSession().save(producto);
+    }
+
+    @Override
+    public List<Producto> buscarTodosLosProductos() {
+        final Session session = sessionFactory.getCurrentSession();
+        return (List<Producto>) session.createCriteria(Producto.class).list();
     }
 }

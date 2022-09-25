@@ -18,7 +18,7 @@
 			<div class="card-body">
 				<div class = "container">
 					<div class="form-group w-75 mr-auto ml-auto">
-						<a class="btn btn-primary btn-lg btn-block w-75" href="${pageContext.servletContext.contextPath}/Control">Venta</a>				
+						<a class="btn btn-primary btn-lg btn-block w-75" href="${pageContext.servletContext.contextPath}/goVentaForm">Venta</a>
 					</div>
 					<div class="form-group">
 						<a class="btn btn-primary btn-lg btn-block" href="${pageContext.servletContext.contextPath}/goEmpleadoForm">Empleado</a>
