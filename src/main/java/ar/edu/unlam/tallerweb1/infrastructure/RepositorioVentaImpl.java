@@ -19,10 +19,10 @@ public class RepositorioVentaImpl implements RepositorioVenta {
     }
 
     @Override
-    public boolean addVenta(Venta venta) {
+    public void addVenta(Venta venta) {
         final Session session = sessionFactory.getCurrentSession();
 
-        return (boolean) session.save(venta);
+        session.save(venta);
     }
 
     @Override
