@@ -2,7 +2,7 @@ package ar.edu.unlam.tallerweb1.domain.ventas;
 
 public interface ServicioVenta {
 
-    boolean addVenta(Venta venta);
+    boolean addVenta(Venta venta) throws CantidadInsuficienteException;
 
     boolean modifyVenta(Venta venta);
 

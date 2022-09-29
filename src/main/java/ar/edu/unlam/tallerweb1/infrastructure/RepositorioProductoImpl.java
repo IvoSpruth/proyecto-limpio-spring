@@ -38,4 +38,11 @@ public class RepositorioProductoImpl implements RepositorioProducto {
         final Session session = sessionFactory.getCurrentSession();
         return (List<Producto>) session.createCriteria(Producto.class).list();
     }
+
+    @Override
+    public void updateProducto(Producto producto) {
+        sessionFactory.getCurrentSession().update(producto);
+    }
+
+
 }
