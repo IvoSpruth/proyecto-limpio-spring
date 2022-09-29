@@ -41,9 +41,11 @@
         <form:input path="cantidadProducto2" type="number" id="cantidadProducto2" class="form-control mb-25" />
 
 
-        <form:select path="productos">
+        <%--<form:select path="cantidadProducto">
             <form:options items="${productos}" itemLabel="nombre" />
-        </form:select>
+        </form:select>--%>
+
+
 
         <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit"/>Agregar</button>
     </form:form>
