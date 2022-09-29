@@ -7,4 +7,6 @@ public interface RepositorioProducto {
     void agregarProducto(Producto producto);
 
     List<Producto> buscarTodosLosProductos();
+
+    void updateProducto(Producto producto);
 }

@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,35 +21,90 @@
 <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
     <h3 class="form-signin-heading">Nuevo Producto</h3>
     <hr class="colorgraph"><br>
+
+                                                
     <form:form action="addVenta" method="POST" modelAttribute="venta" acceptCharset="UTF-8">
+
         <label for="idEmpleado">Id empleado: </label>
         <form:input path="idEmpleado" type="number" id="idEmpleado" class="form-control mb-25" placeholder="Id empleado"/>
 
+        <table>
+        <colgroup>
+        <col width="33%">
+        <col width="33%">
+        <col width="34%">                                                                                        
+        </colgroup> 
 
-        <label for="idProducto">Id producto 1: </label>
-        <form:input path="idProducto" type="number" id="idProducto" class="form-control mb-25" />
-
-
-        <label for="cantidadProducto">Cantidad producto 1: </label>
-        <form:input path="cantidadProducto" type="number" id="cantidadProducto" class="form-control mb-25" />
-
-
-        <label for="idProducto2">Id producto 2: </label>
-        <form:input path="idProducto2" type="number" id="idProducto2" class="form-control mb-25" />
-
-
-        <label for="cantidadProducto2">Cantidad producto 2: </label>
-        <form:input path="cantidadProducto2" type="number" id="cantidadProducto2" class="form-control mb-25" />
-
-
-        <%--<form:select path="cantidadProducto">
-            <form:options items="${productos}" itemLabel="nombre" />
-        </form:select>--%>
-
-
+        <tr class="mt-25">
+            <td >
+                <form:select path="idProducto" class="form-control">
+                    <form:option value="0" label="Seleccione Productos"/>  
+                    <form:options items="${productos}" itemLabel="nombre" itemValue="id" />
+                </form:select>
+            </td>
+            <td >
+                <form:input path="cantidadProducto" type="number" id="cantidadProducto" class="form-control mb-25" />
+            </td>
+            <td >
+                <div>COSTO</div>
+            </td>
+        </tr> 
+        <tr class="mt-25">
+            <td >
+                <form:select path="idProducto2" class="form-control">
+                    <form:option value="0" label="Seleccione Productos"/>  
+                    <form:options items="${productos}" itemLabel="nombre" itemValue="id" />
+                </form:select>
+            </td>
+            <td >
+                <%-- <label for="cantidadProducto2">Cantidad producto 2: </label> --%>
+                <form:input path="cantidadProducto2" type="number" id="cantidadProducto2" class="form-control mb-25" />
+            </td>
+            <td >
+                <div>COSTO</div>
+            </td>
+        </tr> 
+        </table>
 
         <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit"/>Agregar</button>
     </form:form>
+        
+
+
+        
+
+
+        
+
+
+        <%-- <label for="idProducto2">Id producto 2: </label>
+        <form:input path="idProducto2" type="number" id="idProducto2" class="form-control mb-25" /> --%>
+
+        <%-- <select name="transporte">
+            <option value=0>Seleccione Producto</option>
+            <c:forEach items="${productos}" var="par">
+                <option value="nombre">${fn:split(par.value, '|')[0]}</option>
+            </c:forEach>
+        </select> --%>
+
+        <%-- <div class="border border-secondary> --%>
+            <%-- <select class="form-control" id="selectTransporte" name="setProducto1" >
+                <option >Seleccione Productos</option> 
+                <c:forEach items="${productos}" var="lista">
+                    <option value="${lista.nombre}">${lista.nombre}</option>
+                </c:forEach>
+                <input type="hidden" class="form-control" id="idTransporte" name="idTransporte" value="" />
+            </select> --%>
+        <%-- </div> --%>
+
+
+    <c:if test="${result==false}">
+        <div classs="container p-5">
+            <div class="alert alert-danger" role="alert">
+                ${message}
+            </div>
+        </div>   
+    </c:if>
 
 </div>
 <br/>

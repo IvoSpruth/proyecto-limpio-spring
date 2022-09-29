@@ -1,9 +1,10 @@
 package ar.edu.unlam.tallerweb1.domain.productos;
 
+import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,9 +37,29 @@ public class ServicioProductoImpl implements ServicioProducto {
     }
 
     @Override
+    public boolean updateProductos(List<Producto> productos) {
+        for(Producto p: productos){
+            productoDao.updateProducto(p);
+        }
+        return true;
+    }
+
+    @Override
     @Transactional
     public List<Producto> buscarProductos() {
         return productoDao.buscarTodosLosProductos();
+    }
+
+    public void restarProductos(Venta v){
+        ArrayList<Producto> stockProductos = (ArrayList)productoDao.buscarTodosLosProductos();
+        for(Producto p : stockProductos){
+            if(p.getId()==v.getIdProducto()){
+
+            }
+            if(p.getId()==v.getIdProducto2()){
+
+            }
+        }
     }
 
 }
