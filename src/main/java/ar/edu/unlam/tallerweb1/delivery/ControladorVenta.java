@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
 import ar.edu.unlam.tallerweb1.domain.ventas.CantidadInsuficienteException;
+import ar.edu.unlam.tallerweb1.domain.ventas.IdEmpleadoNoValidoException;
 import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
 import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,10 @@ public class ControladorVenta {
 
         } catch (CantidadInsuficienteException cie) {
             return new ModelAndView("ventaForm", getModelError(cie.getMessage()));
-        } catch (Exception e) {
+        } catch (IdEmpleadoNoValidoException ienve){
+            return new ModelAndView("ventaForm", getModelError(ienve.getMessage()));
+        }
+        catch (Exception e) {
             return new ModelAndView("empleado-dueño-control", getModelError("Hubo un error inesperado"));
         }
 

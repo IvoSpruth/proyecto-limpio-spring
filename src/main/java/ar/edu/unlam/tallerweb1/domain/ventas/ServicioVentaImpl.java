@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.ventas;
 
+import ar.edu.unlam.tallerweb1.domain.empleados.Empleado;
+import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +17,21 @@ public class ServicioVentaImpl  implements   ServicioVenta{
     private RepositorioVenta repositorioVenta;
     private ServicioProducto servicioProducto;
 
+    private ServicioEmpleado servicioEmpleado;
+
     @Autowired
-    public ServicioVentaImpl(RepositorioVenta repositorioVenta, ServicioProducto servicioProducto){
+    public ServicioVentaImpl(RepositorioVenta repositorioVenta, ServicioProducto servicioProducto, ServicioEmpleado servicioEmpleado){
         this.repositorioVenta = repositorioVenta;
         this.servicioProducto = servicioProducto;
+        this.servicioEmpleado = servicioEmpleado;
     }
 
 
     @Override
     @Transactional
-    public boolean addVenta(Venta venta) throws CantidadInsuficienteException{
+    public boolean addVenta(Venta venta) throws CantidadInsuficienteException, IdEmpleadoNoValidoException{
         try {
+            validarEmpleado(venta);
             validarVenta(venta);
             fillTotal(venta);
             repositorioVenta.addVenta(venta);
@@ -33,10 +39,16 @@ public class ServicioVentaImpl  implements   ServicioVenta{
             return true;
         }catch(CantidadInsuficienteException cie){
             throw new CantidadInsuficienteException(cie.getMessage());
-        }catch (Exception ex){
+        }catch (IdEmpleadoNoValidoException ienve){
+            servicioEmpleado.traemeTodosLosEmpleados();
+            String mensaje = "El id ingresado no es valido. Los ids de los empleados registrados son : " + servicioEmpleado.listaDeIdsDeTodosLosEmpleados();
+            throw new IdEmpleadoNoValidoException(mensaje);
+        } catch (Exception ex){
             return false;
         }
     }
+
+
 
     private void fillTotal(Venta venta) {
         ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
@@ -101,6 +113,15 @@ public class ServicioVentaImpl  implements   ServicioVenta{
             }
         }
 
+    }
+
+    private void validarEmpleado(Venta v) throws IdEmpleadoNoValidoException{
+        Long idEmpleadoVenta = Long.valueOf(v.getIdEmpleado());
+        Empleado empleadoBuscado = new Empleado();
+        empleadoBuscado.setId(idEmpleadoVenta);
+        if (servicioEmpleado.buscarEmpleado(empleadoBuscado) == null){
+            throw new IdEmpleadoNoValidoException(v.getIdEmpleado());
+        }
     }
 
 }

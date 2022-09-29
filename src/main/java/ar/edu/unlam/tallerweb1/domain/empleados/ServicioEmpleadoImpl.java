@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class ServicioEmpleadoImpl implements ServicioEmpleado {
 
@@ -35,6 +37,26 @@ public class ServicioEmpleadoImpl implements ServicioEmpleado {
         }catch(Exception ex) {
             return false;
         }
+    }
+
+    @Override
+    public Empleado buscarEmpleado(Empleado empleado) {
+        return empleadoDao.buscarEmpleado(empleado);
+    }
+
+    @Override
+    public List<Empleado> traemeTodosLosEmpleados() {
+        return empleadoDao.traemeTodosLosEmpleados();
+    }
+
+    @Override
+    public String listaDeIdsDeTodosLosEmpleados() {
+        String mensaje = "";
+        List<Empleado> listaEmpleados = traemeTodosLosEmpleados();
+        for (Empleado e: listaEmpleados) {
+            mensaje +=" - " + e.getId() ;
+        }
+        return mensaje + ".";
     }
 
 
