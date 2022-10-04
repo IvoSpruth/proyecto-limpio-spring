@@ -71,7 +71,7 @@ public class ControladorVenta {
         ModelMap modelError = new ModelMap();
         modelError.addAttribute("fecha", new Date().toString());
         modelError.addAttribute("productos", (List) servicioProducto.buscarProductos());
-        modelError.addAttribute("result", false);
+        modelError.addAttribute("exito", false);
         modelError.addAttribute("message", mensaje);
         return modelError;
     }

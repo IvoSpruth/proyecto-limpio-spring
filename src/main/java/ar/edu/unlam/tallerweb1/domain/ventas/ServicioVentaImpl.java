@@ -102,12 +102,12 @@ public class ServicioVentaImpl  implements   ServicioVenta{
 
         for(Producto p : productos){
             if(v.getIdProducto()==p.getId()){
-                if(v.getCantidadProducto() >= p.getCantidad()){
+                if(v.getCantidadProducto() > p.getCantidad()){
                     throw new CantidadInsuficienteException(p.getNombre(), v.getCantidadProducto(), p.getCantidad());
                 }
             }
             if(v.getIdProducto2()==p.getId()){
-                if(v.getCantidadProducto2() >= p.getCantidad()){
+                if(v.getCantidadProducto2() > p.getCantidad()){
                     throw new CantidadInsuficienteException(p.getNombre(), v.getCantidadProducto2(), p.getCantidad());
                 }
             }
