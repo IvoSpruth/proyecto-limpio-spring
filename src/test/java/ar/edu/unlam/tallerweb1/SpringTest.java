@@ -1,7 +1,9 @@
 package ar.edu.unlam.tallerweb1;
 
+import ar.edu.unlam.tallerweb1.domain.ventas.CantidadInsuficienteException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -22,5 +24,7 @@ public abstract class SpringTest {
     protected Session session() {
         return this.sessionFactory.getCurrentSession();
     }
+
+
 
 }
