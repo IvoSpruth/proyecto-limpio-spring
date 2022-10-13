@@ -1,11 +1,11 @@
 package ar.edu.unlam.tallerweb1.domain.ventas;
 
+import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -24,6 +24,10 @@ public class Venta {
     private int idProducto2;
 
     private int cantidadProducto2;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @NotFound(action = NotFoundAction.IGNORE)
+    private CierreDiario cierre;
 
     @CreationTimestamp
     private Date fecha;
@@ -92,5 +96,13 @@ public class Venta {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public CierreDiario getCierre() {
+        return cierre;
+    }
+
+    public void setCierre(CierreDiario cierre) {
+        this.cierre = cierre;
     }
 }

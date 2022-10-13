@@ -21,7 +21,7 @@
 						<a class="btn btn-primary btn-lg btn-block w-75" href="${pageContext.servletContext.contextPath}/goVentaForm">Venta</a>
 					</div>
 					<div class="form-group">
-						<a class="btn btn-primary btn-lg btn-block" href="${pageContext.servletContext.contextPath}/goEmpleadoForm">Empleado</a>
+						<a class="btn btn-primary btn-lg btn-block" href="${pageContext.servletContext.contextPath}/goCierreDiario">Cierre Diario</a>
 					</div>
 					<div class="form-group">
 						<a class="btn btn-primary btn-lg btn-block" href="${pageContext.servletContext.contextPath}/goProductoForm">Producto</a>
@@ -33,7 +33,10 @@
 			</div>
 		</div>
 
-
+        <c:if test="${not empty factura}">
+            <a>${factura}</a>
+            <br>
+        </c:if>
 
 
 		<!-- Placed at the end of the document so the pages load faster -->

@@ -2,10 +2,12 @@ package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
+import ar.edu.unlam.tallerweb1.domain.utils.PdfManager;
 import ar.edu.unlam.tallerweb1.domain.ventas.CantidadInsuficienteException;
 import ar.edu.unlam.tallerweb1.domain.ventas.IdEmpleadoNoValidoException;
 import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
 import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
+import com.itextpdf.text.DocumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -48,24 +52,27 @@ public class ControladorVenta {
     @RequestMapping(path="/addVenta", method= RequestMethod.POST)
     public ModelAndView addVenta(@ModelAttribute("venta") Venta venta, HttpServletRequest req){
         ModelMap model = new ModelMap();
+        File factura;
         try {
 
-            servicioVenta.addVenta(venta);
-
-        } catch (CantidadInsuficienteException cie) {
+            //servicioVenta.addVenta(venta);
+            factura = servicioVenta.createFactura(venta);
+        /*} catch (CantidadInsuficienteException cie) {
             return new ModelAndView("ventaForm", getModelError(cie.getMessage()));
         } catch (IdEmpleadoNoValidoException ienve){
-            return new ModelAndView("ventaForm", getModelError(ienve.getMessage()));
-        }
-        catch (Exception e) {
+            return new ModelAndView("ventaForm", getModelError(ienve.getMessage()));*/
+        } catch (Exception e) {
             return new ModelAndView("empleado-dueño-control", getModelError("Hubo un error inesperado"));
         }
 
 
         model.addAttribute("exito", true);
         model.addAttribute("mensaje","La venta se cargo con exito");
+        model.addAttribute("factura",factura.getPath());
         return new ModelAndView("empleado-dueño-control", model);
     }
+
+
 
     private ModelMap getModelError(String mensaje){
         ModelMap modelError = new ModelMap();

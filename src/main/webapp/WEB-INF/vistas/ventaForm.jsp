@@ -66,6 +66,7 @@
         </tr> 
         </table>
 
+
         <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit"/>Agregar</button>
     </form:form>
         
