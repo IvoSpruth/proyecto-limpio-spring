@@ -4,8 +4,11 @@ import ar.edu.unlam.tallerweb1.domain.ventas.RepositorioVenta;
 import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository("repositorioVenta")
 public class RepositorioVentaImpl implements RepositorioVenta {
@@ -38,5 +41,16 @@ public class RepositorioVentaImpl implements RepositorioVenta {
     @Override
     public Venta buscarVenta(Venta venta) {
         return null;
+    }
+
+    @Override
+    public List<Venta> ventasDeUnEmpleado(int idEmpleado) {
+        return sessionFactory.getCurrentSession().createCriteria(Venta.class)
+                .add(Restrictions.eq("idEmpleado", idEmpleado)).list();
+    }
+
+    @Override
+    public List<Venta> buscarTodasLasVentas() {
+        return sessionFactory.getCurrentSession().createCriteria(Venta.class).list();
     }
 }

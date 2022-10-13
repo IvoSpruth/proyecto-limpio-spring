@@ -2,21 +2,30 @@ package ar.edu.unlam.tallerweb1.domain;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.delivery.ControladorVenta;
+import ar.edu.unlam.tallerweb1.domain.cierreDiario.ServicioCierreDiario;
+import ar.edu.unlam.tallerweb1.domain.empleados.Empleado;
+import ar.edu.unlam.tallerweb1.domain.empleados.RepositorioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
+import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleadoImpl;
 import ar.edu.unlam.tallerweb1.domain.productos.Producto;
+import ar.edu.unlam.tallerweb1.domain.productos.RepositorioProducto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
+import ar.edu.unlam.tallerweb1.domain.productos.ServicioProductoImpl;
 import ar.edu.unlam.tallerweb1.domain.ventas.*;
 import ar.edu.unlam.tallerweb1.infrastructure.RepositorioVentaImpl;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

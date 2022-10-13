@@ -14,17 +14,6 @@
 						http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
 	<import resource="classpath:test-hibernateContext.xml" />
-<<<<<<< HEAD
-	<context:component-scan base-package="ar.edu.unlam.tallerweb1.delivery" />
-	<context:component-scan base-package="ar.edu.unlam.tallerweb1.infrastructure" />
-	<context:component-scan base-package="ar.edu.unlam.tallerweb1.domain" />
-	<tx:annotation-driven />
-
-
-
-</beans>
-=======
-
 	<!--Se indica que la configuracion del MVC se hara utilizanbdo anotaciones-->
 	<mvc:annotation-driven />
 
@@ -37,6 +26,5 @@
 	<context:component-scan base-package="ar.edu.unlam.tallerweb1.infrastructure" />
 	<context:component-scan base-package="ar.edu.unlam.tallerweb1.domain" />
 
->>>>>>> testMergeMati
 
 </beans>
