@@ -10,6 +10,8 @@ public interface ServicioVenta {
 
     Venta buscarVenta(Venta venta);
 
+    String buscarNombreEmpleado(int idEmpleado);
+
     String buscarNombreProducto(int idProducto);
 
     double buscarCostoProducto(int idProducto);
@@ -21,4 +23,6 @@ public interface ServicioVenta {
     double getSubtotalProducto2();
 
     double getSubtotalProductos();
+
+    double calcularComisionEmpleado(double sumaTotal);
 }

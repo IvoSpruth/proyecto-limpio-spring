@@ -14,16 +14,13 @@
     <h1>Sistema Administracion <small>Negocio Fisico v.01</small></h1>
     <h1>Fecha: ${fecha}</h1>
 </div>
-<br/>
-<br/>
-<br/>
 
 <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
     <h3 class="form-signin-heading">Nuevo Producto</h3>
     <hr class="colorgraph"><br>
 
                                                 
-    <form:form action="goResumen" method="GET" modelAttribute="venta" acceptCharset="UTF-8">
+    <form:form action="addVenta" method="POST" modelAttribute="venta" acceptCharset="UTF-8">
 
         <label for="idEmpleado">Id empleado: </label>
         <form:input path="idEmpleado" type="number" id="idEmpleado" class="form-control mb-25" placeholder="Id empleado"/>

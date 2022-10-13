@@ -23,7 +23,7 @@
     <hr class="colorgraph"><br>
 
                                                 
-    <form:form action="goResumen" method="GET" modelAttribute="venta" acceptCharset="UTF-8">
+    <form:form action="addVenta" method="POST" modelAttribute="venta" acceptCharset="UTF-8">
 
         <label for="idEmpleado">Id empleado: </label>
         <form:input path="idEmpleado" type="number" id="idEmpleado" class="form-control mb-25" placeholder="Id empleado"/>

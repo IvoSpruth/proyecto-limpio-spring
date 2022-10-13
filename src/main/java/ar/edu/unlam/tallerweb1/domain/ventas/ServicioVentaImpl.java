@@ -101,6 +101,16 @@ public class ServicioVentaImpl  implements   ServicioVenta{
     }
 
     @Override
+    public String buscarNombreEmpleado(int idEmpleado) {
+        ArrayList<Empleado> empleados = (ArrayList) servicioEmpleado.traemeTodosLosEmpleados();
+        for (Empleado e : empleados) {
+            if (idEmpleado == e.getId()) {
+                return e.getName();
+            }
+        }
+        return null;
+    }
+    @Override
     public String buscarNombreProducto(int idProducto) {
         ArrayList<Producto> productos = (ArrayList) servicioProducto.buscarProductos();
         for (Producto p : productos) {
@@ -130,6 +140,10 @@ public class ServicioVentaImpl  implements   ServicioVenta{
             }
         }
         return 0.0;
+    }
+
+    public double calcularComisionEmpleado(double sumaTotal){
+        return sumaTotal * 0.05;
     }
 
     public double getSubtotalProducto1() {

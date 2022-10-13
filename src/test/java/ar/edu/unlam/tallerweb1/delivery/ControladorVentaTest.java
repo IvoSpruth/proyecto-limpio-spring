@@ -44,7 +44,7 @@ public class ControladorVentaTest extends SpringTest {
         dadoQueExisteUnaVentaCorrecta();
         ModelAndView mav = cuandoRealizoUnaVenta();
         entoncesEncuentro(mav);
-        entoncesMeLLevaALaVista(mav, "empleado-dueño-control");
+        entoncesMeLLevaALaVista(mav, "resumenVenta");
 
     }
 
@@ -80,18 +80,17 @@ public class ControladorVentaTest extends SpringTest {
     @Test
     public void alSolicitarElResumenMeTraeLaCantidadVendidaCorrecta() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
 
-        ModelAndView mav = controladorVenta.irAResumen(venta);
+        ModelAndView mav = controladorVenta.addVenta(venta, request);
         Integer cantidadVenta = (Integer) mav.getModel().get("cantidadUno");
         assertThat(cantidadVenta).isEqualTo(venta.getCantidadProducto());
 
-        //dadoQueSolicitoElResumenDeUnaVenta(venta);
-        //ModelAndView mav = cuandoSolicitoLaCantidadDeProductosDeEsaVenta();
     }
 
-    @Test
-    public void alSolicitarElResumenMeTraeElIdDeProductoCorrecto() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
 
-        ModelAndView mav = controladorVenta.irAResumen(venta);
+      @Test
+        public void alSolicitarElResumenMeTraeElIdDeProductoCorrecto() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
+
+        ModelAndView mav = controladorVenta.addVenta(venta, request);
         Integer idProductoDos = (Integer) mav.getModel().get("idProductoDos");
         assertThat(idProductoDos).isEqualTo(venta.getIdProducto2());
     }
@@ -102,7 +101,7 @@ public class ControladorVentaTest extends SpringTest {
 
 
     private ModelAndView cuandoSolicitoElResumen() {
-        return controladorVenta.irAResumen(this.venta);
+        return controladorVenta.addVenta(this.venta, request);
     }
 
     private void entoncesMeLLevaALaVista(ModelAndView mav, String vistaEsperada) {

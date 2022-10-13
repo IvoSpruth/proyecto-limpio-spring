@@ -21,16 +21,13 @@
     <h1>Sistema Administracion <small>Negocio Fisico v.01</small></h1>
     <h1>Fecha: ${fecha}</h1>
 </div>
-<br/>
-<br/>
-<br/>
 
 <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
     <h3 class="form-signin-heading">Resumen de Venta</h3>
     <hr class="colorgraph"><br>
 
 
-    <form:form action="addVenta" method="POST" modelAttribute="venta" acceptCharset="UTF-8">
+    <form:form action="empleado-dueño-control" method="POST" modelAttribute="venta" acceptCharset="UTF-8">
 
         <%--<label for="idEmpleado">Id empleado: </label>
         <form:input path="idProducto" type="number" id="idEmpleado" class="form-control mb-25" placeholder="Id empleado"/>
@@ -40,7 +37,11 @@
                 <col class="row align-items-center">
                 <col class="row align-items-center">
                 <col class="row align-items-center">
-            </colgroup>--%>
+            </colgroup>
+            <h2 class="form-signin-heading">Nombre del empleado: ${nombreEmpleado}</h2>--%>
+
+            <h4 class="form-signin-heading">Id del empleado: ${idEmpleado}</h4>
+            <h4 class="form-signin-heading">Comision: ${comision}</h4>
 
             <tr class="mt-25">
                 <td>
@@ -87,8 +88,12 @@
             </tr>
         </table>
 
-        <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit"/>Agregar venta</button>
-        <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Cancel"/>Cancelar</button>
+        <div class="form-group w-75 mr-auto ml-auto">
+            <a class="btn btn-primary btn-lg btn-block w-75" href="${pageContext.servletContext.contextPath}/centroControl">Volver al inicio</a>
+        </div>
+        <div class="form-group w-75 mr-auto ml-auto">
+            <a class="btn btn-primary btn-lg btn-block w-75" href="">Descargar factura</a>
+        </div>
     </form:form>
 
 
