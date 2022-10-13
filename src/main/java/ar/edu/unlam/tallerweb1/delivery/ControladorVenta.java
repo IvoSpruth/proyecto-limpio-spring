@@ -114,7 +114,7 @@ public class ControladorVenta {
         model.addAttribute("fecha", new Date().toString());
         model.addAttribute("exito", true);
         model.addAttribute("mensaje","La venta se cargo con exito");
-        model.addAttribute("factura",factura.getPath());
+        //model.addAttribute("factura",factura.getPath());
 
         return new ModelAndView("resumenVenta", model);
     }

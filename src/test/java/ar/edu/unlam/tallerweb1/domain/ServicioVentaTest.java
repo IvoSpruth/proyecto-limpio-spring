@@ -2,21 +2,30 @@ package ar.edu.unlam.tallerweb1.domain;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.delivery.ControladorVenta;
+import ar.edu.unlam.tallerweb1.domain.cierreDiario.ServicioCierreDiario;
+import ar.edu.unlam.tallerweb1.domain.empleados.Empleado;
+import ar.edu.unlam.tallerweb1.domain.empleados.RepositorioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
+import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleadoImpl;
 import ar.edu.unlam.tallerweb1.domain.productos.Producto;
+import ar.edu.unlam.tallerweb1.domain.productos.RepositorioProducto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
+import ar.edu.unlam.tallerweb1.domain.productos.ServicioProductoImpl;
 import ar.edu.unlam.tallerweb1.domain.ventas.*;
 import ar.edu.unlam.tallerweb1.infrastructure.RepositorioVentaImpl;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -29,6 +38,13 @@ public class ServicioVentaTest extends SpringTest {
 
     private ServicioCierreDiario servicioCierre;
 
+    private HttpServletRequest request;
+
+    private Venta venta;
+    private Producto productoUno, productoDos;
+
+    public static final int CANTIDAD_ESPERADA = 40;
+
     @Before
     public void init(){
         this.repositorioVenta = mock(RepositorioVenta.class);
@@ -36,8 +52,18 @@ public class ServicioVentaTest extends SpringTest {
         this.servicioEmpleado = new ServicioEmpleadoImpl(mock(RepositorioEmpleado.class));
         this.servicioCierre = mock(ServicioCierreDiario.class);
         this.servicioVenta = new ServicioVentaImpl(this.repositorioVenta, this.servicioProducto, this.servicioEmpleado, this.servicioCierre);
+        venta = prepareVenta();
+        //productoUno = prepareProductoUno();
+        //productoDos = prepareProductoDos();
+        this.request = mock(HttpServletRequest.class);
     }
 
+    @Test
+    public void alRealizarUnaVentaConUnProductoLaSumaCorrectamente() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
+        dadoQueSumoUnaVentaConUnProducto(venta);
+        Integer cantidad = cuandoConsultoLosProductosDeLaVenta();
+        entoncesEncuentroLaCantidadCorrecta(cantidad, CANTIDAD_ESPERADA);
+    }
 
     @Rollback
     @Test
@@ -46,9 +72,54 @@ public class ServicioVentaTest extends SpringTest {
         assertTrue(cuandoAgregaUnaVenta(prepareVenta()));
     }
 
+    @Test(expected =  IdEmpleadoNoValidoException.class)
+    public void queNoPermitaRealizarLaVentaDebidoAQueSeIngresoUnIdNoValido() throws CantidadInsuficienteException, IdEmpleadoNoValidoException{
+        dadoQueExisteUnaVenta();
+        assertTrue(cuandoAgregaUnaVenta(prepareVentaConIdEmpleadoInvalido()));
+    }
+
+    @Test(expected = CantidadInsuficienteException.class)
+    public void queNoPermitaRealizarLaVentaDebidoAQueNoHaySuficienteStockDelProducto() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
+        dadoQueExisteUnaVenta();
+        assertTrue(cuandoAgregaUnaVenta(prepareVentaConCantidadProductosInsuficientes()));
+    }
+
+    private Venta prepareVentaConCantidadProductosInsuficientes() {
+        Venta venta = new Venta();
+        venta.setIdEmpleado(1);
+        venta.setIdProducto(1);
+        venta.setCantidadProducto(10000);
+        venta.setIdProducto2(2);
+        venta.setCantidadProducto2(80);
+        return venta;
+    }
+
+    private Venta prepareVentaConIdEmpleadoInvalido() {
+        Venta venta = new Venta();
+        venta.setIdEmpleado(6);
+        venta.setIdProducto(1);
+        venta.setCantidadProducto(40);
+        venta.setIdProducto2(2);
+        venta.setCantidadProducto2(80);
+        return venta;
+    }
+
+    private void entoncesEncuentroLaCantidadCorrecta(Integer cantidad, int cantidadEsperada) {
+        assertThat(cantidad).isEqualTo(cantidadEsperada);
+    }
+
+    private Integer cuandoConsultoLosProductosDeLaVenta() {
+        Integer cantidadProducto = venta.getCantidadProducto();
+        return cantidadProducto;
+    }
+
+    private void dadoQueSumoUnaVentaConUnProducto(Venta venta) throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
+        servicioVenta.addVenta(venta);
+    }
+
     private void dadoQueExisteUnaVenta(){
         when(this.servicioProducto.buscarProductos()).thenReturn(prepareProductos());
-        when(this.servicioEmpleado.buscarEmpleado(prepareEmpleados().get(0))).thenReturn(prepareEmpleados().get(0));
+        when(this.servicioEmpleado.traemeTodosLosEmpleados()).thenReturn(prepareEmpleados());
         //when(this.servicioProducto.updateProductos(prepareProductos())).getMock();
     }
 
@@ -85,13 +156,13 @@ public class ServicioVentaTest extends SpringTest {
        Empleado e1,e2;
 
        e1 = new Empleado();
-           e1.setId((long)1);
+           e1.setId(1L);
            e1.setName("lucas");
            e1.setRol("gerente");
            e1.setSueldo(75000);
 
         e2 = new Empleado();
-            e2.setId((long)2);
+            e2.setId(2L);
             e2.setName("Virginia");
             e2.setRol("dueño");
             e2.setSueldo(500000);

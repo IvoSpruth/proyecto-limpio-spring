@@ -187,10 +187,15 @@ public class ServicioVentaImpl  implements   ServicioVenta{
     }
 
     private void validarEmpleado(Venta v) throws IdEmpleadoNoValidoException{
-        Long idEmpleadoVenta = Long.valueOf(v.getIdEmpleado());
-        Empleado empleadoBuscado = new Empleado();
-        empleadoBuscado.setId(idEmpleadoVenta);
-        if (servicioEmpleado.buscarEmpleado(empleadoBuscado) == null){
+        ArrayList<Empleado> empleados = (ArrayList)servicioEmpleado.traemeTodosLosEmpleados();
+        boolean empleadoEncontrado = false;
+        for(Empleado e : empleados){
+            if (e.getId() == v.getIdEmpleado()){
+                empleadoEncontrado = true;
+            }
+        }
+
+        if (empleadoEncontrado == false){
             throw new IdEmpleadoNoValidoException(v.getIdEmpleado());
         }
     }
