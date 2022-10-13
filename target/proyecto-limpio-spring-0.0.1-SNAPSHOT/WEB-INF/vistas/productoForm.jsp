@@ -22,7 +22,7 @@
 			<form:form action="addProducto" method="POST" modelAttribute="producto" acceptCharset="UTF-8">
 				<label for="nombre">Nombre: </label>
 				<form:input path="nombre" type="text" id="nombre" class="form-control mb-25" placeholder="Nombre"/>
-				<label for="Name">Costo: </label>
+				<label for="costo">Costo: </label>
 				<form:input path="costo" type="text" id="costo" class="form-control mb-25" />	
 				<label for="idProveedor">Id Proveedor: </label>
 				<form:input path="idProveedor" type="number" id="idProveedor" class="form-control mb-25" />

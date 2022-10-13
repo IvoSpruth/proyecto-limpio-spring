@@ -2,10 +2,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
-import ar.edu.unlam.tallerweb1.domain.ventas.CantidadInsuficienteException;
-import ar.edu.unlam.tallerweb1.domain.ventas.IdEmpleadoNoValidoException;
-import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
-import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
+import ar.edu.unlam.tallerweb1.domain.ventas.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -46,7 +43,7 @@ public class ControladorVenta {
     }
 
     @RequestMapping(path = "/goResumen", method = RequestMethod.GET )
-    public ModelAndView irAResumen(@ModelAttribute("venta") Venta venta ){
+    public ModelAndView irAResumen(@ModelAttribute("venta") Venta venta ) {
         ModelMap model = new ModelMap();
 
         String nombreProductoUno = servicioVenta.buscarNombreProducto(venta.getIdProducto());
