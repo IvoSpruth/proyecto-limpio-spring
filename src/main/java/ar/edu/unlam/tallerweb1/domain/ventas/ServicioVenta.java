@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.ventas;
 
+import java.util.List;
+
 public interface ServicioVenta {
 
     boolean addVenta(Venta venta) throws CantidadInsuficienteException, IdEmpleadoNoValidoException;
@@ -25,4 +27,5 @@ public interface ServicioVenta {
     double getSubtotalProductos();
 
     double calcularComisionEmpleado(double sumaTotal);
+
 }
