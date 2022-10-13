@@ -14,9 +14,7 @@
     <h1>Sistema Administracion <small>Negocio Fisico v.01</small></h1>
     <h1>Fecha: ${fecha}</h1>
 </div>
-<br/>
-<br/>
-<br/>
+
 
 <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
     <h3 class="form-signin-heading">Nuevo Producto</h3>
@@ -65,7 +63,6 @@
             </td>
         </tr> 
         </table>
-
 
         <button id="btn-registrarme" class="btn btn-lg btn-primary btn-block" Type="Submit"/>Agregar</button>
     </form:form>

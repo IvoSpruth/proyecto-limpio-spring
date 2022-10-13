@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.ventas;
 
 import java.io.File;
+import java.util.List;
 
 public interface ServicioVenta {
 
@@ -13,4 +14,21 @@ public interface ServicioVenta {
     Venta buscarVenta(Venta venta);
 
     File createFactura(Venta venta);
+    
+    String buscarNombreEmpleado(int idEmpleado);
+
+    String buscarNombreProducto(int idProducto);
+
+    double buscarCostoProducto(int idProducto);
+
+    double fillTotal(Venta venta);
+
+    double getSubtotalProducto1();
+
+    double getSubtotalProducto2();
+
+    double getSubtotalProductos();
+
+    double calcularComisionEmpleado(double sumaTotal);
+
 }

@@ -3,10 +3,8 @@ package ar.edu.unlam.tallerweb1.delivery;
 import ar.edu.unlam.tallerweb1.SpringTest;
 
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
-import ar.edu.unlam.tallerweb1.domain.ventas.CantidadInsuficienteException;
-import ar.edu.unlam.tallerweb1.domain.ventas.IdEmpleadoNoValidoException;
-import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
-import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
+import ar.edu.unlam.tallerweb1.domain.ventas.*;
+import org.dom4j.rule.Mode;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.servlet.ModelAndView;
@@ -46,7 +44,7 @@ public class ControladorVentaTest extends SpringTest {
         dadoQueExisteUnaVentaCorrecta();
         ModelAndView mav = cuandoRealizoUnaVenta();
         entoncesEncuentro(mav);
-        entoncesMeLLevaALaVista(mav, "empleado-dueño-control");
+        entoncesMeLLevaALaVista(mav, "resumenVenta");
 
     }
 
@@ -68,6 +66,42 @@ public class ControladorVentaTest extends SpringTest {
         entoncesEncuentro2(mav);
         entoncesMeLLevaALaVista(mav, "ventaForm");
 
+    }
+
+    @Test
+    public void cuandoSolicitoElResumenMeTraeElMavCorrecto() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
+
+        dadoQueExisteUnaVentaCorrecta();
+        ModelAndView mav = cuandoSolicitoElResumen();
+        entoncesMeLLevaALaVistaDeResumen(mav, "resumenVenta");
+
+    }
+
+    @Test
+    public void alSolicitarElResumenMeTraeLaCantidadVendidaCorrecta() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
+
+        ModelAndView mav = controladorVenta.addVenta(venta, request);
+        Integer cantidadVenta = (Integer) mav.getModel().get("cantidadUno");
+        assertThat(cantidadVenta).isEqualTo(venta.getCantidadProducto());
+
+    }
+
+
+      @Test
+        public void alSolicitarElResumenMeTraeElIdDeProductoCorrecto() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
+
+        ModelAndView mav = controladorVenta.addVenta(venta, request);
+        Integer idProductoDos = (Integer) mav.getModel().get("idProductoDos");
+        assertThat(idProductoDos).isEqualTo(venta.getIdProducto2());
+    }
+
+    private void entoncesMeLLevaALaVistaDeResumen(ModelAndView mav, String vistaEsperada) {
+        assertThat(mav.getViewName()).isEqualTo(vistaEsperada);
+    }
+
+
+    private ModelAndView cuandoSolicitoElResumen() {
+        return controladorVenta.addVenta(this.venta, request);
     }
 
     private void entoncesMeLLevaALaVista(ModelAndView mav, String vistaEsperada) {

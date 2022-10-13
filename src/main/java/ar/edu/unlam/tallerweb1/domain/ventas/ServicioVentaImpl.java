@@ -10,10 +10,10 @@ import ar.edu.unlam.tallerweb1.domain.utils.PdfManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -25,8 +25,9 @@ public class ServicioVentaImpl  implements   ServicioVenta{
     private ServicioEmpleado servicioEmpleado;
 
     private ServicioCierreDiario servicioCierreDiario;
-
-
+    private double subtotalProducto1= 0.0;
+    private double subtotalProducto2= 0.0;
+    private double subtotalProductos= 0.0;
 
     @Autowired
     public ServicioVentaImpl(RepositorioVenta repositorioVenta, ServicioProducto servicioProducto, ServicioEmpleado servicioEmpleado, ServicioCierreDiario servicioCierre){
@@ -63,11 +64,8 @@ public class ServicioVentaImpl  implements   ServicioVenta{
         return servicioCierreDiario.validarCierreDelDia();
     }
 
-
-    private void fillTotal(Venta venta) {
+    public double fillTotal(Venta venta) {
         ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
-        double subtotalProducto1= 0.0;
-        double subtotalProducto2= 0.0;
 
         for(Producto p : productos){
             if(venta.getIdProducto()==p.getId()){
@@ -77,8 +75,10 @@ public class ServicioVentaImpl  implements   ServicioVenta{
                 subtotalProducto2= p.getCosto()* venta.getCantidadProducto2();
             }
         }
+        subtotalProductos = subtotalProducto1+subtotalProducto2;
+        venta.setTotal(subtotalProductos);
 
-        venta.setTotal(subtotalProducto1+subtotalProducto2);
+        return subtotalProductos;
     }
 
     @Transactional
@@ -110,6 +110,63 @@ public class ServicioVentaImpl  implements   ServicioVenta{
         return null;
     }
 
+    @Override
+    public String buscarNombreEmpleado(int idEmpleado) {
+        ArrayList<Empleado> empleados = (ArrayList) servicioEmpleado.traemeTodosLosEmpleados();
+        for (Empleado e : empleados) {
+            if (idEmpleado == e.getId()) {
+                return e.getName();
+            }
+        }
+        return null;
+    }
+    @Override
+    public String buscarNombreProducto(int idProducto) {
+        ArrayList<Producto> productos = (ArrayList) servicioProducto.buscarProductos();
+        for (Producto p : productos) {
+            if (idProducto == p.getId()) {
+                String nombreProductoUno = p.getNombre();
+                return nombreProductoUno;
+            }
+            if (idProducto == p.getId()) {
+                String nombreProductoDos = p.getNombre();
+                return nombreProductoDos;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public double buscarCostoProducto(int idProducto) {
+        ArrayList<Producto> productos = (ArrayList) servicioProducto.buscarProductos();
+        for (Producto p : productos) {
+            if (idProducto == p.getId()) {
+                double costoProductoUno = p.getCosto();
+                return costoProductoUno;
+            }
+            if (idProducto == p.getId()) {
+                double costoProductoDos = p.getCosto();
+                return costoProductoDos;
+            }
+        }
+        return 0.0;
+    }
+
+    public double calcularComisionEmpleado(double sumaTotal){
+        return sumaTotal * 0.05;
+    }
+
+    public double getSubtotalProducto1() {
+        return subtotalProducto1;
+    }
+
+    public double getSubtotalProducto2() {
+        return subtotalProducto2;
+    }
+
+    public double getSubtotalProductos() {
+        return subtotalProductos;
+    }
 
     private void validarVenta(Venta v) throws CantidadInsuficienteException{
         ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
