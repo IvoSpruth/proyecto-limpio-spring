@@ -12,4 +12,6 @@ public interface ServicioEmpleado {
     List<Empleado> traemeTodosLosEmpleados();
 
     String listaDeIdsDeTodosLosEmpleados();
+
+    /*String buscarNombreDeEmpleadoPorId(int idEmpleado);*/
 }

@@ -11,4 +11,5 @@ public interface RepositorioEmpleado {
     List<Empleado> traemeTodosLosEmpleados();
 
 
+    //String buscarNombreDeEmpleadoPorId(int idEmpleado);
 }

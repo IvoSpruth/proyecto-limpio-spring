@@ -35,7 +35,7 @@ public class ControladorCierreTest extends SpringTest {
         dadoUnCierreExitoso();
         ModelAndView mav = cuandoEjecutoElCierre();
         entoncesEncuentro(mav);
-        entoncesMeLLevaALaVista(mav, "cierreDiarioForm");
+        entoncesMeLLevaALaVista(mav, "CierreDiarioForm");
     }
 
     @Test
@@ -43,14 +43,14 @@ public class ControladorCierreTest extends SpringTest {
         dadoUnCierreFallido();
         ModelAndView mav = cuandoEjecutoElCierre();
         entoncesEncuentro2(mav);
-        entoncesMeLLevaALaVista(mav, "cierreDiario");
+        entoncesMeLLevaALaVista(mav, "CierreDiario");
 
     }
 
     @Test
     public void queGoCierreViewMeLLeve() throws CierreDiarioYaEfectuadoException {
         ModelAndView mav = cuandoVoyAlFormDeCierre();
-        entoncesMeLLevaALaVista(mav, "cierreDiario");
+        entoncesMeLLevaALaVista(mav, "CierreDiario");
     }
 
     private ModelAndView cuandoVoyAlFormDeCierre() {

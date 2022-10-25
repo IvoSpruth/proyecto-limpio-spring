@@ -59,5 +59,11 @@ public class ServicioEmpleadoImpl implements ServicioEmpleado {
         return mensaje + ".";
     }
 
+/*    @Override
+    @Transactional
+    public String buscarNombreDeEmpleadoPorId(int idEmpleado) {
+        return empleadoDao.buscarNombreDeEmpleadoPorId(idEmpleado);
+    }*/
+
 
 }

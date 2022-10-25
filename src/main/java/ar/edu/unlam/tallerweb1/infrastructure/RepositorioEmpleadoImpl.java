@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository("repositorioEmpleado")
@@ -40,6 +41,14 @@ public class RepositorioEmpleadoImpl implements RepositorioEmpleado {
         final Session session = sessionFactory.getCurrentSession();
         return (List<Empleado>) session.createCriteria(Empleado.class).list();
     }
+
+/*    @Override
+    public String buscarNombreDeEmpleadoPorId(int idEmpleado) {
+        final Session session = sessionFactory.getCurrentSession();
+        return (String) session.createCriteria(Empleado.class)
+                .add(Restrictions.eq("id", idEmpleado))
+                .uniqueResult();
+    }*/
 
 
 }

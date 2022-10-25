@@ -120,6 +120,12 @@ public class ServicioVentaImpl  implements   ServicioVenta{
         }
         return null;
     }
+
+/*    @Override
+    public String buscarNombreDeEmpleadoPorId(int idEmpleado) {
+        return servicioEmpleado.buscarNombreDeEmpleadoPorId(idEmpleado);
+    }*/
+
     @Override
     public String buscarNombreProducto(int idProducto) {
         ArrayList<Producto> productos = (ArrayList) servicioProducto.buscarProductos();

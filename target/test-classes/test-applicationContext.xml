@@ -14,14 +14,7 @@
 						http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
 	<import resource="classpath:test-hibernateContext.xml" />
-<<<<<<< HEAD
-	<context:component-scan base-package="ar.edu.unlam.tallerweb1.delivery" />
-	<context:component-scan base-package="ar.edu.unlam.tallerweb1.infrastructure" />
-	<context:component-scan base-package="ar.edu.unlam.tallerweb1.domain" />
-	<tx:annotation-driven />
 
-=======
->>>>>>> 97451c739cc466dbcd60e34f199571ac83fc7878
 	<!--Se indica que la configuracion del MVC se hara utilizanbdo anotaciones-->
 	<mvc:annotation-driven />
 

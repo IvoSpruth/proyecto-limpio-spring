@@ -80,7 +80,9 @@ public class ControladorVenta {
 
         //String nombreEmpleado = servicioVenta.buscarNombreEmpleado(venta.getIdEmpleado());
         //model.put("nombreEmpleado", nombreEmpleado);
+        //String nombreEmpleado = servicioVenta.buscarNombreDeEmpleadoPorId(venta.getIdEmpleado());
         model.put("idEmpleado", venta.getIdEmpleado());
+        //model.put("nombreEmpleado", nombreEmpleado);
 
         String nombreProductoUno = servicioVenta.buscarNombreProducto(venta.getIdProducto());
         double costoProductoUno = servicioVenta.buscarCostoProducto(venta.getIdProducto());
