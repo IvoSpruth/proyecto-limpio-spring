@@ -7,9 +7,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+
 
 @Repository("repositorioCierres")
 public class RepositorioCierresImpl implements RepositorioCierreDiario {
@@ -23,12 +25,12 @@ public class RepositorioCierresImpl implements RepositorioCierreDiario {
 
 
     @Override
-    public boolean guardarCierreDelDia(CierreDiario cd) {
-        return (boolean) sessionFactory.getCurrentSession().save(cd);
+    public void guardarCierreDelDia(CierreDiario cd) {
+        sessionFactory.getCurrentSession().save(cd);
     }
 
     @Override
-    public List<CierreDiario> getHistorialCierreD() {
+    public List<CierreDiario> getHistorialCierreD() {   
         final Session session = sessionFactory.getCurrentSession();
         return (List<CierreDiario>) session.createCriteria(CierreDiario.class).list();
     }

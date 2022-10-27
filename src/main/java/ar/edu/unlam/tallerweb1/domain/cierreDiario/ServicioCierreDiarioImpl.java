@@ -43,10 +43,12 @@ public class ServicioCierreDiarioImpl implements ServicioCierreDiario {
             cd.setTotal(calculateTotal(cd.getVentas()));
             cantProductos = getCantProductosVendidos(cd.getVentas());
             masVendido = getProductoMasVendido(cantProductos);
+            cd.setCerrado(true);
             repositorioCierreDiario.guardarCierreDelDia(cd);
             return true;
         } else {
             cd = new CierreDiario();
+            cd.setCerrado(true);
             repositorioCierreDiario.guardarCierreDelDia(cd);
             return true;
         }
@@ -105,6 +107,7 @@ public class ServicioCierreDiarioImpl implements ServicioCierreDiario {
                 masVendido = p;
             }
         }
+
         return masVendido;
     }
 

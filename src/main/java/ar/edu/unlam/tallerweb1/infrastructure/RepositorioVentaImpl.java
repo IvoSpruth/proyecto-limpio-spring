@@ -7,9 +7,12 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
+@Transactional
 @Repository("repositorioVenta")
 public class RepositorioVentaImpl implements RepositorioVenta {
 
@@ -52,5 +55,10 @@ public class RepositorioVentaImpl implements RepositorioVenta {
     @Override
     public List<Venta> buscarTodasLasVentas() {
         return sessionFactory.getCurrentSession().createCriteria(Venta.class).list();
+    }
+
+    public List<Venta> buscarVentaPorFecha(LocalDate fecha) {
+        return sessionFactory.getCurrentSession().createCriteria(Venta.class)
+                .add(Restrictions.eq("fecha", fecha)).list();
     }
 }

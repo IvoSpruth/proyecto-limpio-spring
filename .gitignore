@@ -1,5 +1,9 @@
 
 target/proyecto-limpio-spring-0.0.1-SNAPSHOT/WEB-INF/lib/jaxb-runtime-2.3.1.jar
-/target/
+/target
 /out/
-src/main/resources/hibernateContext.xml
+src/main/resources/
+/resources/
+*.class
+target/classes/ar/edu/unlam/tallerweb1/domain/ventas/ServicioVentaImpl.class
+target/classes/ar/edu/unlam/tallerweb1/domain/ventas/Venta.class

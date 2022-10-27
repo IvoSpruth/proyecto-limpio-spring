@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -48,6 +49,7 @@ public class ServicioVentaImpl  implements   ServicioVenta{
             venta.setCierre(adjuntarCierre());
             repositorioVenta.addVenta(venta);
             actualizarCantidadesStock(venta);
+            createFactura(venta);
             return true;
         }catch(CantidadInsuficienteException cie){
             throw new CantidadInsuficienteException(cie.getMessage());
@@ -243,6 +245,15 @@ public class ServicioVentaImpl  implements   ServicioVenta{
 
         }
         return new File("fail.pdf");
+    }
+    @Transactional
+    public List<Venta> buscarTodasLasVentas(){
+        return (List)repositorioVenta.buscarTodasLasVentas();
+    }
+
+    @Transactional
+    public List<Venta> buscarVentasPorFecha(LocalDate fecha){
+        return (List)repositorioVenta.buscarVentaPorFecha(fecha);
     }
 
 }

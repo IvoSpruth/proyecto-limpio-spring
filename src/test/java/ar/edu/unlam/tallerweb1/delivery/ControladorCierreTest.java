@@ -1,10 +1,12 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
+import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiarioYaEfectuadoException;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.ServicioCierreDiario;
 import ar.edu.unlam.tallerweb1.domain.ventas.CantidadInsuficienteException;
 import ar.edu.unlam.tallerweb1.domain.ventas.IdEmpleadoNoValidoException;
+import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,6 +21,7 @@ public class ControladorCierreTest extends SpringTest {
 
    private ServicioCierreDiario servicioCierre;
    private ControladorCierreDiario controladorCierre;
+   private ServicioVenta servicioVenta;
 
    private HttpServletRequest request;
 
@@ -27,7 +30,8 @@ public class ControladorCierreTest extends SpringTest {
     public void init(){
         this.request = mock(HttpServletRequest.class);
         this.servicioCierre = mock(ServicioCierreDiario.class);
-        this.controladorCierre = new ControladorCierreDiario(servicioCierre);
+        this.servicioVenta = mock(ServicioVenta.class);
+        this.controladorCierre = new ControladorCierreDiario(servicioCierre, servicioVenta);
     }
 
     @Test
@@ -35,7 +39,8 @@ public class ControladorCierreTest extends SpringTest {
         dadoUnCierreExitoso();
         ModelAndView mav = cuandoEjecutoElCierre();
         entoncesEncuentro(mav);
-        entoncesMeLLevaALaVista(mav, "CierreDiarioForm");
+        entoncesMeLLevaALaVista(mav, "CierreDiario");
+
     }
 
     @Test
@@ -54,7 +59,7 @@ public class ControladorCierreTest extends SpringTest {
     }
 
     private ModelAndView cuandoVoyAlFormDeCierre() {
-        return controladorCierre.irCierreDiarioView();
+        return controladorCierre.irCierreDiarioView(new CierreDiario());
     }
 
     private void dadoUnCierreExitoso() throws CierreDiarioYaEfectuadoException {
@@ -80,7 +85,7 @@ public class ControladorCierreTest extends SpringTest {
     }
 
     private ModelAndView cuandoEjecutoElCierre(){
-        return controladorCierre.ejecutarCierre(request);
+        return controladorCierre.ejecutarCierre(new CierreDiario(), request);
     }
 
 

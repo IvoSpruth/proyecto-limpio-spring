@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -34,26 +35,42 @@ public class RepositorioVentaTest extends SpringTest {
 
 
 
-    @Test
-    @Transactional
-    @Rollback
-    public void buscarVentasDeUnEmpleadoPorSuIdDeberiaTraerSoloLasDelEmpleado(){
-        Empleado empleado = dadoQueExisteUnNuevoEmpleado(ID_EMPLEADO1,NOMBRE_EMPLEADO, ROL, SUELDO );
-        Venta venta = dadoQueExisteUnaVenta(ID_EMPLEADO1, ID_PRODUCTO, CANTIDAD_PRODUCTO, ID_PRODUCTO2, CANTIDAD_PRODUCTO2);
-        List<Venta> ventasBuscadas = cuandoBuscoUnaVentaPorIdDelEmpleado(ID_EMPLEADO1);
-        entoncesMeTrae(ventasBuscadas, 1);
-    }
+//    @Test
+//    @Transactional
+//    @Rollback
+//    public void buscarVentasDeUnEmpleadoPorSuIdDeberiaTraerSoloLasDelEmpleado(){
+//        Empleado empleado = dadoQueExisteUnNuevoEmpleado(ID_EMPLEADO1,NOMBRE_EMPLEADO, ROL, SUELDO );
+//        Venta venta = dadoQueExisteUnaVenta(ID_EMPLEADO1, ID_PRODUCTO, CANTIDAD_PRODUCTO, ID_PRODUCTO2, CANTIDAD_PRODUCTO2);
+//        List<Venta> ventasBuscadas = cuandoBuscoUnaVentaPorIdDelEmpleado(ID_EMPLEADO1);
+//        entoncesMeTrae(ventasBuscadas, 1);
+//    }
+
+//    @Test
+//    @Transactional
+//    @Rollback
+//    public void buscarTodasLasVentasRealizadas(){
+//        Empleado empleado = dadoQueExisteUnNuevoEmpleado(ID_EMPLEADO1,NOMBRE_EMPLEADO, ROL, SUELDO );
+//        Venta venta = dadoQueExisteUnaVenta(ID_EMPLEADO1, ID_PRODUCTO, CANTIDAD_PRODUCTO, ID_PRODUCTO2, CANTIDAD_PRODUCTO2);
+//        Venta venta2 = dadoQueExisteUnaVenta(ID_EMPLEADO1, ID_PRODUCTO, CANTIDAD_PRODUCTO, ID_PRODUCTO2, CANTIDAD_PRODUCTO2);
+//        Venta venta3 = dadoQueExisteUnaVenta(ID_EMPLEADO1, ID_PRODUCTO, CANTIDAD_PRODUCTO, ID_PRODUCTO2, CANTIDAD_PRODUCTO2);
+//        List<Venta> todasLasVentasBuscadas = cuandoBuscoTodasLasVentas();
+//        entoncesMeTrae(todasLasVentasBuscadas, 3);
+//    }
 
     @Test
     @Transactional
     @Rollback
-    public void buscarTodasLasVentasRealizadas(){
+    public void cuandoBuscoVentaPorFechaMeTraeCorrectas(){
         Empleado empleado = dadoQueExisteUnNuevoEmpleado(ID_EMPLEADO1,NOMBRE_EMPLEADO, ROL, SUELDO );
         Venta venta = dadoQueExisteUnaVenta(ID_EMPLEADO1, ID_PRODUCTO, CANTIDAD_PRODUCTO, ID_PRODUCTO2, CANTIDAD_PRODUCTO2);
-        Venta venta2 = dadoQueExisteUnaVenta(ID_EMPLEADO1, ID_PRODUCTO, CANTIDAD_PRODUCTO, ID_PRODUCTO2, CANTIDAD_PRODUCTO2);
+//        Venta venta2 = dadoQueExisteUnaVentaDeOtroDia(ID_EMPLEADO1, ID_PRODUCTO, CANTIDAD_PRODUCTO, ID_PRODUCTO2, CANTIDAD_PRODUCTO2, 1);
         Venta venta3 = dadoQueExisteUnaVenta(ID_EMPLEADO1, ID_PRODUCTO, CANTIDAD_PRODUCTO, ID_PRODUCTO2, CANTIDAD_PRODUCTO2);
-        List<Venta> todasLasVentasBuscadas = cuandoBuscoTodasLasVentas();
-        entoncesMeTrae(todasLasVentasBuscadas, 3);
+        List<Venta> todasLasVentasBuscadas = cuandoBuscoVentaPorFecha();
+        entoncesMeTrae(todasLasVentasBuscadas, 2);
+    }
+
+    private List<Venta> cuandoBuscoVentaPorFecha() {
+        return this.repositorioVenta.buscarVentaPorFecha(LocalDate.now());
     }
 
     private List<Venta> cuandoBuscoTodasLasVentas() {
@@ -70,13 +87,26 @@ public class RepositorioVentaTest extends SpringTest {
 
     private Venta dadoQueExisteUnaVenta(int idEmpleado, int idProducto, int cantidadProducto, int idProducto2, int cantidadProducto2) {
         Venta venta = new Venta();
-        venta.setId(1L);
+//        venta.setId(1L);
         venta.setIdEmpleado(idEmpleado);
         venta.setIdProducto(idProducto);
         venta.setCantidadProducto(cantidadProducto);
         venta.setIdProducto2(idProducto2);
         venta.setCantidadProducto2(cantidadProducto2);
         venta.setTotal(20.0);
+        session().save(venta);
+        return venta;
+    }
+    private Venta dadoQueExisteUnaVentaDeOtroDia(int idEmpleado, int idProducto, int cantidadProducto, int idProducto2, int cantidadProducto2, int cantDias) {
+        Venta venta = new Venta();
+//        venta.setId(1L);
+        venta.setIdEmpleado(idEmpleado);
+        venta.setIdProducto(idProducto);
+        venta.setCantidadProducto(cantidadProducto);
+        venta.setIdProducto2(idProducto2);
+        venta.setCantidadProducto2(cantidadProducto2);
+        venta.setTotal(20.0);
+        venta.setFecha(LocalDate.now().plusDays(2));
         session().save(venta);
         return venta;
     }

@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
+import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiarioYaEfectuadoException;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.ServicioCierreDiario;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
@@ -23,50 +24,59 @@ import java.util.List;
 public class ControladorCierreDiario {
 
     private ServicioCierreDiario servicioCierre;
+    private ServicioVenta servicioVenta;
 
     @Autowired
-    public ControladorCierreDiario(ServicioCierreDiario servicioCierre){
+    public ControladorCierreDiario(ServicioCierreDiario servicioCierre, ServicioVenta servicioVenta){
         this.servicioCierre = servicioCierre;
+        this.servicioVenta = servicioVenta;
     }
 
     @RequestMapping(path = "/goCierreDiario", method = RequestMethod.GET )
-    public ModelAndView irCierreDiarioView(){
+    public ModelAndView irCierreDiarioView(@ModelAttribute("cierre") CierreDiario cierre){
         ModelMap model = new ModelMap();
 
         model.addAttribute("fecha", LocalDate.now().toString());
         model.addAttribute("cierres", (List) servicioCierre.historialCierres());
+        model.addAttribute("ventasDia", (List) servicioVenta.buscarVentasPorFecha(LocalDate.now()));
         return new ModelAndView("CierreDiario", model);
     }
 
     @RequestMapping(path="/ejecutarCierreDiario", method= RequestMethod.POST)
-    public ModelAndView ejecutarCierre(HttpServletRequest req){
+    public ModelAndView ejecutarCierre(@ModelAttribute("cierre") CierreDiario cierre, HttpServletRequest req){
         ModelMap model = new ModelMap();
 
         try{
             servicioCierre.ejecutarCierre();
         } catch (CierreDiarioYaEfectuadoException ece) {
-            return new ModelAndView("CierreDiarioForm", getModelError(ece.getMessage()));
+            return new ModelAndView("CierreDiario", getModelError(ece.getMessage()));
         } catch (Exception e) {
             return new ModelAndView("empleado-dueño-control", getModelError("Hubo un error inesperado"));
         }
 
-
-        model.addAttribute("exito", true);
-        model.addAttribute("mensaje","El Cierre se ejecuto con Exito!!");
-        model.addAttribute("botonHabilitado", true);
+        prepareModelSuccess(model);
 
         return new ModelAndView("CierreDiario", model);
     }
 
+    private void prepareModelSuccess(ModelMap model) {
+        model.addAttribute("exito", true);
+        model.addAttribute("mensaje","El Cierre se ejecuto con Exito!!");
+        model.addAttribute("botonHabilitado", false);
+        model.addAttribute("fecha", LocalDate.now().toString());
+        model.addAttribute("cierres", (List) servicioCierre.historialCierres());
+        model.addAttribute("ventasDia", (List) servicioVenta.buscarVentasPorFecha(LocalDate.now()));
+    }
 
 
     private ModelMap getModelError(String mensaje){
         ModelMap modelError = new ModelMap();
-        modelError.addAttribute("fecha", new Date().toString());
+        modelError.addAttribute("fecha", LocalDate.now().toString());
         modelError.addAttribute("cierres", (List) servicioCierre.historialCierres());
         modelError.addAttribute("exito", false);
         modelError.addAttribute("mensaje", mensaje);
         modelError.addAttribute("botonHabilitado", false);
+        modelError.addAttribute("ventasDia", (List) servicioVenta.buscarVentasPorFecha(LocalDate.now()));
         return modelError;
     }
 }

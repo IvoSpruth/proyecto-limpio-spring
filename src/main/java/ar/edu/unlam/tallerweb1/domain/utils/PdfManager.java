@@ -37,8 +37,8 @@ public class PdfManager {
     
     private int lastEmisionesLine;
     
-    private String inputPath = "resources\\pruebaTaller.pdf";
-    private String outputPath = "resources\\Factura";
+    private String inputPath = "C://Users//IvoSpruth//Documents//Personal//Taller Web I//proyecto-limpio-spring//resources//pruebaTaller.pdf";
+    private String outputPath = "C://Users//IvoSpruth//Documents//Personal//Taller Web I//proyecto-limpio-spring//resources//Factura";
     private String outputPath2 = "C:\\Users\\IvoSpruth\\Documents\\WorkZone\\Test_PDF\\pdf_White.pdf";
     
     private PdfReader reader;
@@ -86,34 +86,6 @@ public class PdfManager {
          //return new File("fail.pdf");
     }
 
-    /*private void prepareData(JsonArray emisiones1, List<JsonArray> partEmisiones) {
-        for (int o = 0; o<cantidadRegistros; o+=22) {
-            JsonArray temp = new JsonArray();
-            for (int k = 0; k<22; k++) {
-                if (k+o<cantidadRegistros) {
-                    temp.add(emisiones1.get(k+o));
-                } else {
-                    break;
-                }
-            }
-            partEmisiones.add(temp);
-        }
-    }*/
-    
-    /*private void extractData(JsonObject data){
-        if(data != null){
-            id_volumen = !data.get("id_volumen").isJsonNull() ? data.get("id_volumen").getAsString() : "";
-            id_cd = !data.get("id_cd").isJsonNull() ? data.get("id_cd").getAsString() : "";
-            generado_el = !data.get("generado_el").isJsonNull() ? data.get("generado_el").getAsString() : "";
-            catalogo = !data.get("catalogo").isJsonNull() ? data.get("catalogo").getAsString() : "";
-            nombre = !data.get("nombre").isJsonNull() ? data.get("nombre").getAsString() : "";
-            subTotal_emisiones = !data.get("sub_total_emisiones").isJsonNull() ? data.get("sub_total_emisiones").getAsString() : "";
-            subTotal_paginas_logicas = !data.get("sub_total_pag_logicas").isJsonNull() ? data.get("sub_total_pag_logicas").getAsString() : "";
-            total_emisiones_listados = !data.get("total_emisiones_listados").isJsonNull() ? data.get("total_emisiones_listados").getAsString() : "";
-            total_paginas_logicas = !data.get("total_paginas_logicas").isJsonNull() ? data.get("total_paginas_logicas").getAsString(): "";
-            emisiones = !data.get("emisiones").isJsonNull() ? data.get("emisiones").getAsJsonArray(): new JsonArray();
-        }
-    }*/
     
     private void createLine(PdfContentByte over,BaseFont bf, float size, int x, int y, String value){
         over.beginText();

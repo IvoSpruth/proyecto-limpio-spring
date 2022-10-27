@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface RepositorioCierreDiario {
 
-   boolean guardarCierreDelDia(CierreDiario cd);
+   void guardarCierreDelDia(CierreDiario cd);
 
    List<CierreDiario> getHistorialCierreD();
 

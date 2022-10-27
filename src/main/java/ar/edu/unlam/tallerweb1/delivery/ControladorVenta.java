@@ -78,9 +78,19 @@ public class ControladorVenta {
             return new ModelAndView("empleado-dueño-control", getModelError("Hubo un error inesperado"));
         }
 
+
         //String nombreEmpleado = servicioVenta.buscarNombreEmpleado(venta.getIdEmpleado());
         //model.put("nombreEmpleado", nombreEmpleado);
         //String nombreEmpleado = servicioVenta.buscarNombreDeEmpleadoPorId(venta.getIdEmpleado());
+
+        cargaDeDatos(model, venta);
+        //model.addAttribute("factura",factura.getAbsolutePath());
+
+        return new ModelAndView("resumenVenta", model);
+    }
+
+    private void cargaDeDatos(ModelMap model, Venta venta) {
+
         model.put("idEmpleado", venta.getIdEmpleado());
         //model.put("nombreEmpleado", nombreEmpleado);
 
@@ -116,9 +126,11 @@ public class ControladorVenta {
         model.addAttribute("fecha", new Date().toString());
         model.addAttribute("exito", true);
         model.addAttribute("mensaje","La venta se cargo con exito");
+
         //model.addAttribute("factura",factura.getPath());
 
-        return new ModelAndView("resumenVenta", model);
+
+
     }
 
     private ModelMap getModelError(String mensaje){

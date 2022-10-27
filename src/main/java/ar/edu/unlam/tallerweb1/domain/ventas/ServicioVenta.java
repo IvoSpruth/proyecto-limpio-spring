@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.ventas;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ServicioVenta {
@@ -31,6 +32,9 @@ public interface ServicioVenta {
 
     double calcularComisionEmpleado(double sumaTotal);
 
-    //
+    List<Venta> buscarTodasLasVentas();
+
+    List<Venta> buscarVentasPorFecha(LocalDate fecha);
+
 
 }

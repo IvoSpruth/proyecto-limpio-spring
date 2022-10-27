@@ -6,6 +6,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -30,7 +31,8 @@ public class Venta {
     private CierreDiario cierre;
 
     @CreationTimestamp
-    private Date fecha;
+    @Column(name= "fecha", nullable = false)
+    private LocalDate fecha;
 
     private double total;
 
@@ -78,11 +80,11 @@ public class Venta {
         this.cantidadProducto2 = cantidadProducto2;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain.ventas;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface RepositorioVenta {
@@ -15,4 +16,6 @@ public interface RepositorioVenta {
     List<Venta> ventasDeUnEmpleado(int idEmpleado);
 
     List<Venta> buscarTodasLasVentas();
+
+    List<Venta> buscarVentaPorFecha(LocalDate fecha);
 }
