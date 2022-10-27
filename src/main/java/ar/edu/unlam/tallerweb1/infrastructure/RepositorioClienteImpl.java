@@ -39,4 +39,10 @@ public class RepositorioClienteImpl implements RepositorioCliente {
         return (List<Cliente>) session.createCriteria(Cliente.class)
                 .add(Restrictions.eq("notifEnable", true)).list();
     }
+
+    @Override
+    public List<Cliente> buscarTodosLosClientes() {
+        final Session session = sessionFactory.getCurrentSession();
+        return (List<Cliente>) session.createCriteria(Cliente.class).list();
+    }
 }

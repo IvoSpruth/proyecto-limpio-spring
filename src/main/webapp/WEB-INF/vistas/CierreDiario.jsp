@@ -207,7 +207,7 @@
                 <td >${v.idEmpleado}</td>
                 <td >${v.cantidadProducto+v.cantidadProducto2}</td>
                 <td >${v.total}</td>
-                <td "><a href="../resources/Factura1989211810.pdf" class="btn btn-info " role="button">PDF</a></td>
+                <td "><a href="${pageContext.servletContext.contextPath}/goPDF"" class="btn btn-info " role="button">PDF</a></td>
                 </tr>
             </c:forEach>
 

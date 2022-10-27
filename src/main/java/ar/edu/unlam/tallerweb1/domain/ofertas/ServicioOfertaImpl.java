@@ -43,13 +43,13 @@ public class ServicioOfertaImpl implements ServicioOferta {
        ArrayList<String> mails = getMails(clientesANotificar);
        ArrayList<String> mensajes = getMensajes(ofertas);
 
-//       if(mails.size()<1){
-//           //nada
-//       } else if (mails.size()==1){
-//           mailManager.sendEmail(mails.get(0), mensajes.get(0));
-//       } else {
-//           mailManager.sendEmailToManyRecipients(mails, mensajes);
-//       }
+       if(mails.size()<1){
+           //nada
+       } else if (mails.size()==1){
+           mailManager.sendEmail(mails.get(0), mensajes.get(0));
+       } else {
+           mailManager.sendEmailToManyRecipients(mails, mensajes);
+       }
 
       } catch (Exception e){
 

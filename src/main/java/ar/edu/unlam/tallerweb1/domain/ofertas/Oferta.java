@@ -18,7 +18,7 @@ public class Oferta {
     Long idEmpleado;
 
     @CreationTimestamp
-    @Column(name= "fecha", nullable = false, updatable = false, unique = true)
+    @Column(name= "fecha", nullable = false, updatable = false)
     private LocalDate fecha;
 
     private String mensaje;

@@ -43,6 +43,8 @@ public class ControladorCierreDiario {
         return new ModelAndView("CierreDiario", model);
     }
 
+
+
     @RequestMapping(path="/ejecutarCierreDiario", method= RequestMethod.POST)
     public ModelAndView ejecutarCierre(@ModelAttribute("cierre") CierreDiario cierre, HttpServletRequest req){
         ModelMap model = new ModelMap();
@@ -67,6 +69,12 @@ public class ControladorCierreDiario {
         model.addAttribute("fecha", LocalDate.now().toString());
         model.addAttribute("cierres", (List) servicioCierre.historialCierres());
         model.addAttribute("ventasDia", (List) servicioVenta.buscarVentasPorFecha(LocalDate.now()));
+    }
+
+    @RequestMapping(path = "/goPDF", method = RequestMethod.GET )
+    public ModelAndView goPFD(){
+        ModelMap model = new ModelMap();
+        return new ModelAndView("pdfView", model);
     }
 
 

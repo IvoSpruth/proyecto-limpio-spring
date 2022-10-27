@@ -11,4 +11,6 @@ public interface RepositorioCliente {
 
    List<Cliente> buscarClientesSuscriptos();
 
+   List<Cliente> buscarTodosLosClientes();
+
 }
