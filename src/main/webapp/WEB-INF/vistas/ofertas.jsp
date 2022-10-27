@@ -178,36 +178,36 @@
     </div>
     
     <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 ">
-        <h3 class="form-signin-heading">Cierre Diario</h3>
+        <h3 class="form-signin-heading">Ofertas Manager</h3>
         <hr class="colorgraph"><br>
 
-        <h5>Ventas del Dia</h5>
+        <h5>Ofertas Cargadas</h5>
 
         <table class="basicTable" style="border: black solid 3px">
             <colgroup>
-            <col width="36%">
-            <col width="16%">
-            <col width="16%">
-            <col width="16%">                                          
-            <col width="16%">                                            
+            <col width="5%">
+            <col width="5%">
+            <col width="65%">
+            <col width="15%">                                          
+            <col width="10%">                                            
             </colgroup>
             
 
             <tr class="rowLine">
                 <td>ID</td>
                 <td>Empleado</td>
-                <td>Cantidad Productos</td>
-                <td>Total</td>
-                <td>Factura</td>
+                <td>Mensaje</td>
+                <td>Fecha</td>
+                <td>Valida</td>
             </tr>
 
-            <c:forEach items="${ventasDia}" var="v">                
+            <c:forEach items="${ofertasCargadas}" var="o">                
                 <tr class="valueRows">
-                <td scope="row">${v.id}</td>
-                <td >${v.idEmpleado}</td>
-                <td >${v.cantidadProducto+v.cantidadProducto2}</td>
-                <td >${v.total}</td>
-                <td "><a href="../resources/Factura1989211810.pdf" class="btn btn-info " role="button">PDF</a></td>
+                <td scope="row">${o.id}</td>
+                <td >${o.idEmpleado}</td>
+                <td >${o.mensaje}</td>
+                <td >${o.fecha}</td>
+                <td ">${o.valida}</td>
                 </tr>
             </c:forEach>
 
@@ -219,12 +219,12 @@
 
         <%-- BOTONES --%>
         <br><br>
-        <form:form action="ejecutarCierreDiario" method="POST" modelAttribute="cierre">
+        <form:form action="enviarNotificaciones" method="POST" modelAttribute="cierre">
             <form:input path="idEmpleado" type="number" class="form-control mb-25" placeholder="empID" value="test" style="display:none"/>
-            <button id="btn-registrarme" class="btn btn-lg btn-warning btn-block" Type="Submit"/>Ejecutar Cierre</button> 
+            <button id="btn-registrarme" class="btn btn-lg btn-warning btn-block" Type="Submit"/>Enviar Notificaciones</button> 
         </form:form>
         <br><br>
-        <button id="btn-registrarme" class="btn btn-lg btn-warning btn-block" Type="Submit" onclick="openDesglose()"/>Historial Cierres</button> 
+        <%-- <button id="btn-registrarme" class="btn btn-lg btn-warning btn-block" Type="Submit" onclick="openDesglose()"/>Notificaciones</button>  --%>
 
         <c:if test="${exito==false}">
             <div classs="container p-5">
@@ -233,7 +233,15 @@
                 </div>
             </div>   
         </c:if>
-        <%-- --- --%>
+        <c:if test="${exito==true}">
+        <br><br>
+            <div classs="container p-5">
+                <div class="alert alert-success" role="alert">
+                    ${mensaje}
+                </div>
+            </div>   
+        </c:if>
+        
 
     </div>
 

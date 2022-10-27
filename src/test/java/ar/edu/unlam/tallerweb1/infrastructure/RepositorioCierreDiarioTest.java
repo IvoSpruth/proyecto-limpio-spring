@@ -38,7 +38,7 @@ public class RepositorioCierreDiarioTest extends SpringTest {
     public void alBuscarCierrePorFechaLoEncuentra(){
 
         dadoQueHayCierres();
-        LocalDate fechaBuscada = LocalDate.of(2022, 10, 21);
+        LocalDate fechaBuscada = LocalDate.of(2022, 10, 27);
         CierreDiario cierreBuscado = cuandoBuscoCierrePorFecha(fechaBuscada);
         entoncesEncuentro(cierreBuscado);
     }
@@ -111,7 +111,7 @@ public class RepositorioCierreDiarioTest extends SpringTest {
         v1.setTotal(12000.0);
         cd2.getVentas().add(v3);
         cd2.getVentas().add(v4);
-        cd2.setFecha(LocalDate.of(2022,10,12));
+        cd2.setFecha(LocalDate.of(2022,10,21));
 
         session().save(cd);
         //session().save(cd2);

@@ -10,74 +10,8 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" >
-    <!-- Bootstrap theme -->
-    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
     <style>
         html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
-        .rowLine{
-            background-color:#e1e2e3;   
-            border-bottom:0px;
-        }
-        .rowLine > td{
-            text-align:center;
-        }
-        .valueRows > td{
-            text-align:center;
-        }
-        .basicTable{
-                border-collapse: collapse;
-        }
-        .cerrarDesglose{
-            display:none;
-        }
-
-        .abrirDesglose{
-            display: ;
-            cursor: pointer;                      
-            position: absolute;
-            top: 15s%;
-            left: 0;
-            background-color: white;
-            width:100%;
-            height:100%;
-        }
-
-        .abrirDesglose > td {
-            display:block;
-        }
-        .cerrarDesglose > td {
-            display:block;
-        }
-        .black_overlay {
-            display: none;
-            position: fixed;
-            top: 0%;
-            left: 0%;
-            width: 100%;
-            height: 100%;
-            background-color: black;
-            z-index: 1001;
-            /* -moz-opacity: 0.9; */
-            /* opacity: .90; */
-            /* filter: alpha(opacity=70); */
-        }
-
-        .white_content {
-            min-width: 280px;
-            display: none;
-            position: fixed;
-            top: 10%;
-            left: 20%;
-            width: 60%;
-            height: 80%;
-            padding: 16px;
-            border: 2px solid black;
-            background-color: white;
-            z-index: 1002;
-            overflow: auto;
-        }
     </style>
 </head>
 <body class="w3-light-grey">
@@ -171,116 +105,68 @@
                 </div>
                 <div class="w3-clear"></div>
                 <h4>
-                    <a href="${pageContext.servletContext.contextPath}/goOfertas">Ofertas</a>
+                    <a href="${pageContext.servletContext.contextPath}/login">Salir</a>
                 </h4>
             </div>
         </div>
     </div>
-    
-    <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 ">
-        <h3 class="form-signin-heading">Cierre Diario</h3>
-        <hr class="colorgraph"><br>
 
-        <h5>Ventas del Dia</h5>
+    <div class="w3-container">
+        <form:form action="empleado-dueño-control" method="POST" modelAttribute="venta" acceptCharset="UTF-8">
+            <div id="loginbox">
+                <h3 class="form-signin-heading">Resumen de venta</h3>
+            </div>
 
-        <table class="basicTable" style="border: black solid 3px">
-            <colgroup>
-            <col width="36%">
-            <col width="16%">
-            <col width="16%">
-            <col width="16%">                                          
-            <col width="16%">                                            
-            </colgroup>
-            
-
-            <tr class="rowLine">
-                <td>ID</td>
-                <td>Empleado</td>
-                <td>Cantidad Productos</td>
-                <td>Total</td>
-                <td>Factura</td>
-            </tr>
-
-            <c:forEach items="${ventasDia}" var="v">                
-                <tr class="valueRows">
-                <td scope="row">${v.id}</td>
-                <td >${v.idEmpleado}</td>
-                <td >${v.cantidadProducto+v.cantidadProducto2}</td>
-                <td >${v.total}</td>
-                <td "><a href="../resources/Factura1989211810.pdf" class="btn btn-info " role="button">PDF</a></td>
-                </tr>
-            </c:forEach>
-
-            <%-- <td colspan=4 class="fontSubDes_2">Total</td>
-            <td colspan=1 class="fontSubDes_2">${MASK_SCEMOV_TOTAL}</td>     
-                                                                                                                                                                                        --%>
-        </table>    
-
-
-        <%-- BOTONES --%>
-        <br><br>
-        <form:form action="ejecutarCierreDiario" method="POST" modelAttribute="cierre">
-            <form:input path="idEmpleado" type="number" class="form-control mb-25" placeholder="empID" value="test" style="display:none"/>
-            <button id="btn-registrarme" class="btn btn-lg btn-warning btn-block" Type="Submit"/>Ejecutar Cierre</button> 
-        </form:form>
-        <br><br>
-        <button id="btn-registrarme" class="btn btn-lg btn-warning btn-block" Type="Submit" onclick="openDesglose()"/>Historial Cierres</button> 
-
-        <c:if test="${exito==false}">
-            <div classs="container p-5">
-                <div class="alert alert-danger" role="alert">
-                    ${mensaje}
-                </div>
-            </div>   
-        </c:if>
-        <%-- --- --%>
-
-    </div>
-
-    <div id="desgMinCNContainer" class="black_overlay" onclick="closeDesglose()">
-        <div id="desgMinCN" class="white_content">    
-        <br><br>
-            <table class="basicTable">
-                <colgroup>
-                <col width="30%">
-                <col width="22%">
-                <col width="16%">
-                <col width="16%">                                          
-                <col width="16%">                                            
-                </colgroup>
-                
-
-                <tr class="rowLine">
-                    <td>ID</td>
-                    <td>Fecha</td>
-                    <td>Cantidad Productos</td>
-                    <td>Total</td>
-                    <td>Id Empleado</td>
-                </tr>
-
-                <c:forEach items="${cierres}" var="c">                
-                    <tr class="valueRows">
-                    <td scope="row">${c.id}</td>
-                    <td >${c.fecha}</td>
-                    <td >${c.cantProductos}</td>
-                    <td >${c.total}</td>
-                    <td >${c.idEmpleado}</td>
+            <div class="w3-container">
+                <h5>Id del empleado: ${idEmpleado}</h5>
+                <h5>Comision: ${comision}</h5>
+                <table class="w3-table w3-striped w3-bordered w3-border w3-hoverable w3-white">
+                    <tr>
+                        <th scope="col">Nombre del producto</th>
+                        <th scope="col">Precio unitario</th>
+                        <th scope="col">Id producto</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Total del producto</th>
+                        <th scope="col">Suma total</th>
                     </tr>
-                </c:forEach>
-
-                                                                                                                                                                                        
-            </table> 
-
-                                                                          
-        </div>
+                    <tr>
+                        <th scope="row">${nombreProductoUno}</th>
+                        <td>${precioUnitarioUno}</td>
+                        <td>${idProductoUno}</td>
+                        <td>${cantidadUno}</td>
+                        <td>${totalProductoUno}</td>
+                        <td>${sumaTotal}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">${nombreProductoDos}</th>
+                        <td>${precioUnitarioDos}</td>
+                        <td>${idProductoDos}</td>
+                        <td>${cantidadDos}</td>
+                        <td>${totalProductoDos}</td>
+                        <td>${sumaTotal}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">TOTAL</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>${sumaTotal}</td>
+                    </tr>
+                </table><br>
+                <button class="w3-button w3-dark-grey">
+                    <a href="${pageContext.servletContext.contextPath}/centroControl">Volver al inicio</a>
+                    <i class="fa fa-arrow-left"></i></button>
+                <button class="w3-button w3-dark-grey">
+                    <a href="#">Descargar factura</a>
+                    <i class="fa fa-arrow-down"></i></button>
+            </div>
+            <hr>
+        </form:form>
     </div>
-    <br>
-    
     <hr>
-    
-    
 
-    <div class="w3-container w3-padding-32 mt-25">
+    <div class="w3-container w3-dark-grey w3-padding-32">
         <div class="w3-row">
             <div class="w3-container w3-third">
                 <h5 class="w3-bottombar w3-border-green">Reportes venta</h5>
@@ -326,30 +212,6 @@
         mySidebar.style.display = "none";
         overlayBg.style.display = "none";
     }
-
-    function closeDesglose(){    
-        
-        target = event.target;
-        id = target.id;
-        
-        document.getElementById('desgMinCNContainer').style.display = 'none';
-        document.getElementById('desgMinCN').style.display = 'none';
-        
-        
-    }
-        
-    function openDesglose(){             
-        target = event.target;
-        id = target.id;
-        console.log(id);
-        //redesList = ['INSTAGRAM', 'FACEBOOK', 'TWITTER', 'UBER', 'SNAPCHAT', 'WHATSAPP'];
-
-        
-        document.getElementById('desgMinCNContainer').style.display = 'block';
-        document.getElementById('desgMinCN').style.display = 'block';
-
-    }
-
 </script>
 
 <c:if test="${result==false}">

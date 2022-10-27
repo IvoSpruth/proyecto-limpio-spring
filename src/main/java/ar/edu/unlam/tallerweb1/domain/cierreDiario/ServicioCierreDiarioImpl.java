@@ -101,6 +101,8 @@ public class ServicioCierreDiarioImpl implements ServicioCierreDiario {
     }
 
     private Producto getProductoMasVendido(List<Producto> cantProds) {
+        if(cantProds.size()==0){return new Producto();}
+
         Producto masVendido = cantProds.get(0);
         for(Producto p : cantProds){
             if(p.getCantidad()>=masVendido.getCantidad()){
@@ -120,8 +122,9 @@ public class ServicioCierreDiarioImpl implements ServicioCierreDiario {
     }
 
     @Override
+    @Transactional
     public List<CierreDiario> historialCierres() {
-        return null;
+        return repositorioCierreDiario.getHistorialCierreD();
     }
 
     @Override

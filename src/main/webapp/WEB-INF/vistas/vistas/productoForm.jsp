@@ -105,7 +105,7 @@
 			</div>
 			<div class="w3-clear"></div>
 			<h4>
-				<a href="${pageContext.servletContext.contextPath}/goOfertas">Ofertas</a>
+				<a href="${pageContext.servletContext.contextPath}/login">Salir</a>
 			</h4>
 		</div>
 	</div>

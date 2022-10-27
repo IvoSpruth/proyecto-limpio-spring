@@ -3,10 +3,10 @@ package ar.edu.unlam.tallerweb1.delivery;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiarioYaEfectuadoException;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.ServicioCierreDiario;
-import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
+import ar.edu.unlam.tallerweb1.domain.ofertas.Oferta;
+import ar.edu.unlam.tallerweb1.domain.ofertas.ServicioOferta;
 import ar.edu.unlam.tallerweb1.domain.utils.MailManager;
 import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
-import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,68 +16,60 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Controller
-public class ControladorCierreDiario {
+public class ControladorOfertas {
 
-    private ServicioCierreDiario servicioCierre;
-    private ServicioVenta servicioVenta;
+    private ServicioOferta servicioOferta;
 
     @Autowired
-    public ControladorCierreDiario(ServicioCierreDiario servicioCierre, ServicioVenta servicioVenta){
-        this.servicioCierre = servicioCierre;
-        this.servicioVenta = servicioVenta;
+    public ControladorOfertas(ServicioOferta servicioOferta){
+        this.servicioOferta = servicioOferta;
     }
 
-    @RequestMapping(path = "/goCierreDiario", method = RequestMethod.GET )
+    @RequestMapping(path = "/goOfertas", method = RequestMethod.GET )
     public ModelAndView irCierreDiarioView(@ModelAttribute("cierre") CierreDiario cierre){
         ModelMap model = new ModelMap();
 
         model.addAttribute("fecha", LocalDate.now().toString());
-        model.addAttribute("cierres", (List) servicioCierre.historialCierres());
-        model.addAttribute("ventasDia", (List) servicioVenta.buscarVentasPorFecha(LocalDate.now()));
-        return new ModelAndView("CierreDiario", model);
+        model.addAttribute("ofertasCargadas", (List<Oferta>) servicioOferta.traerOfertasCargadas());
+
+        return new ModelAndView("ofertas", model);
     }
 
-    @RequestMapping(path="/ejecutarCierreDiario", method= RequestMethod.POST)
+    @RequestMapping(path="/enviarNotificaciones", method= RequestMethod.POST)
     public ModelAndView ejecutarCierre(@ModelAttribute("cierre") CierreDiario cierre, HttpServletRequest req){
         ModelMap model = new ModelMap();
 
-        try{
-            servicioCierre.ejecutarCierre();
-        } catch (CierreDiarioYaEfectuadoException ece) {
-            return new ModelAndView("CierreDiario", getModelError(ece.getMessage()));
+        try {
+            servicioOferta.enviarNotificaciones();
         } catch (Exception e) {
             return new ModelAndView("empleado-dueño-control", getModelError("Hubo un error inesperado"));
         }
 
         prepareModelSuccess(model);
 
-        return new ModelAndView("CierreDiario", model);
+        return new ModelAndView("ofertas", model);
     }
 
     private void prepareModelSuccess(ModelMap model) {
         model.addAttribute("exito", true);
-        model.addAttribute("mensaje","El Cierre se ejecuto con Exito!!");
-        model.addAttribute("botonHabilitado", false);
+        model.addAttribute("mensaje","Las Notificaciones fueron enviadas con EXITO!");
         model.addAttribute("fecha", LocalDate.now().toString());
-        model.addAttribute("cierres", (List) servicioCierre.historialCierres());
-        model.addAttribute("ventasDia", (List) servicioVenta.buscarVentasPorFecha(LocalDate.now()));
+        model.addAttribute("ofertasCargadas", (List<Oferta>) servicioOferta.traerOfertasCargadas());
     }
 
 
     private ModelMap getModelError(String mensaje){
         ModelMap modelError = new ModelMap();
         modelError.addAttribute("fecha", LocalDate.now().toString());
-        modelError.addAttribute("cierres", (List) servicioCierre.historialCierres());
+
         modelError.addAttribute("exito", false);
         modelError.addAttribute("mensaje", mensaje);
-        modelError.addAttribute("botonHabilitado", false);
-        modelError.addAttribute("ventasDia", (List) servicioVenta.buscarVentasPorFecha(LocalDate.now()));
+        modelError.addAttribute("ofertasCargadas", (List<Oferta>) servicioOferta.traerOfertasCargadas());
+
         return modelError;
     }
 }
