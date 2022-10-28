@@ -7,3 +7,4 @@ src/main/resources/
 *.class
 target/classes/ar/edu/unlam/tallerweb1/domain/ventas/ServicioVentaImpl.class
 target/classes/ar/edu/unlam/tallerweb1/domain/ventas/Venta.class
+/target/
