@@ -23,7 +23,7 @@ public class MailTest {
         Session session = Session.getInstance(prop, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("ivospruth@hotmail.com", "juancito41705481");
+                return new PasswordAuthentication("ivospruth@hotmail.com", "");
             }
         });
         Message message = new MimeMessage(session);
