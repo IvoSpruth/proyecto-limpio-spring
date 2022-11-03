@@ -1,10 +1,22 @@
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
 
-target/proyecto-limpio-spring-0.0.1-SNAPSHOT/WEB-INF/lib/jaxb-runtime-2.3.1.jar
-/target
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+/classes/
+.idea/*
+*.iml
+*.DS_Store
+/.java-version
+
+# proyecto
 /out/
 src/main/resources/
 /resources/
 *.class
-target/classes/ar/edu/unlam/tallerweb1/domain/ventas/ServicioVentaImpl.class
-target/classes/ar/edu/unlam/tallerweb1/domain/ventas/Venta.class
 /target/
