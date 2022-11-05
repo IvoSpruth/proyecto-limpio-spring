@@ -1,7 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
-import ar.edu.unlam.tallerweb1.delivery.ControladorVenta;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.ServicioCierreDiario;
 import ar.edu.unlam.tallerweb1.domain.empleados.Empleado;
 import ar.edu.unlam.tallerweb1.domain.empleados.RepositorioEmpleado;
@@ -12,16 +11,13 @@ import ar.edu.unlam.tallerweb1.domain.productos.RepositorioProducto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProductoImpl;
 import ar.edu.unlam.tallerweb1.domain.ventas.*;
-import ar.edu.unlam.tallerweb1.infrastructure.RepositorioVentaImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -119,7 +115,7 @@ public class ServicioVentaTest extends SpringTest {
 
     private void dadoQueExisteUnaVenta(){
         when(this.servicioProducto.buscarProductos()).thenReturn(prepareProductos());
-        when(this.servicioEmpleado.traemeTodosLosEmpleados()).thenReturn(prepareEmpleados());
+        when(this.servicioEmpleado.listarEmpleados()).thenReturn(prepareEmpleados());
         //when(this.servicioProducto.updateProductos(prepareProductos())).getMock();
     }
 

@@ -36,5 +36,5 @@ public interface ServicioVenta {
 
     List<Venta> buscarVentasPorFecha(LocalDate fecha);
 
-
+    List<Venta> listarPorEmpleado(Long idEmpleado);
 }

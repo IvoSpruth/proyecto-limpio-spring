@@ -14,7 +14,6 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -54,7 +53,7 @@ public class ServicioVentaImpl  implements   ServicioVenta{
         }catch(CantidadInsuficienteException cie){
             throw new CantidadInsuficienteException(cie.getMessage());
         }catch (IdEmpleadoNoValidoException ienve){
-            servicioEmpleado.traemeTodosLosEmpleados();
+            servicioEmpleado.listarEmpleados();
             String mensaje = "El id ingresado no es valido. Los ids de los empleados registrados son : " + servicioEmpleado.listaDeIdsDeTodosLosEmpleados();
             throw new IdEmpleadoNoValidoException(mensaje);
         } catch (Exception ex){
@@ -114,7 +113,7 @@ public class ServicioVentaImpl  implements   ServicioVenta{
 
     @Override
     public String buscarNombreEmpleado(int idEmpleado) {
-        ArrayList<Empleado> empleados = (ArrayList) servicioEmpleado.traemeTodosLosEmpleados();
+        ArrayList<Empleado> empleados = (ArrayList) servicioEmpleado.listarEmpleados();
         for (Empleado e : empleados) {
             if (idEmpleado == e.getId()) {
                 return e.getName();
@@ -122,11 +121,6 @@ public class ServicioVentaImpl  implements   ServicioVenta{
         }
         return null;
     }
-
-/*    @Override
-    public String buscarNombreDeEmpleadoPorId(int idEmpleado) {
-        return servicioEmpleado.buscarNombreDeEmpleadoPorId(idEmpleado);
-    }*/
 
     @Override
     public String buscarNombreProducto(int idProducto) {
@@ -195,7 +189,7 @@ public class ServicioVentaImpl  implements   ServicioVenta{
     }
 
     private void validarEmpleado(Venta v) throws IdEmpleadoNoValidoException{
-        ArrayList<Empleado> empleados = (ArrayList)servicioEmpleado.traemeTodosLosEmpleados();
+        ArrayList<Empleado> empleados = (ArrayList)servicioEmpleado.listarEmpleados();
         boolean empleadoEncontrado = false;
         for(Empleado e : empleados){
             if (e.getId() == v.getIdEmpleado()){
@@ -256,4 +250,8 @@ public class ServicioVentaImpl  implements   ServicioVenta{
         return (List)repositorioVenta.buscarVentaPorFecha(fecha);
     }
 
+    @Override
+    public List<Venta> listarPorEmpleado(Long idEmpleado) {
+        return repositorioVenta.ventasDeUnEmpleado(Math.toIntExact(idEmpleado));
+    }
 }
