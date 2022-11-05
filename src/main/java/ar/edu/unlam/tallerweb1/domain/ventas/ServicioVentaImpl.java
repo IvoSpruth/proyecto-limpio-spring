@@ -251,7 +251,7 @@ public class ServicioVentaImpl  implements   ServicioVenta{
     }
 
     @Override
-    public List<Venta> listarPorEmpleado(Long idEmpleado) {
-        return repositorioVenta.ventasDeUnEmpleado(Math.toIntExact(idEmpleado));
+    public List<Venta> listarPorEmpleadoYPorFecha(Long idEmpleado, LocalDate fechaInicial, LocalDate fechaFinal) {
+        return repositorioVenta.listarVentasPorEmpleadoYFechas(Math.toIntExact(idEmpleado), fechaInicial, fechaFinal);
     }
 }

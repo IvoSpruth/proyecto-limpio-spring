@@ -2,27 +2,26 @@ package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.domain.empleados.Empleado;
-import ar.edu.unlam.tallerweb1.domain.empleados.RepositorioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.ventas.RepositorioVenta;
 import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 
+@Transactional
+@Rollback
 public class RepositorioVentaTest extends SpringTest {
 
-
     @Autowired
-    private RepositorioVenta repositorioVenta ;
-
+    private RepositorioVenta repositorioVenta;
 
     private static final int ID_EMPLEADO1 = 4;
     private static final String NOMBRE_EMPLEADO = "Pepe";
@@ -33,33 +32,7 @@ public class RepositorioVentaTest extends SpringTest {
     private static final int ID_PRODUCTO2 = 2;
     private static final int CANTIDAD_PRODUCTO2 = 2;
 
-
-
-//    @Test
-//    @Transactional
-//    @Rollback
-//    public void buscarVentasDeUnEmpleadoPorSuIdDeberiaTraerSoloLasDelEmpleado(){
-//        Empleado empleado = dadoQueExisteUnNuevoEmpleado(ID_EMPLEADO1,NOMBRE_EMPLEADO, ROL, SUELDO );
-//        Venta venta = dadoQueExisteUnaVenta(ID_EMPLEADO1, ID_PRODUCTO, CANTIDAD_PRODUCTO, ID_PRODUCTO2, CANTIDAD_PRODUCTO2);
-//        List<Venta> ventasBuscadas = cuandoBuscoUnaVentaPorIdDelEmpleado(ID_EMPLEADO1);
-//        entoncesMeTrae(ventasBuscadas, 1);
-//    }
-
-//    @Test
-//    @Transactional
-//    @Rollback
-//    public void buscarTodasLasVentasRealizadas(){
-//        Empleado empleado = dadoQueExisteUnNuevoEmpleado(ID_EMPLEADO1,NOMBRE_EMPLEADO, ROL, SUELDO );
-//        Venta venta = dadoQueExisteUnaVenta(ID_EMPLEADO1, ID_PRODUCTO, CANTIDAD_PRODUCTO, ID_PRODUCTO2, CANTIDAD_PRODUCTO2);
-//        Venta venta2 = dadoQueExisteUnaVenta(ID_EMPLEADO1, ID_PRODUCTO, CANTIDAD_PRODUCTO, ID_PRODUCTO2, CANTIDAD_PRODUCTO2);
-//        Venta venta3 = dadoQueExisteUnaVenta(ID_EMPLEADO1, ID_PRODUCTO, CANTIDAD_PRODUCTO, ID_PRODUCTO2, CANTIDAD_PRODUCTO2);
-//        List<Venta> todasLasVentasBuscadas = cuandoBuscoTodasLasVentas();
-//        entoncesMeTrae(todasLasVentasBuscadas, 3);
-//    }
-
     @Test
-    @Transactional
-    @Rollback
     public void cuandoBuscoVentaPorFechaMeTraeCorrectas(){
         Empleado empleado = dadoQueExisteUnNuevoEmpleado(ID_EMPLEADO1,NOMBRE_EMPLEADO, ROL, SUELDO );
         Venta venta = dadoQueExisteUnaVenta(ID_EMPLEADO1, ID_PRODUCTO, CANTIDAD_PRODUCTO, ID_PRODUCTO2, CANTIDAD_PRODUCTO2);
@@ -119,5 +92,74 @@ public class RepositorioVentaTest extends SpringTest {
         empleado.setSueldo(sueldo);
         session().save(empleado);
         return empleado;
+    }
+
+    @Test
+    public void cuandoListoVentasPorEmpleadoObtengoVentasCorrectas(){
+        List<Venta> listaRecibida = cuandoListoLasVentas(1, null, null);
+
+        entoncesObtengoVentasCorrectas(listaRecibida, 9);
+    }
+
+    @Test
+    public void cuandoListoVentasPorEmpleadoDesdeDeUnaFechaObtengoVentasCorrectas(){
+        LocalDate fechaInicio = dadoQueTengoUnaFecha(2022, 10, 27);
+
+        List<Venta> listaRecibida = cuandoListoLasVentas(1, fechaInicio, null);
+
+        entoncesObtengoVentasCorrectas(listaRecibida, 5);
+    }
+
+    @Test
+    public void cuandoListoVentasPorEmpleadoHastaUnaFechaObtengoVentasCorrectas(){
+        LocalDate fechaFinal = dadoQueTengoUnaFecha(2020, 12, 31);
+
+        List<Venta> listaRecibida = cuandoListoLasVentas(1, null, fechaFinal);
+
+        entoncesObtengoVentasCorrectas(listaRecibida, 2);
+    }
+
+    @Test
+    public void cuandoListoVentasPorEmpleadoEntreFechasObtengoVentasCorrectas(){
+        LocalDate fechaInicial = dadoQueTengoUnaFecha(2020, 10, 28);
+        LocalDate fechaFinal = dadoQueTengoUnaFecha(2021, 10, 27);
+
+        List<Venta> listaRecibida = cuandoListoLasVentas(1, fechaInicial, fechaFinal);
+
+        entoncesObtengoVentasCorrectas(listaRecibida, 2);
+    }
+    /* esto está comentado porque se cargan las ventas desde la base de datos previamente
+    private List<Venta> dadoQueTengoUnSetDeVentas() {
+        List<Venta> listaVentas = new ArrayList<>();
+
+        listaVentas.add(crearVenta(2022, 11, 1, 1));
+        listaVentas.add(crearVenta(2022, 11, 2, 1));
+        listaVentas.add(crearVenta(2022, 11, 3, 1));
+        listaVentas.add(crearVenta(2021, 10, 2, 1));
+        listaVentas.add(crearVenta(2021, 9, 18, 1));
+        listaVentas.add(crearVenta(2020, 10, 2, 1));
+        listaVentas.add(crearVenta(2018, 1, 1, 1));
+
+        return listaVentas;
+    }
+
+    private Venta crearVenta(Integer anio, Integer mes, Integer dia, Integer idEmpleado) {
+        Venta venta = new Venta();
+        venta.setFecha(LocalDate.of(anio, mes, dia));
+        venta.setIdEmpleado(idEmpleado);
+        session().save(venta);
+        return venta;
+    }
+    */
+    private List<Venta> cuandoListoLasVentas(Integer idEmpleado, LocalDate fechaInicio, LocalDate fechaFinal) {
+        return repositorioVenta.listarVentasPorEmpleadoYFechas(idEmpleado, fechaInicio, fechaFinal);
+    }
+
+    private void entoncesObtengoVentasCorrectas(List<Venta> listaObtenida, Integer tamanio) {
+        assertThat(listaObtenida).hasSize(tamanio);
+    }
+
+    private LocalDate dadoQueTengoUnaFecha(Integer anio, Integer mes, Integer dia) {
+        return LocalDate.of(anio, mes, dia);
     }
 }

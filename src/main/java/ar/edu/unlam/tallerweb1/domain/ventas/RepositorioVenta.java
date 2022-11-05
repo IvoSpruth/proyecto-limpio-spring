@@ -18,4 +18,6 @@ public interface RepositorioVenta {
     List<Venta> buscarTodasLasVentas();
 
     List<Venta> buscarVentaPorFecha(LocalDate fecha);
+
+    List<Venta> listarVentasPorEmpleadoYFechas(Integer idEmpleado, LocalDate fechaInicial, LocalDate fechaFinal);
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,13 +27,13 @@ public class ServicioInformeImpl implements ServicioInforme{
     }
 
     @Override
-    public Map<Long, Double> obtenerVentasPorEmpleado(){
+    public Map<Long, Double> obtenerVentasPorEmpleadoYPorFecha(LocalDate fechaInicio, LocalDate fechaFinal){
         Map<Long, Double> ventasPorEmpleado = new HashMap<>();
         List<Empleado> listaEmpleados = servicioEmpleado.listarEmpleados();
 
         for (var empleado : listaEmpleados){
             Double total = 0D;
-            List<Venta> listaVentas = servicioVenta.listarPorEmpleado(empleado.getId());
+            List<Venta> listaVentas = servicioVenta.listarPorEmpleadoYPorFecha(empleado.getId(), fechaInicio, fechaFinal);
             for(var venta : listaVentas){
                 total += venta.getTotal();
             }

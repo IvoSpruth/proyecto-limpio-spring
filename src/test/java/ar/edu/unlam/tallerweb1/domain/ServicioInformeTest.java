@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,12 +39,12 @@ public class ServicioInformeTest{
     public void cuandoPidoListarVentasPorEmpleadoEntoncesReciboElMapaCorrespondiente(){
         dadoQueTengoEmpleados();
         dadoQueTengoVentas();
-        Map<Long, Double> ventasPorEmpleado = cuandoObtengoVentasPorEmpleado();
+        Map<Long, Double> ventasPorEmpleado = cuandoObtengoVentasPorEmpleadoYFecha(null, null);
         entoncesObtengoElMapa(ventasPorEmpleado);
     }
 
-    private Map<Long, Double> cuandoObtengoVentasPorEmpleado() {
-        return servicioInforme.obtenerVentasPorEmpleado();
+    private Map<Long, Double> cuandoObtengoVentasPorEmpleadoYFecha(LocalDate fechaInicio, LocalDate fechaFinal) {
+        return servicioInforme.obtenerVentasPorEmpleadoYPorFecha(fechaInicio, fechaFinal);
     }
 
     private void dadoQueTengoEmpleados() {
@@ -68,8 +69,8 @@ public class ServicioInformeTest{
         agregarVentaConTotalALista(listaVentasEmp2, 390.28D);
         agregarVentaConTotalALista(listaVentasEmp2, 25.3D);
 
-        when(servicioVentaMock.listarPorEmpleado(1L)).thenReturn(listaVentasEmp1);
-        when(servicioVentaMock.listarPorEmpleado(2L)).thenReturn(listaVentasEmp2);
+        when(servicioVentaMock.listarPorEmpleadoYPorFecha(1L, null, null)).thenReturn(listaVentasEmp1);
+        when(servicioVentaMock.listarPorEmpleadoYPorFecha(2L, null, null)).thenReturn(listaVentasEmp2);
     }
 
     private void agregarVentaConTotalALista(List<Venta> lista, Double total) {
