@@ -26,13 +26,17 @@ public class ServicioInformeImpl implements ServicioInforme{
     }
 
     @Override
-    public Map<Long, Integer> obtenerVentasPorEmpleado(){
-        Map<Long, Integer> ventasPorEmpleado = new HashMap<>();
+    public Map<Long, Double> obtenerVentasPorEmpleado(){
+        Map<Long, Double> ventasPorEmpleado = new HashMap<>();
         List<Empleado> listaEmpleados = servicioEmpleado.listarEmpleados();
 
         for (var empleado : listaEmpleados){
+            Double total = 0D;
             List<Venta> listaVentas = servicioVenta.listarPorEmpleado(empleado.getId());
-            ventasPorEmpleado.put(empleado.getId(), listaVentas.size());
+            for(var venta : listaVentas){
+                total += venta.getTotal();
+            }
+            ventasPorEmpleado.put(empleado.getId(), total);
         }
 
         return ventasPorEmpleado;

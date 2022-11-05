@@ -38,15 +38,15 @@ public class ServicioInformeTest{
     public void cuandoPidoListarVentasPorEmpleadoEntoncesReciboElMapaCorrespondiente(){
         dadoQueTengoEmpleados();
         dadoQueTengoVentas();
-        Map<Long, Integer> ventasPorEmpleado = cuandoObtengoVentasPorEmpleado();
+        Map<Long, Double> ventasPorEmpleado = cuandoObtengoVentasPorEmpleado();
         entoncesObtengoElMapa(ventasPorEmpleado);
     }
 
-    private Map<Long, Integer> cuandoObtengoVentasPorEmpleado() {
+    private Map<Long, Double> cuandoObtengoVentasPorEmpleado() {
         return servicioInforme.obtenerVentasPorEmpleado();
     }
 
-    private void dadoQueTengoEmpleados() { //para mockear los empleados
+    private void dadoQueTengoEmpleados() {
         Empleado e1 = new Empleado();
         e1.setId(1L);
         Empleado e2 = new Empleado();
@@ -59,25 +59,27 @@ public class ServicioInformeTest{
         when(servicioEmpleadoMock.listarEmpleados()).thenReturn(listaEmpleados);
     }
 
-    private void dadoQueTengoVentas() { //para mockear las ventas
-        Venta venta = new Venta();
-
+    private void dadoQueTengoVentas() {
         List<Venta> listaVentasEmp1 = new ArrayList<>();
-        listaVentasEmp1.add(venta);
-        listaVentasEmp1.add(venta);
-        listaVentasEmp1.add(venta);
-        listaVentasEmp1.add(venta);
+        agregarVentaConTotalALista(listaVentasEmp1, 60.67D);
+        agregarVentaConTotalALista(listaVentasEmp1, 120.45D);
 
         List<Venta> listaVentasEmp2 = new ArrayList<>();
-        listaVentasEmp2.add(venta);
-        listaVentasEmp2.add(venta);
+        agregarVentaConTotalALista(listaVentasEmp2, 390.28D);
+        agregarVentaConTotalALista(listaVentasEmp2, 25.3D);
 
         when(servicioVentaMock.listarPorEmpleado(1L)).thenReturn(listaVentasEmp1);
         when(servicioVentaMock.listarPorEmpleado(2L)).thenReturn(listaVentasEmp2);
     }
 
-    private void entoncesObtengoElMapa(Map<Long, Integer> ventasPorEmpleado) {
-        assertThat(ventasPorEmpleado.get(1L)).isEqualTo(4);
-        assertThat(ventasPorEmpleado.get(2L)).isEqualTo(2);
+    private void agregarVentaConTotalALista(List<Venta> lista, Double total) {
+        Venta venta = new Venta();
+        venta.setTotal(total);
+        lista.add(venta);
+    }
+
+    private void entoncesObtengoElMapa(Map<Long, Double> ventasPorEmpleado) {
+        assertThat(ventasPorEmpleado.get(1L)).isEqualTo(181.12);
+        assertThat(ventasPorEmpleado.get(2L)).isEqualTo(415.58);
     }
 }

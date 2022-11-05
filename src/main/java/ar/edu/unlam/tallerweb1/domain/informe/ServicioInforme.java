@@ -3,5 +3,5 @@ package ar.edu.unlam.tallerweb1.domain.informe;
 import java.util.Map;
 
 public interface ServicioInforme {
-    Map<Long, Integer> obtenerVentasPorEmpleado();
+    Map<Long, Double> obtenerVentasPorEmpleado();
 }
