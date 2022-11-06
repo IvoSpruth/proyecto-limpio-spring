@@ -1,14 +1,14 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
+import ar.edu.unlam.tallerweb1.domain.cobros.MercadoPago;
+import ar.edu.unlam.tallerweb1.domain.cobros.MercadoPagoCredenciales;
+import ar.edu.unlam.tallerweb1.domain.cobros.ServicioMercadoPago;
 import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
-import ar.edu.unlam.tallerweb1.domain.utils.PdfManager;
 import ar.edu.unlam.tallerweb1.domain.ventas.CantidadInsuficienteException;
 import ar.edu.unlam.tallerweb1.domain.ventas.IdEmpleadoNoValidoException;
 import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
 import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
-import com.itextpdf.text.DocumentException;
-import ar.edu.unlam.tallerweb1.domain.ventas.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -31,10 +30,13 @@ public class ControladorVenta {
 
     private ServicioEmpleado servicioEmpleado;
 
+    private ServicioMercadoPago servicioMercadoPago;
+
     @Autowired
-    public ControladorVenta(ServicioProducto servicioProducto, ServicioVenta servicioVenta){
+    public ControladorVenta(ServicioProducto servicioProducto, ServicioVenta servicioVenta, ServicioMercadoPago servicioMercadoPago){
         this.servicioProducto = servicioProducto;
         this.servicioVenta = servicioVenta;
+        this.servicioMercadoPago = servicioMercadoPago;
     }
 
     @RequestMapping(path = "/goVentaForm", method = RequestMethod.GET )
@@ -75,7 +77,7 @@ public class ControladorVenta {
             return new ModelAndView("ventaForm", getModelError(ienve.getMessage()));
         }
         catch (Exception e) {
-            return new ModelAndView("empleado-dueño-control", getModelError("Hubo un error inesperado"));
+            return new ModelAndView("ventaForm", getModelError("Hubo un error inesperado" + e.getMessage()));
         }
 
 
@@ -127,10 +129,13 @@ public class ControladorVenta {
         model.addAttribute("exito", true);
         model.addAttribute("mensaje","La venta se cargo con exito");
 
+        //Link de pago
+        MercadoPago link = servicioMercadoPago.obtener(venta);
+        model.put("preferenciaID",link.getId_preferencia());
+        model.put("linkDePago",link.getLinkDePago());
+        model.put("PUBLIC_ACCESS_TOKEN", MercadoPagoCredenciales.PUBLIC_ACCESS_TOKEN);
+
         //model.addAttribute("factura",factura.getPath());
-
-
-
     }
 
     private ModelMap getModelError(String mensaje){

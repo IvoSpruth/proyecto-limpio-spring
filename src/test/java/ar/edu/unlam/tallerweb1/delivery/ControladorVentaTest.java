@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
 
+import ar.edu.unlam.tallerweb1.domain.cobros.ServicioMercadoPago;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
 import ar.edu.unlam.tallerweb1.domain.ventas.*;
 import org.dom4j.rule.Mode;
@@ -20,6 +21,7 @@ public class ControladorVentaTest extends SpringTest {
     private ControladorVenta controladorVenta;
     private ServicioVenta servicioVenta;
     private ServicioProducto servicioProducto;
+    private ServicioMercadoPago servicioMercadoPago;
 
     private HttpServletRequest request;
 
@@ -31,7 +33,8 @@ public class ControladorVentaTest extends SpringTest {
     public void init(){
         this.servicioVenta = mock(ServicioVenta.class);
         this.servicioProducto = mock(ServicioProducto.class);
-        this.controladorVenta = new ControladorVenta(this.servicioProducto, this.servicioVenta );
+        this.servicioMercadoPago = mock(ServicioMercadoPago.class);
+        this.controladorVenta = new ControladorVenta(this.servicioProducto, this.servicioVenta ,this.servicioMercadoPago);
         venta = prepareVenta();
         this.request = mock(HttpServletRequest.class);
     }
