@@ -1,7 +1,7 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
-import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
-import ar.edu.unlam.tallerweb1.domain.cierreDiario.RepositorioCierreDiario;
+import ar.edu.unlam.tallerweb1.domain.cierreDiario.*;
+import ar.edu.unlam.tallerweb1.domain.cierreDiario.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;

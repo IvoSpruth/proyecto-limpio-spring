@@ -9,4 +9,6 @@ public interface RepositorioProducto {
     List<Producto> buscarTodosLosProductos();
 
     void updateProducto(Producto producto);
+
+    Producto buscarProductoPorID(Long ID);
 }

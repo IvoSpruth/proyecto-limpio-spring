@@ -50,6 +50,11 @@ public class ServicioProductoImpl implements ServicioProducto {
         return productoDao.buscarTodosLosProductos();
     }
 
+    @Override
+    public Producto buscarProductoPorID(Long ID) {
+        return productoDao.buscarProductoPorID(ID);
+    }
+
     public void restarProductos(Venta v){
         ArrayList<Producto> stockProductos = (ArrayList)productoDao.buscarTodosLosProductos();
         for(Producto p : stockProductos){

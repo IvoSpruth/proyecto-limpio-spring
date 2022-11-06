@@ -11,14 +11,18 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+        html, body, h1, h2, h3, h4, h5 {
+            font-family: "Raleway", sans-serif
+        }
     </style>
 </head>
 <body class="w3-light-grey">
 
 <!-- Top container -->
 <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
-    <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+    <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i
+            class="fa fa-bars"></i>  Menu
+    </button>
     <span class="w3-bar-item w3-right">Sistema Administracion <small>Negocio Fisico v.01</small></span>
 </div>
 
@@ -40,7 +44,8 @@
         <h5>Empleado: </h5>
     </div>
     <div class="w3-bar-block">
-        <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black"
+           onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
         <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i> Rol</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i> Nombre</a>
         <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i> Ventas</a>
@@ -50,7 +55,8 @@
 
 
 <!-- Overlay effect when opening sidebar on small screens -->
-<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
+     title="close side menu" id="myOverlay"></div>
 
 <!-- !PAGE CONTENT! -->
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
@@ -116,24 +122,30 @@
             <div id="loginbox">
                 <h3 class="form-signin-heading">Nueva Venta</h3>
             </div>
+
+            <div id="loginbox">
+                <h3 class="form-signin-heading">${message}</h3>
+            </div>
             <ul class="w3-ul w3-card-4 w3-white">
                 <li class="w3-padding-16">
                     <label for="idEmpleado"><h5>Id empleado: </h5></label>
-                    <form:input path="idEmpleado" type="number" id="idEmpleado" class="form-control mb-25" placeholder="Id empleado"/>
+                    <form:input path="idEmpleado" type="number" id="idEmpleado" class="form-control mb-25"
+                                placeholder="Id empleado"/>
                 </li>
                 <li class="w3-padding-16">
                     <form:select path="idProducto" class="form-control">
                         <form:option value="0" label="Seleccione Productos"/>
-                        <form:options items="${productos}" itemLabel="nombre" itemValue="id" />
+                        <form:options items="${productos}" itemLabel="nombre" itemValue="id"/>
                     </form:select>
-                    <form:input path="cantidadProducto" type="number" id="cantidadProducto" class="form-control mb-25" />
+                    <form:input path="cantidadProducto" type="number" id="cantidadProducto" class="form-control mb-25"/>
                 </li>
                 <li class="w3-padding-16">
                     <form:select path="idProducto2" class="form-control">
                         <form:option value="0" label="Seleccione Productos"/>
-                        <form:options items="${productos}" itemLabel="nombre" itemValue="id" />
+                        <form:options items="${productos}" itemLabel="nombre" itemValue="id"/>
                     </form:select>
-                    <form:input path="cantidadProducto2" type="number" id="cantidadProducto2" class="form-control mb-25" />
+                    <form:input path="cantidadProducto2" type="number" id="cantidadProducto2"
+                                class="form-control mb-25"/>
                 </li>
             </ul>
             <button id="btn-registrarme" class="w3-button w3-block w3-red" Type="Submit"><h5>Agregar</h5></button>
@@ -197,7 +209,7 @@
     </div>
 </c:if>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" ></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="js/bootstrap.min.js" type="text/javascript"></script>
 

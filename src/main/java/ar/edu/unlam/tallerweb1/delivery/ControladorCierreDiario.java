@@ -3,10 +3,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiarioYaEfectuadoException;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.ServicioCierreDiario;
-import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
-import ar.edu.unlam.tallerweb1.domain.utils.MailManager;
 import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
-import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -54,7 +49,7 @@ public class ControladorCierreDiario {
         } catch (CierreDiarioYaEfectuadoException ece) {
             return new ModelAndView("CierreDiario", getModelError(ece.getMessage()));
         } catch (Exception e) {
-            return new ModelAndView("empleado-dueño-control", getModelError("Hubo un error inesperado"));
+            return new ModelAndView("empleado-duenio-control", getModelError("Hubo un error inesperado"));
         }
 
         prepareModelSuccess(model);

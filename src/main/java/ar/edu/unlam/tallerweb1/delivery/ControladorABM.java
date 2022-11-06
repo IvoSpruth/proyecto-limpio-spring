@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -42,11 +40,11 @@ public class ControladorABM {
             servicioProducto.addProducto(producto);
 
         } catch (Exception e) {
-            return new ModelAndView("empleado-dueño-control", new ModelMap());
+            return new ModelAndView("empleado-duenio-control", new ModelMap());
         }
         model.addAttribute("exito", false);
         model.addAttribute("mensaje","El producto se cargo con exito");
-        return new ModelAndView("empleado-dueño-control", model);
+        return new ModelAndView("empleado-duenio-control", model);
     }
 
     @RequestMapping(path = "/goEmpleadoForm", method = RequestMethod.GET)
@@ -62,11 +60,11 @@ public class ControladorABM {
             servicioEmpleado.addEmpleado(empleado);
 
         } catch (Exception e) {
-            return new ModelAndView("empleado-dueño-control", new ModelMap());
+            return new ModelAndView("empleado-duenio-control", new ModelMap());
         }
         model.addAttribute("exito", false);
         model.addAttribute("mensaje","El Empleado se cargo con exito");
-        return new ModelAndView("empleado-dueño-control", model);
+        return new ModelAndView("empleado-duenio-control", model);
     }
 
     /*@RequestMapping(path="/addVenta", method= RequestMethod.POST)

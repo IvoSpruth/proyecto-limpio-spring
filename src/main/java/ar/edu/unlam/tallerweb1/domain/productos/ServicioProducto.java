@@ -9,5 +9,5 @@ public interface ServicioProducto {
 
     List<Producto> buscarProductos();
 
-
+    Producto buscarProductoPorID(Long ID);
 }
