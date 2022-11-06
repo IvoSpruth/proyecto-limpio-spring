@@ -1,8 +1,10 @@
 package ar.edu.unlam.tallerweb1.domain.informe;
 
+import ar.edu.unlam.tallerweb1.delivery.DataEmpleado;
+
 import java.time.LocalDate;
-import java.util.Map;
+import java.util.List;
 
 public interface ServicioInforme {
-    Map<Long, Double> obtenerVentasPorEmpleadoYPorFecha(LocalDate fechaInicio, LocalDate fechaFinal);
+    List<DataEmpleado> obtenerVentasPorEmpleadoYPorFecha(LocalDate fechaInicio, LocalDate fechaFinal);
 }

@@ -44,7 +44,7 @@ public class ServicioInformeTest{
     }
 
     private Map<Long, Double> cuandoObtengoVentasPorEmpleadoYFecha(LocalDate fechaInicio, LocalDate fechaFinal) {
-        return servicioInforme.obtenerVentasPorEmpleadoYPorFecha(fechaInicio, fechaFinal);
+        return (Map<Long, Double>) servicioInforme.obtenerVentasPorEmpleadoYPorFecha(fechaInicio, fechaFinal);
     }
 
     private void dadoQueTengoEmpleados() {
