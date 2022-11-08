@@ -130,10 +130,10 @@ public class ControladorVenta {
         model.addAttribute("mensaje","La venta se cargo con exito");
 
         //Link de pago
-        MercadoPago link = servicioMercadoPago.obtener(venta);
-        model.put("preferenciaID",link.getId_preferencia());
-        model.put("linkDePago",link.getLinkDePago());
-        model.put("PUBLIC_ACCESS_TOKEN", MercadoPagoCredenciales.PUBLIC_ACCESS_TOKEN);
+//        MercadoPago link = servicioMercadoPago.obtener(venta);
+//        model.put("preferenciaID",link.getId_preferencia());
+//        model.put("linkDePago",link.getLinkDePago());
+//        model.put("PUBLIC_ACCESS_TOKEN", MercadoPagoCredenciales.PUBLIC_ACCESS_TOKEN);
 
         //model.addAttribute("factura",factura.getPath());
     }

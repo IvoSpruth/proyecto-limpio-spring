@@ -19,7 +19,10 @@ public class MercadoPago {
     private String id_preferencia;
     private String linkDePago;
 
-    public MercadoPago(Venta venta,String id_preferencia, String linkDePago) {
+    public MercadoPago() {
+    }
+
+    public MercadoPago(Venta venta, String id_preferencia, String linkDePago) {
         this.venta = venta;
         this.id_preferencia = id_preferencia;
         this.linkDePago = linkDePago;
