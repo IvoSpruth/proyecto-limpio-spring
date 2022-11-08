@@ -16,8 +16,13 @@ public class MercadoPago {
     @OneToOne(fetch = FetchType.LAZY)
     Venta venta;
 
+    @Column(unique = true)
     private String id_preferencia;
     private String linkDePago;
+    @Column(unique = true)
+    private String idPago;
+
+    private String estado;
 
     public MercadoPago() {
     }
@@ -28,7 +33,7 @@ public class MercadoPago {
         this.linkDePago = linkDePago;
     }
 
-    public MercadoPago(Venta venta,Preference MLPreference) {
+    public MercadoPago(Venta venta, Preference MLPreference) {
         this.venta = venta;
         this.id_preferencia = MLPreference.getId();
         this.linkDePago = MLPreference.getInitPoint();
@@ -61,5 +66,21 @@ public class MercadoPago {
 
     public Venta getVenta() {
         return venta;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getIdPago() {
+        return idPago;
+    }
+
+    public void setIdPago(String idPago) {
+        this.idPago = idPago;
     }
 }

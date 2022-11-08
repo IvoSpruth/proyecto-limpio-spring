@@ -41,4 +41,17 @@ public class RepositorioMercadoPagoImpl implements RepositorioMercadoPago {
                 .add(Restrictions.eq("venta", venta))
                 .uniqueResult();
     }
+
+    @Override
+    public MercadoPago obtener(String preference_id) {
+        Session session = sessionFactory.getCurrentSession();
+        return (MercadoPago) session.createCriteria(MercadoPago.class)
+                .add(Restrictions.eq("id_preferencia", preference_id))
+                .uniqueResult();
+    }
+
+    @Override
+    public void actualizar(MercadoPago preferencia) {
+        sessionFactory.getCurrentSession().update(preferencia);
+    }
 }

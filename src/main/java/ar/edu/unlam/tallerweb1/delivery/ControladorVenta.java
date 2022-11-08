@@ -33,14 +33,14 @@ public class ControladorVenta {
     private ServicioMercadoPago servicioMercadoPago;
 
     @Autowired
-    public ControladorVenta(ServicioProducto servicioProducto, ServicioVenta servicioVenta, ServicioMercadoPago servicioMercadoPago){
+    public ControladorVenta(ServicioProducto servicioProducto, ServicioVenta servicioVenta, ServicioMercadoPago servicioMercadoPago) {
         this.servicioProducto = servicioProducto;
         this.servicioVenta = servicioVenta;
         this.servicioMercadoPago = servicioMercadoPago;
     }
 
-    @RequestMapping(path = "/goVentaForm", method = RequestMethod.GET )
-    public ModelAndView irVentaForm(@ModelAttribute("venta") Venta venta ){
+    @RequestMapping(path = "/goVentaForm", method = RequestMethod.GET)
+    public ModelAndView irVentaForm(@ModelAttribute("venta") Venta venta) {
         ModelMap model = new ModelMap();
         ModelMap productos = new ModelMap();
 
@@ -62,8 +62,8 @@ public class ControladorVenta {
         return new ModelAndView("resumenVenta", model);
     }*/
 
-    @RequestMapping(path="/addVenta", method= RequestMethod.POST)
-    public ModelAndView addVenta(@ModelAttribute("venta") Venta venta, HttpServletRequest req){
+    @RequestMapping(path = "/addVenta", method = RequestMethod.POST)
+    public ModelAndView addVenta(@ModelAttribute("venta") Venta venta, HttpServletRequest req) {
         ModelMap model = new ModelMap();
         File factura;
         factura = servicioVenta.createFactura(venta);
@@ -73,10 +73,9 @@ public class ControladorVenta {
 
         } catch (CantidadInsuficienteException cie) {
             return new ModelAndView("ventaForm", getModelError(cie.getMessage()));
-        } catch (IdEmpleadoNoValidoException ienve){
+        } catch (IdEmpleadoNoValidoException ienve) {
             return new ModelAndView("ventaForm", getModelError(ienve.getMessage()));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return new ModelAndView("ventaForm", getModelError("Hubo un error inesperado" + e.getMessage()));
         }
 
@@ -127,18 +126,19 @@ public class ControladorVenta {
         model.put("sumaTotal", sumaTotal);
         model.addAttribute("fecha", new Date().toString());
         model.addAttribute("exito", true);
-        model.addAttribute("mensaje","La venta se cargo con exito");
+        model.addAttribute("mensaje", "La venta se cargo con exito");
+
 
         //Link de pago
-//        MercadoPago link = servicioMercadoPago.obtener(venta);
-//        model.put("preferenciaID",link.getId_preferencia());
-//        model.put("linkDePago",link.getLinkDePago());
-//        model.put("PUBLIC_ACCESS_TOKEN", MercadoPagoCredenciales.PUBLIC_ACCESS_TOKEN);
+        MercadoPago link = servicioMercadoPago.obtener(venta);
+        model.put("preferenciaID", link.getId_preferencia());
+        model.put("linkDePago", link.getLinkDePago());
+        model.put("PUBLIC_ACCESS_TOKEN", MercadoPagoCredenciales.PUBLIC_ACCESS_TOKEN);
 
         //model.addAttribute("factura",factura.getPath());
     }
 
-    private ModelMap getModelError(String mensaje){
+    private ModelMap getModelError(String mensaje) {
         ModelMap modelError = new ModelMap();
         modelError.addAttribute("fecha", new Date().toString());
         modelError.addAttribute("productos", (List) servicioProducto.buscarProductos());

@@ -5,14 +5,17 @@ package ar.edu.unlam.tallerweb1.domain.cobros;
 import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
 import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
-import ar.edu.unlam.tallerweb1.infrastructure.RepositorioMercadoPagoImpl;
 import com.mercadopago.MercadoPagoConfig;
-import com.mercadopago.client.preference.*;
+import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
+import com.mercadopago.client.preference.PreferenceClient;
+import com.mercadopago.client.preference.PreferenceItemRequest;
+import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -26,7 +29,8 @@ public class ServicioMercadoPagoImpl implements ServicioMercadoPago {
     ServicioProducto servicioProducto;
     RepositorioMercadoPago repositorioMercadoPago;
 
-    public ServicioMercadoPagoImpl() {}
+    public ServicioMercadoPagoImpl() {
+    }
 
     @Autowired
     public ServicioMercadoPagoImpl(ServicioProducto servicioProducto, RepositorioMercadoPago repositorioMercadoPago) {
@@ -56,7 +60,15 @@ public class ServicioMercadoPagoImpl implements ServicioMercadoPago {
         PreferenceItemRequest Producto2 = PreferenceItemRequest.builder().title(productoAux.getNombre()).quantity(venta.getCantidadProducto2()).unitPrice(BigDecimal.valueOf(productoAux.getCosto())).build();
         items.add(Producto2);
 
-        PreferenceRequest request = PreferenceRequest.builder().items(items).build();
+        //URLs de retorno
+        String server = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+        PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
+                .success(server + "/ml")
+                .pending(server + "/ml")
+                .failure(server + "/ml")
+                .build();
+
+        PreferenceRequest request = PreferenceRequest.builder().items(items).externalReference(String.valueOf(venta.getId())).backUrls(backUrls).autoReturn("approved").build();
 
         try {
             Preference preferencia = client.create(request);
@@ -77,5 +89,13 @@ public class ServicioMercadoPagoImpl implements ServicioMercadoPago {
     @Override
     public MercadoPago obtener(Venta venta) {
         return repositorioMercadoPago.obtener(venta);
+    }
+
+    @Override
+    public MercadoPago obtener(String preference_id) {return repositorioMercadoPago.obtener(preference_id);}
+
+    @Override
+    public void actualizarPreferencia(MercadoPago preferencia) {
+        repositorioMercadoPago.actualizar(preferencia);
     }
 }

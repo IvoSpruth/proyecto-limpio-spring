@@ -8,4 +8,8 @@ public interface RepositorioMercadoPago {
     MercadoPago obtener(MercadoPago preferencia);
 
     MercadoPago obtener(Venta venta);
+
+    MercadoPago obtener(String preference_id);
+
+    void actualizar(MercadoPago preferencia);
 }

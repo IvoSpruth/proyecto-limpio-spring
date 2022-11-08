@@ -9,4 +9,8 @@ public interface ServicioMercadoPago {
     void guardarPreferencia(MercadoPago preferencia);
 
     MercadoPago obtener(Venta venta);
+
+    MercadoPago obtener(String preference_id);
+
+    void actualizarPreferencia(MercadoPago preferencia);
 }

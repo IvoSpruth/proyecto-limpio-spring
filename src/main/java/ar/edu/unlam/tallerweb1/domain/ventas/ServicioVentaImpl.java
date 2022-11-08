@@ -2,7 +2,7 @@ package ar.edu.unlam.tallerweb1.domain.ventas;
 
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.ServicioCierreDiario;
-import ar.edu.unlam.tallerweb1.domain.cobros.ServicioMercadoPagoImpl;
+import ar.edu.unlam.tallerweb1.domain.cobros.ServicioMercadoPago;
 import ar.edu.unlam.tallerweb1.domain.empleados.Empleado;
 import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.productos.Producto;
@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -26,6 +26,7 @@ public class ServicioVentaImpl implements ServicioVenta {
     private ServicioProducto servicioProducto;
 
     private ServicioEmpleado servicioEmpleado;
+    private ServicioMercadoPago servicioMercadoPago;
 
     private ServicioCierreDiario servicioCierreDiario;
     private double subtotalProducto1 = 0.0;
@@ -33,11 +34,12 @@ public class ServicioVentaImpl implements ServicioVenta {
     private double subtotalProductos = 0.0;
 
     @Autowired
-    public ServicioVentaImpl(RepositorioVenta repositorioVenta, ServicioProducto servicioProducto, ServicioEmpleado servicioEmpleado, ServicioCierreDiario servicioCierre) {
+    public ServicioVentaImpl(RepositorioVenta repositorioVenta, ServicioProducto servicioProducto, ServicioEmpleado servicioEmpleado, ServicioCierreDiario servicioCierre, ServicioMercadoPago servicioMercadoPago) {
         this.repositorioVenta = repositorioVenta;
         this.servicioProducto = servicioProducto;
         this.servicioEmpleado = servicioEmpleado;
         this.servicioCierreDiario = servicioCierre;
+        this.servicioMercadoPago = servicioMercadoPago;
     }
 
 
@@ -66,9 +68,7 @@ public class ServicioVentaImpl implements ServicioVenta {
     }
 
     private Preference generarLinkDePago(Venta venta) {
-        ServicioMercadoPagoImpl ml = new ServicioMercadoPagoImpl();
-        Preference preferencia = ml.crearLinkDePago(venta);
-        return preferencia;
+        return servicioMercadoPago.crearLinkDePago(venta);
     }
 
     private CierreDiario adjuntarCierre() {
