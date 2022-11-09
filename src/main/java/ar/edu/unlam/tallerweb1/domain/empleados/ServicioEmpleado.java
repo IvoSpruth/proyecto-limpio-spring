@@ -1,7 +1,5 @@
 package ar.edu.unlam.tallerweb1.domain.empleados;
 
-import ar.edu.unlam.tallerweb1.domain.empleados.Empleado;
-
 import java.util.List;
 
 public interface ServicioEmpleado {
@@ -9,7 +7,7 @@ public interface ServicioEmpleado {
 
     Empleado buscarEmpleado(Empleado empleado);
 
-    List<Empleado> traemeTodosLosEmpleados();
+    List<Empleado> listarEmpleados();
 
     String listaDeIdsDeTodosLosEmpleados();
 

@@ -1,8 +1,5 @@
 package ar.edu.unlam.tallerweb1.domain.empleados;
 
-import ar.edu.unlam.tallerweb1.domain.productos.Producto;
-import ar.edu.unlam.tallerweb1.domain.productos.RepositorioProducto;
-import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,25 +42,17 @@ public class ServicioEmpleadoImpl implements ServicioEmpleado {
     }
 
     @Override
-    public List<Empleado> traemeTodosLosEmpleados() {
+    public List<Empleado> listarEmpleados() {
         return empleadoDao.traemeTodosLosEmpleados();
     }
 
     @Override
     public String listaDeIdsDeTodosLosEmpleados() {
         String mensaje = "";
-        List<Empleado> listaEmpleados = traemeTodosLosEmpleados();
+        List<Empleado> listaEmpleados = listarEmpleados();
         for (Empleado e: listaEmpleados) {
             mensaje +=" - " + e.getId() ;
         }
         return mensaje + ".";
     }
-
-/*    @Override
-    @Transactional
-    public String buscarNombreDeEmpleadoPorId(int idEmpleado) {
-        return empleadoDao.buscarNombreDeEmpleadoPorId(idEmpleado);
-    }*/
-
-
 }

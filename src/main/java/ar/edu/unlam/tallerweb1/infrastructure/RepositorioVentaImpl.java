@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.domain.ventas.RepositorioVenta;
 import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -60,5 +61,26 @@ public class RepositorioVentaImpl implements RepositorioVenta {
     public List<Venta> buscarVentaPorFecha(LocalDate fecha) {
         return sessionFactory.getCurrentSession().createCriteria(Venta.class)
                 .add(Restrictions.eq("fecha", fecha)).list();
+    }
+
+    @Override
+    public List<Venta> listarVentasPorEmpleadoYFechas(Integer idEmpleado, LocalDate fechaInicial, LocalDate fechaFinal) {
+        Session session = sessionFactory.getCurrentSession();
+        Criteria cr = session.createCriteria(Venta.class);
+        cr.add(Restrictions.eq("idEmpleado", idEmpleado));
+        if(fechaInicial != null && fechaFinal != null){
+            cr.add(Restrictions.between("fecha", fechaInicial, fechaFinal));
+        }
+        else{
+            if(fechaInicial != null){
+                cr.add(Restrictions.ge("fecha", fechaInicial));
+            }
+
+            if(fechaFinal != null){
+                cr.add(Restrictions.le("fecha", fechaFinal));
+            }
+        }
+
+        return cr.list();
     }
 }

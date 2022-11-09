@@ -118,7 +118,7 @@ public class ServicioVentaTest extends SpringTest {
 
     private void dadoQueExisteUnaVenta() {
         when(this.servicioProducto.buscarProductos()).thenReturn(prepareProductos());
-        when(this.servicioEmpleado.traemeTodosLosEmpleados()).thenReturn(prepareEmpleados());
+        when(this.servicioEmpleado.listarEmpleados()).thenReturn(prepareEmpleados());
         //when(this.servicioProducto.updateProductos(prepareProductos())).getMock();
     }
 
