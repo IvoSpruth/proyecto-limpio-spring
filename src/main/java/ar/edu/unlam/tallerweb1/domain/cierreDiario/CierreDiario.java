@@ -22,7 +22,7 @@ public class CierreDiario {
 
     Long idEmpleado;
 
-    @CreationTimestamp
+
     @Column(name= "fecha", nullable = false, updatable = false, unique = true)
     private LocalDate fecha;
 
@@ -41,6 +41,7 @@ public class CierreDiario {
     public CierreDiario(){
         ventas = new ArrayList<Venta>();
         cerrado = false;
+        fecha = LocalDate.now();
     }
 
     public Long getId() {

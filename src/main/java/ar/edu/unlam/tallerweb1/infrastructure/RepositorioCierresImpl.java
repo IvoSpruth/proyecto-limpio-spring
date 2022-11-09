@@ -19,7 +19,7 @@ public class RepositorioCierresImpl implements RepositorioCierreDiario {
     private SessionFactory sessionFactory;
 
     @Autowired
-    public RepositorioCierresImpl(SessionFactory sessionFactory){
+    public RepositorioCierresImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
@@ -30,7 +30,7 @@ public class RepositorioCierresImpl implements RepositorioCierreDiario {
     }
 
     @Override
-    public List<CierreDiario> getHistorialCierreD() {   
+    public List<CierreDiario> getHistorialCierreD() {
         final Session session = sessionFactory.getCurrentSession();
         return (List<CierreDiario>) session.createCriteria(CierreDiario.class).list();
     }

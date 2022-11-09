@@ -21,25 +21,19 @@ public class ControladorOfertaTest extends SpringTest {
 
     private HttpServletRequest request;
 
-
-
-
-
     @Before
-    public void init(){
-       this.servicioOferta = mock(ServicioOferta.class);
+    public void init() {
+        this.servicioOferta = mock(ServicioOferta.class);
     }
 
-
-
-    /*@Test
-    public void alEnviarNotificacionesSaleExitoso() throws CantidadInsuficienteException, IdEmpleadoNoValidoException{
-
+    @Test
+    public void alEnviarNotificacionesSaleExitoso() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
+/*
         ModelAndView mav = cuandoEnvioNotificaciones();
         entoncesEncuentro(mav);
         entoncesMeLLevaALaVista(mav, "resumenVenta");
-
-    }*/
+*/
+    }
 
 
 }
