@@ -1,9 +1,8 @@
 package ar.edu.unlam.tallerweb1.domain.productos;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
+
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +19,9 @@ public class Producto {
     private int idProveedor;
 
     private int cantidad;
+
+//    @ManyToMany(mappedBy = "productos")
+//    private Venta venta;
 
     public int getCantidad() {
         return cantidad;

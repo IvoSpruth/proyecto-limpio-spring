@@ -12,22 +12,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.io.File;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ServicioVentaImpl  implements   ServicioVenta{
 
     private RepositorioVenta repositorioVenta;
     private ServicioProducto servicioProducto;
-
     private ServicioEmpleado servicioEmpleado;
-
     private ServicioCierreDiario servicioCierreDiario;
-    private double subtotalProducto1= 0.0;
-    private double subtotalProducto2= 0.0;
     private double subtotalProductos= 0.0;
 
     @Autowired
@@ -41,7 +34,7 @@ public class ServicioVentaImpl  implements   ServicioVenta{
 
     @Override
     @Transactional
-    public boolean addVenta(Venta venta) throws CantidadInsuficienteException, IdEmpleadoNoValidoException{
+    public boolean  addVenta(Venta venta) throws CantidadInsuficienteException, IdEmpleadoNoValidoException{
         try {
             validarEmpleado(venta);
             validarVenta(venta);
@@ -49,7 +42,7 @@ public class ServicioVentaImpl  implements   ServicioVenta{
             venta.setCierre(adjuntarCierre());
             repositorioVenta.addVenta(venta);
             actualizarCantidadesStock(venta);
-            createFactura(venta);
+            //createFactura(venta);
             return true;
         }catch(CantidadInsuficienteException cie){
             throw new CantidadInsuficienteException(cie.getMessage());
@@ -68,18 +61,17 @@ public class ServicioVentaImpl  implements   ServicioVenta{
 
     public double fillTotal(Venta venta) {
         ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
+        double subtotalProductos = 0.0;
 
         for(Producto p : productos){
-            if(venta.getIdProducto()==p.getId()){
-                subtotalProducto1=p.getCosto()* venta.getCantidadProducto();
-            }
-            if(venta.getIdProducto2()==p.getId()){
-                subtotalProducto2= p.getCosto()* venta.getCantidadProducto2();
+            for(Producto pv: venta.getProductos()){
+                if(p.getId()==pv.getId()){
+                    subtotalProductos += pv.getCantidad()*p.getCosto();
+                }
             }
         }
-        subtotalProductos = subtotalProducto1+subtotalProducto2;
-        venta.setTotal(subtotalProductos);
 
+        venta.setTotal(subtotalProductos);
         return subtotalProductos;
     }
 
@@ -87,11 +79,10 @@ public class ServicioVentaImpl  implements   ServicioVenta{
     private void actualizarCantidadesStock(Venta venta) {
         ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
         for(Producto p : productos){
-            if(venta.getIdProducto()==p.getId()){
-                p.setCantidad(p.getCantidad() - venta.getCantidadProducto());
-            }
-            if(venta.getIdProducto2()==p.getId()){
-                p.setCantidad(p.getCantidad() - venta.getCantidadProducto2());
+            for(Producto pv: venta.getProductos()){
+                if(p.getId()==pv.getId()){
+                    p.setCantidad(p.getCantidad()-pv.getCantidad());
+                }
             }
         }
         servicioProducto.updateProductos(productos);
@@ -133,12 +124,7 @@ public class ServicioVentaImpl  implements   ServicioVenta{
         ArrayList<Producto> productos = (ArrayList) servicioProducto.buscarProductos();
         for (Producto p : productos) {
             if (idProducto == p.getId()) {
-                String nombreProductoUno = p.getNombre();
-                return nombreProductoUno;
-            }
-            if (idProducto == p.getId()) {
-                String nombreProductoDos = p.getNombre();
-                return nombreProductoDos;
+                return  p.getNombre();
             }
         }
         return null;
@@ -149,12 +135,7 @@ public class ServicioVentaImpl  implements   ServicioVenta{
         ArrayList<Producto> productos = (ArrayList) servicioProducto.buscarProductos();
         for (Producto p : productos) {
             if (idProducto == p.getId()) {
-                double costoProductoUno = p.getCosto();
-                return costoProductoUno;
-            }
-            if (idProducto == p.getId()) {
-                double costoProductoDos = p.getCosto();
-                return costoProductoDos;
+                return p.getCosto();
             }
         }
         return 0.0;
@@ -164,30 +145,19 @@ public class ServicioVentaImpl  implements   ServicioVenta{
         return sumaTotal * 0.05;
     }
 
-    public double getSubtotalProducto1() {
-        return subtotalProducto1;
-    }
-
-    public double getSubtotalProducto2() {
-        return subtotalProducto2;
-    }
-
-    public double getSubtotalProductos() {
-        return subtotalProductos;
-    }
+//    public double getSubtotalProductos() {
+//        return subtotalProductos;
+//    }
 
     private void validarVenta(Venta v) throws CantidadInsuficienteException{
         ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
 
         for(Producto p : productos){
-            if(v.getIdProducto()==p.getId()){
-                if(v.getCantidadProducto() > p.getCantidad()){
-                    throw new CantidadInsuficienteException(p.getNombre(), v.getCantidadProducto(), p.getCantidad());
-                }
-            }
-            if(v.getIdProducto2()==p.getId()){
-                if(v.getCantidadProducto2() > p.getCantidad()){
-                    throw new CantidadInsuficienteException(p.getNombre(), v.getCantidadProducto2(), p.getCantidad());
+            for(Producto pV: v.getProductos()){
+                if(p.getId()==pV.getId()){
+                    if(pV.getCantidad()>p.getCantidad()){
+                        throw new CantidadInsuficienteException(p.getNombre(), pV.getCantidad(), p.getCantidad());
+                    }
                 }
             }
         }
@@ -209,41 +179,41 @@ public class ServicioVentaImpl  implements   ServicioVenta{
     }
 
     public File createFactura(Venta venta) {
-        PdfManager pdfM = new PdfManager();
-        File pdf;
-        String pipe = "|";
-        ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
-        String linea;
-        HashMap<Integer, ArrayList<String>> lineas = new HashMap<>();
-        int indice = 0;
-
-        for(Producto p : productos){
-            if(venta.getIdProducto()==p.getId()){
-                ArrayList<String> columnas = new ArrayList<String>();
-                columnas.add(p.getNombre());
-                columnas.add(String.valueOf(venta.getCantidadProducto()));
-                columnas.add(String.valueOf(p.getCosto()));
-                columnas.add(String.valueOf(venta.getCantidadProducto()*p.getCosto()));
-                lineas.put(indice, columnas);
-                indice++;
-            }
-            if(venta.getIdProducto2()==p.getId()){
-                ArrayList<String> columnas = new ArrayList<String>();
-                columnas.add(p.getNombre());
-                columnas.add(String.valueOf(venta.getCantidadProducto2()));
-                columnas.add(String.valueOf(p.getCosto()));
-                columnas.add(String.valueOf(venta.getCantidadProducto2()*p.getCosto()));
-                lineas.put(indice, columnas);
-                indice++;
-            }
-        }
-
-        try{
-            pdf = pdfM.createPDF(lineas, venta);
-            return pdf;
-        } catch(Exception e){
-
-        }
+//        PdfManager pdfM = new PdfManager();
+//        File pdf;
+//        String pipe = "|";
+//        ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
+//        String linea;
+//        HashMap<Integer, ArrayList<String>> lineas = new HashMap<>();
+//        int indice = 0;
+//
+//        for(Producto p : productos){
+//            if(venta.getIdProducto()==p.getId()){
+//                ArrayList<String> columnas = new ArrayList<String>();
+//                columnas.add(p.getNombre());
+//                columnas.add(String.valueOf(venta.getCantidadProducto()));
+//                columnas.add(String.valueOf(p.getCosto()));
+//                columnas.add(String.valueOf(venta.getCantidadProducto()*p.getCosto()));
+//                lineas.put(indice, columnas);
+//                indice++;
+//            }
+//            if(venta.getIdProducto2()==p.getId()){
+//                ArrayList<String> columnas = new ArrayList<String>();
+//                columnas.add(p.getNombre());
+//                columnas.add(String.valueOf(venta.getCantidadProducto2()));
+//                columnas.add(String.valueOf(p.getCosto()));
+//                columnas.add(String.valueOf(venta.getCantidadProducto2()*p.getCosto()));
+//                lineas.put(indice, columnas);
+//                indice++;
+//            }
+//        }
+//
+//        try{
+//            pdf = pdfM.createPDF(lineas, venta);
+//            return pdf;
+//        } catch(Exception e){
+//
+//        }
         return new File("fail.pdf");
     }
     @Transactional
@@ -254,6 +224,14 @@ public class ServicioVentaImpl  implements   ServicioVenta{
     @Transactional
     public List<Venta> buscarVentasPorFecha(LocalDate fecha){
         return (List)repositorioVenta.buscarVentaPorFecha(fecha);
+    }
+
+    public Map<String, Integer> getSubTotalProducto(Venta venta){
+        HashMap<String, Integer> subtotales = new HashMap<String, Integer>();
+        for(Producto p : venta.getProductos()){
+            subtotales.put(p.getNombre(), (int)(p.getCantidad()*p.getCosto()));
+        }
+        return subtotales;
     }
 
 }

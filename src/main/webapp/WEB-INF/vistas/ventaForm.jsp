@@ -122,19 +122,19 @@
                     <form:input path="idEmpleado" type="number" id="idEmpleado" class="form-control mb-25" placeholder="Id empleado"/>
                 </li>
                 <li class="w3-padding-16">
-                    <form:select path="idProducto" class="form-control">
+                    <%-- <form:select path="productos[0]" class="form-control">
                         <form:option value="0" label="Seleccione Productos"/>
                         <form:options items="${productos}" itemLabel="nombre" itemValue="id" />
-                    </form:select>
-                    <form:input path="cantidadProducto" type="number" id="cantidadProducto" class="form-control mb-25" />
+                    </form:select> --%>
+                    <%-- <form:input path="cantidadProducto" type="number" id="cantidadProducto" class="form-control mb-25" /> --%>
                 </li>
-                <li class="w3-padding-16">
+                <%-- <li class="w3-padding-16">
                     <form:select path="idProducto2" class="form-control">
                         <form:option value="0" label="Seleccione Productos"/>
                         <form:options items="${productos}" itemLabel="nombre" itemValue="id" />
                     </form:select>
                     <form:input path="cantidadProducto2" type="number" id="cantidadProducto2" class="form-control mb-25" />
-                </li>
+                </li> --%>
             </ul>
             <button id="btn-registrarme" class="w3-button w3-block w3-red" Type="Submit"><h5>Agregar</h5></button>
         </form:form>

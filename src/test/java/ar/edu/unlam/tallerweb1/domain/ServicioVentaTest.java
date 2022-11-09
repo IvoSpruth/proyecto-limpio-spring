@@ -20,9 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -58,18 +56,18 @@ public class ServicioVentaTest extends SpringTest {
         this.request = mock(HttpServletRequest.class);
     }
 
-    @Test
-    public void alRealizarUnaVentaConUnProductoLaSumaCorrectamente() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
-        dadoQueSumoUnaVentaConUnProducto(venta);
-        Integer cantidad = cuandoConsultoLosProductosDeLaVenta();
-        entoncesEncuentroLaCantidadCorrecta(cantidad, CANTIDAD_ESPERADA);
-    }
+//    @Test
+//    public void alRealizarUnaVentaConUnProductoLaSumaCorrectamente() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
+//        dadoQueSumoUnaVentaConUnProducto(venta);
+//        Integer cantidad = cuandoConsultoLosProductosDeLaVenta();
+//        entoncesEncuentroLaCantidadCorrecta(cantidad, CANTIDAD_ESPERADA);
+//    }
 
     @Rollback
     @Test
     public void queMePermitaRealizarUnaVenta() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
-        dadoQueExisteUnaVenta();
-        assertTrue(cuandoAgregaUnaVenta(prepareVenta()));
+        Venta venta = dadoQueExisteUnaVenta();
+        assertTrue(cuandoAgregaUnaVenta(venta));
     }
 
     @Test(expected =  IdEmpleadoNoValidoException.class)
@@ -87,20 +85,14 @@ public class ServicioVentaTest extends SpringTest {
     private Venta prepareVentaConCantidadProductosInsuficientes() {
         Venta venta = new Venta();
         venta.setIdEmpleado(1);
-        venta.setIdProducto(1);
-        venta.setCantidadProducto(10000);
-        venta.setIdProducto2(2);
-        venta.setCantidadProducto2(80);
+        venta.setProductos(prepareProductosCantInsuf());
         return venta;
     }
 
     private Venta prepareVentaConIdEmpleadoInvalido() {
         Venta venta = new Venta();
         venta.setIdEmpleado(6);
-        venta.setIdProducto(1);
-        venta.setCantidadProducto(40);
-        venta.setIdProducto2(2);
-        venta.setCantidadProducto2(80);
+        venta.setProductos(prepareProductos());
         return venta;
     }
 
@@ -108,27 +100,28 @@ public class ServicioVentaTest extends SpringTest {
         assertThat(cantidad).isEqualTo(cantidadEsperada);
     }
 
-    private Integer cuandoConsultoLosProductosDeLaVenta() {
-        Integer cantidadProducto = venta.getCantidadProducto();
-        return cantidadProducto;
-    }
+//    private Integer cuandoConsultoLosProductosDeLaVenta() {
+//        Integer cantidadProducto = venta.getCantidadProducto();
+//        return cantidadProducto;
+//    }
 
     private void dadoQueSumoUnaVentaConUnProducto(Venta venta) throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
         servicioVenta.addVenta(venta);
     }
 
-    private void dadoQueExisteUnaVenta(){
-        when(this.servicioProducto.buscarProductos()).thenReturn(prepareProductos());
+    private Venta dadoQueExisteUnaVenta(){
+        when(this.servicioProducto.buscarProductos()).thenReturn(prepareProductosStock());
         when(this.servicioEmpleado.traemeTodosLosEmpleados()).thenReturn(prepareEmpleados());
         //when(this.servicioProducto.updateProductos(prepareProductos())).getMock();
+        return prepareVenta();
     }
 
     private boolean cuandoAgregaUnaVenta(Venta venta) throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
         return servicioVenta.addVenta(venta);
     }
 
-    private List<Producto> prepareProductos(){
-        ArrayList<Producto> productos = new ArrayList<Producto>();
+    private Set<Producto> prepareProductos(){
+        Set<Producto> productos = new HashSet<>();
         Producto producto1, producto2;
 
         producto1 = new Producto();
@@ -144,6 +137,54 @@ public class ServicioVentaTest extends SpringTest {
             producto2.setCosto(1700);
             producto2.setNombre("adaptador");
             producto2.setIdProveedor(2);
+
+        productos.add(producto1);
+        productos.add(producto2);
+
+        return productos;
+    }
+
+    private Set<Producto> prepareProductosCantInsuf(){
+        Set<Producto> productos = new HashSet<>();
+        Producto producto1, producto2;
+
+        producto1 = new Producto();
+        producto1.setId((long)1);
+        producto1.setCantidad(50);
+        producto1.setCosto(500);
+        producto1.setNombre("cargador");
+        producto1.setIdProveedor(1);
+
+        producto2 = new Producto();
+        producto2.setId((long)2);
+        producto2.setCantidad(1000);
+        producto2.setCosto(1700);
+        producto2.setNombre("adaptador");
+        producto2.setIdProveedor(2);
+
+        productos.add(producto1);
+        productos.add(producto2);
+
+        return productos;
+    }
+
+    private List<Producto> prepareProductosStock(){
+        List<Producto> productos = new ArrayList<>();
+        Producto producto1, producto2;
+
+        producto1 = new Producto();
+        producto1.setId((long)1);
+        producto1.setCantidad(50);
+        producto1.setCosto(500);
+        producto1.setNombre("cargador");
+        producto1.setIdProveedor(1);
+
+        producto2 = new Producto();
+        producto2.setId((long)2);
+        producto2.setCantidad(100);
+        producto2.setCosto(1700);
+        producto2.setNombre("adaptador");
+        producto2.setIdProveedor(2);
 
         productos.add(producto1);
         productos.add(producto2);
@@ -176,10 +217,7 @@ public class ServicioVentaTest extends SpringTest {
     private Venta prepareVenta(){
         Venta venta = new Venta();
         venta.setIdEmpleado(1);
-        venta.setIdProducto(1);
-        venta.setCantidadProducto(40);
-        venta.setIdProducto2(2);
-        venta.setCantidadProducto2(80);
+        venta.setProductos(prepareProductos());
         return venta;
     }
 }

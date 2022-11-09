@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
 
+import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
 import ar.edu.unlam.tallerweb1.domain.ventas.*;
 import org.dom4j.rule.Mode;
@@ -10,6 +11,9 @@ import org.junit.Test;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -77,24 +81,6 @@ public class ControladorVentaTest extends SpringTest {
 
     }
 
-    @Test
-    public void alSolicitarElResumenMeTraeLaCantidadVendidaCorrecta() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
-
-        ModelAndView mav = controladorVenta.addVenta(venta, request);
-        Integer cantidadVenta = (Integer) mav.getModel().get("cantidadUno");
-        assertThat(cantidadVenta).isEqualTo(venta.getCantidadProducto());
-
-    }
-
-
-      @Test
-        public void alSolicitarElResumenMeTraeElIdDeProductoCorrecto() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
-
-        ModelAndView mav = controladorVenta.addVenta(venta, request);
-        Integer idProductoDos = (Integer) mav.getModel().get("idProductoDos");
-        assertThat(idProductoDos).isEqualTo(venta.getIdProducto2());
-    }
-
     private void entoncesMeLLevaALaVistaDeResumen(ModelAndView mav, String vistaEsperada) {
         assertThat(mav.getViewName()).isEqualTo(vistaEsperada);
     }
@@ -135,11 +121,32 @@ public class ControladorVentaTest extends SpringTest {
 
     private Venta prepareVenta() {
         Venta venta = new Venta();
-        venta.setIdEmpleado(2);
-        venta.setIdProducto(2);
-        venta.setCantidadProducto(10);
-        venta.setIdProducto2(3);
-        venta.setCantidadProducto2(20);
+        venta.setIdEmpleado(1);
+        venta.setProductos(prepareProductos());
         return venta;
+    }
+
+    private Set<Producto> prepareProductos(){
+        Set<Producto> productos = new HashSet<>();
+        Producto producto1, producto2;
+
+        producto1 = new Producto();
+        producto1.setId((long)1);
+        producto1.setCantidad(50);
+        producto1.setCosto(500);
+        producto1.setNombre("cargador");
+        producto1.setIdProveedor(1);
+
+        producto2 = new Producto();
+        producto2.setId((long)2);
+        producto2.setCantidad(100);
+        producto2.setCosto(1700);
+        producto2.setNombre("adaptador");
+        producto2.setIdProveedor(2);
+
+        productos.add(producto1);
+        productos.add(producto2);
+
+        return productos;
     }
 }

@@ -41,8 +41,8 @@ public class ServicioCierreDiarioImpl implements ServicioCierreDiario {
             }
             cd.setCerrado(true);
             cd.setTotal(calculateTotal(cd.getVentas()));
-            cantProductos = getCantProductosVendidos(cd.getVentas());
-            masVendido = getProductoMasVendido(cantProductos);
+//            cantProductos = getCantProductosVendidos(cd.getVentas());
+//            masVendido = getProductoMasVendido(cantProductos);
             cd.setCerrado(true);
             repositorioCierreDiario.guardarCierreDelDia(cd);
             return true;
@@ -54,51 +54,30 @@ public class ServicioCierreDiarioImpl implements ServicioCierreDiario {
         }
     }
 
-    private List<Producto>  getCantProductosVendidos(List<Venta> ventas) {
-        ArrayList<Producto> cantProductos = new ArrayList<>();
-        ArrayList<Long> idsProd = new ArrayList<>();
-        for(Venta v : ventas){
-            if(idsProd.contains((long)v.getIdProducto()) && idsProd.contains((long)v.getIdProducto2())){
-                for(Producto p : cantProductos){
-                    if(p.getId()==(long)v.getIdProducto()){
-                        p.setCantidad(p.getCantidad()+v.getCantidadProducto());
-                    }
-                    if(p.getId()==(long)v.getIdProducto2()){
-                        p.setCantidad(p.getCantidad()+v.getCantidadProducto2());
-                    }
-                }
-            } else if(idsProd.contains((long)v.getIdProducto()) && !idsProd.contains((long)v.getIdProducto2())){
-                for(Producto p : cantProductos){
-                    if(p.getId()==(long)(v.getIdProducto())){
-                        p.setCantidad(p.getCantidad()+v.getCantidadProducto());
-                    }
-                }
-            } else if(!idsProd.contains((long)v.getIdProducto()) && idsProd.contains((long)v.getIdProducto2())){
-                for(Producto p : cantProductos){
-                    if(p.getId()==(long)v.getIdProducto2()){
-                        p.setCantidad(p.getCantidad()+v.getCantidadProducto2());
-                    }
-                }
-            } else {
-                Producto p1 = new Producto();
-                p1.setId((long)v.getIdProducto());
-                p1.setCantidad(v.getCantidadProducto());
-
-                Producto p2 = new Producto();
-                p2.setId((long)v.getIdProducto2());
-                p2.setCantidad(v.getCantidadProducto2());
-
-                cantProductos.add(p1);
-                cantProductos.add(p2);
-            }
-            for(Producto ps : cantProductos){
-                if(!idsProd.contains((long)ps.getId())){
-                    idsProd.add(ps.getId());
-                }
-            }
-        }
-        return cantProductos;
-    }
+//    private List<Producto>  getCantProductosVendidos(List<Venta> ventas) {
+//        ArrayList<Producto> cantProductos = new ArrayList<>();
+//        ArrayList<Long> idsProd = new ArrayList<>();
+//        for(Venta v : ventas){
+//            for(Producto p : v.getProductos()){
+//                if(){
+//                    for(Producto p : cantProductos){
+//                        if(p.getId()==(long)v.getIdProducto()){
+//                            p.setCantidad(p.getCantidad()+v.getCantidadProducto());
+//                        }
+//                        if(p.getId()==(long)v.getIdProducto2()){
+//                            p.setCantidad(p.getCantidad()+v.getCantidadProducto2());
+//                        }
+//                    }
+//                }
+//            }
+//            for(Producto ps : cantProductos){
+//                if(!idsProd.contains((long)ps.getId())){
+//                    idsProd.add(ps.getId());
+//                }
+//            }
+//        }
+//        return cantProductos;
+//    }
 
     private Producto getProductoMasVendido(List<Producto> cantProds) {
         if(cantProds.size()==0){return new Producto();}

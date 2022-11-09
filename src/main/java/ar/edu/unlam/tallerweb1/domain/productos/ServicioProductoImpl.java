@@ -53,11 +53,10 @@ public class ServicioProductoImpl implements ServicioProducto {
     public void restarProductos(Venta v){
         ArrayList<Producto> stockProductos = (ArrayList)productoDao.buscarTodosLosProductos();
         for(Producto p : stockProductos){
-            if(p.getId()==v.getIdProducto()){
-
-            }
-            if(p.getId()==v.getIdProducto2()){
-
+            for(Producto pv: v.getProductos()){
+                if(p.getId()==pv.getId()){
+                    p.setCantidad(p.getCantidad()-pv.getCantidad());
+                }
             }
         }
     }

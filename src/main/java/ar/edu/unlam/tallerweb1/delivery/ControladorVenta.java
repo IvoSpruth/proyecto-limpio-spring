@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
+import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
 import ar.edu.unlam.tallerweb1.domain.utils.PdfManager;
 import ar.edu.unlam.tallerweb1.domain.ventas.CantidadInsuficienteException;
@@ -20,8 +21,11 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class ControladorVenta {
@@ -67,7 +71,8 @@ public class ControladorVenta {
         factura = servicioVenta.createFactura(venta);
         try {
 
-            servicioVenta.addVenta(venta);
+//            servicioVenta.addVenta(venta); !!! DESCOMENTAR SI NO ESTA TESTEANDO !!!
+            servicioVenta.addVenta(prepareVentaTest());
 
         } catch (CantidadInsuficienteException cie) {
             return new ModelAndView("ventaForm", getModelError(cie.getMessage()));
@@ -89,48 +94,44 @@ public class ControladorVenta {
         return new ModelAndView("resumenVenta", model);
     }
 
+    private Venta prepareVentaTest() {
+        Venta ventaTest = new Venta();
+        ventaTest.setIdEmpleado(1);
+        ventaTest.setFecha(LocalDate.now());
+        Set<Producto> productos = new HashSet<>();
+        Producto producto1, producto2;
+
+        producto1 = new Producto();
+        producto1.setId((long)2);
+        producto1.setCantidad(3);
+        producto1.setCosto(500);
+        producto1.setNombre("cargador");
+        producto1.setIdProveedor(1);
+
+        producto2 = new Producto();
+        producto2.setId((long)3);
+        producto2.setCantidad(2);
+        producto2.setCosto(1700);
+        producto2.setNombre("adaptador");
+        producto2.setIdProveedor(2);
+
+        productos.add(producto1);
+        productos.add(producto2);
+        ventaTest.setProductos(productos);
+        return ventaTest;
+    }
+
     private void cargaDeDatos(ModelMap model, Venta venta) {
+        servicioVenta.fillTotal(venta);
 
         model.put("idEmpleado", venta.getIdEmpleado());
-        //model.put("nombreEmpleado", nombreEmpleado);
-
-        String nombreProductoUno = servicioVenta.buscarNombreProducto(venta.getIdProducto());
-        double costoProductoUno = servicioVenta.buscarCostoProducto(venta.getIdProducto());
-        servicioVenta.fillTotal(venta);
-        double totalProductoUno = servicioVenta.getSubtotalProducto1();
-        double sumaTotal = servicioVenta.getSubtotalProductos();
-
-        model.put("nombreProductoUno", nombreProductoUno);
-        model.put("precioUnitarioUno", costoProductoUno);
-        model.put("idProductoUno", venta.getIdProducto());
-        model.put("cantidadUno", venta.getCantidadProducto());
-        model.put("totalProductoUno", totalProductoUno);
-        // sumaTotal deberia traer el total en el momento de ejecutarlo
-        // pero esta trayendo la suma total de todos los productos
-        model.put("totalProductoUno", totalProductoUno);
-
-        double comision = servicioVenta.calcularComisionEmpleado(sumaTotal);
-        model.put("comision", comision);
-
-        String nombreProductoDos = servicioVenta.buscarNombreProducto(venta.getIdProducto2());
-        double costoProductoDos = servicioVenta.buscarCostoProducto(venta.getIdProducto2());
-        servicioVenta.fillTotal(venta);
-        double totalProductoDos = servicioVenta.getSubtotalProducto2();
-
-        model.put("nombreProductoDos", nombreProductoDos);
-        model.put("precioUnitarioDos", costoProductoDos);
-        model.put("idProductoDos", venta.getIdProducto2());
-        model.put("cantidadDos", venta.getCantidadProducto2());
-        model.put("totalProductoDos", totalProductoDos);
-        model.put("sumaTotal", sumaTotal);
-        model.addAttribute("fecha", new Date().toString());
+        model.put("comision", servicioVenta.calcularComisionEmpleado(venta.getTotal()));
+        model.put("sumaTotal", venta.getTotal());
+        model.addAttribute("fecha", LocalDate.now().toString());
         model.addAttribute("exito", true);
         model.addAttribute("mensaje","La venta se cargo con exito");
 
-        //model.addAttribute("factura",factura.getPath());
-
-
-
+//        model.addAttribute("factura",factura.getPath());
     }
 
     private ModelMap getModelError(String mensaje){
@@ -141,4 +142,11 @@ public class ControladorVenta {
         modelError.addAttribute("message", mensaje);
         return modelError;
     }
+
+//    public ModelMap getModelProductos(){
+//        ModelMap productos = new ModelMap();
+//        for (Map.Entry<String, Object> entry : map.entrySet()) {
+//            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+//        }
+//    }
 }

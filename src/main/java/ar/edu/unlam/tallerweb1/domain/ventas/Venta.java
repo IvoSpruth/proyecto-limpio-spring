@@ -1,13 +1,15 @@
 package ar.edu.unlam.tallerweb1.domain.ventas;
 
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
+import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.springframework.ui.ModelMap;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 public class Venta {
@@ -18,13 +20,12 @@ public class Venta {
 
     private int idEmpleado;
 
-    private int idProducto;
 
-    private int cantidadProducto;
-
-    private int idProducto2;
-
-    private int cantidadProducto2;
+//    @JoinTable(name = "ventaProducto",
+//            joinColumns = @JoinColumn(name = "venta_id"),
+//            inverseJoinColumns = @JoinColumn(name = "producto_id"))
+//
+//    private List<Producto> productos;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @NotFound(action = NotFoundAction.IGNORE)
@@ -36,6 +37,29 @@ public class Venta {
 
     private double total;
 
+
+//    @ManyToMany
+//    @JoinTable(name = "Venta_producto",
+//            joinColumns = @JoinColumn(name = "venta_id", referencedColumnName = "producto_id"))
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @NotFound(action = NotFoundAction.IGNORE)
+    private Set<Producto> productos = new LinkedHashSet<>();
+
+    public Venta(){
+        productos = new LinkedHashSet<>();
+    }
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @NotFound(action = NotFoundAction.IGNORE)
+    public Set<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(Set<Producto> productos) {
+        this.productos = productos;
+    }
+
     public Long getId() {
         return id;
     }
@@ -46,38 +70,6 @@ public class Venta {
 
     public void setIdEmpleado(int idEmpleado) {
         this.idEmpleado = idEmpleado;
-    }
-
-    public int getIdProducto() {
-        return idProducto;
-    }
-
-    public void setIdProducto(int idProducto) {
-        this.idProducto = idProducto;
-    }
-
-    public int getCantidadProducto() {
-        return cantidadProducto;
-    }
-
-    public void setCantidadProducto(int cantidadProducto) {
-        this.cantidadProducto = cantidadProducto;
-    }
-
-    public int getIdProducto2() {
-        return idProducto2;
-    }
-
-    public void setIdProducto2(int idProducto2) {
-        this.idProducto2 = idProducto2;
-    }
-
-    public int getCantidadProducto2() {
-        return cantidadProducto2;
-    }
-
-    public void setCantidadProducto2(int cantidadProducto2) {
-        this.cantidadProducto2 = cantidadProducto2;
     }
 
     public LocalDate getFecha() {
@@ -107,4 +99,12 @@ public class Venta {
     public void setCierre(CierreDiario cierre) {
         this.cierre = cierre;
     }
+
+//    public ModelMap getModelMapProductos(){
+//        ModelMap productos = new ModelMap();
+//        for(Producto p : this.productos){
+//            productos.addAttribute(p, p.getCosto()*p.getCantidad());
+//        }
+//        return
+//    }
 }

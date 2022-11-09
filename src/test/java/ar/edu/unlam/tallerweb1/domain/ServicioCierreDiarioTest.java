@@ -17,7 +17,9 @@ import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -66,18 +68,12 @@ public class ServicioCierreDiarioTest extends SpringTest {
         v1.setId(12l);
         v1.setCierre(cd);
         v1.setTotal(10000);
-        v1.setIdProducto(1);
-        v1.setCantidadProducto(10);
-        v1.setIdProducto2(2);
-        v1.setCantidadProducto2(5);
+        v1.setProductos(prepareProductos());
 
         v2.setId(9l);
         v2.setCierre(cd);
         v2.setTotal(5000);
-        v2.setIdProducto(1);
-        v2.setCantidadProducto(10);
-        v2.setIdProducto2(2);
-        v2.setCantidadProducto2(5);
+        v2.setProductos(prepareProductos());
 
         cd.getVentas().add(v1);
         cd.getVentas().add(v2);
@@ -97,18 +93,12 @@ public class ServicioCierreDiarioTest extends SpringTest {
         v1.setId(12l);
         v1.setCierre(cd);
         v1.setTotal(10000);
-        v1.setIdProducto(1);
-        v1.setCantidadProducto(10);
-        v1.setIdProducto2(2);
-        v1.setCantidadProducto2(5);
+        v1.setProductos(prepareProductos());
 
         v2.setId(9l);
         v2.setCierre(cd);
         v2.setTotal(5000);
-        v2.setIdProducto(1);
-        v2.setCantidadProducto(10);
-        v2.setIdProducto2(2);
-        v2.setCantidadProducto2(5);
+        v2.setProductos(prepareProductos());
 
         cd.getVentas().add(v1);
         cd.getVentas().add(v2);
@@ -132,29 +122,29 @@ public class ServicioCierreDiarioTest extends SpringTest {
         return servicioVenta.addVenta(venta);
     }
 
-    private List<Producto> prepareProductos(){
-        ArrayList<Producto> productos = new ArrayList<Producto>();
-        Producto producto1, producto2;
-
-        producto1 = new Producto();
-                producto1.setId((long)1);
-                producto1.setCantidad(50);
-                producto1.setCosto(500);
-                producto1.setNombre("cargador");
-                producto1.setIdProveedor(1);
-
-        producto2 = new Producto();
-            producto2.setId((long)2);
-            producto2.setCantidad(100);
-            producto2.setCosto(1700);
-            producto2.setNombre("adaptador");
-            producto2.setIdProveedor(2);
-
-        productos.add(producto1);
-        productos.add(producto2);
-
-        return productos;
-    }
+//    private List<Producto> prepareProductos(){
+//        ArrayList<Producto> productos = new ArrayList<Producto>();
+//        Producto producto1, producto2;
+//
+//        producto1 = new Producto();
+//                producto1.setId((long)1);
+//                producto1.setCantidad(50);
+//                producto1.setCosto(500);
+//                producto1.setNombre("cargador");
+//                producto1.setIdProveedor(1);
+//
+//        producto2 = new Producto();
+//            producto2.setId((long)2);
+//            producto2.setCantidad(100);
+//            producto2.setCosto(1700);
+//            producto2.setNombre("adaptador");
+//            producto2.setIdProveedor(2);
+//
+//        productos.add(producto1);
+//        productos.add(producto2);
+//
+//        return productos;
+//    }
 
     private List<Empleado> prepareEmpleados(){
        ArrayList<Empleado> empleados = new ArrayList<Empleado>();
@@ -181,10 +171,30 @@ public class ServicioCierreDiarioTest extends SpringTest {
     private Venta prepareVenta(){
         Venta venta = new Venta();
         venta.setIdEmpleado(1);
-        venta.setIdProducto(1);
-        venta.setCantidadProducto(40);
-        venta.setIdProducto2(2);
-        venta.setCantidadProducto2(80);
+        venta.setProductos(prepareProductos());
         return venta;
+    }
+
+    private Set<Producto> prepareProductos(){
+        Set<Producto> productos = new HashSet<>();
+        Producto producto1, producto2;
+
+        producto1 = new Producto();
+        producto1.setId((long)1);
+        producto1.setCantidad(50);
+        producto1.setCosto(500);
+        producto1.setNombre("cargador");
+        producto1.setIdProveedor(1);
+
+        producto2 = new Producto();
+        producto2.setId((long)2);
+        producto2.setCantidad(100);
+        producto2.setCosto(1700);
+        producto2.setNombre("adaptador");
+        producto2.setIdProveedor(2);
+
+        productos.add(producto1);
+        productos.add(producto2);
+        return productos;
     }
 }

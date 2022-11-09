@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.domain.ventas;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public interface ServicioVenta {
 
@@ -24,11 +25,7 @@ public interface ServicioVenta {
 
     double fillTotal(Venta venta);
 
-    double getSubtotalProducto1();
-
-    double getSubtotalProducto2();
-
-    double getSubtotalProductos();
+    //Map<String, Integer> getSubtotalProductos();
 
     double calcularComisionEmpleado(double sumaTotal);
 
