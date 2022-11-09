@@ -35,27 +35,15 @@ public class ControladorInformes {
         return new ModelAndView("informes", modelo);
     }
 
-    @RequestMapping(path = "/ventasEmpleados", method = RequestMethod.GET)
+    @RequestMapping(path = "/ventasEmpleados", method = RequestMethod.POST)
     public ModelAndView informeDeVentasPorEmpleados(@ModelAttribute("fechas") Fechas fechas){
         ModelMap modelo = new ModelMap();
 
-        List<DataEmpleado> listaDatos = servicioInforme.obtenerVentasPorEmpleadoYPorFecha(fechas.getFechaFinal(), fechas.getFechaInicial());
+        List<DataChart<Double>> listaDatos = servicioInforme.obtenerVentasPorEmpleadoYPorFecha(fechas.getFechaFinal(), fechas.getFechaInicial());
 
         modelo.put("datos", gson.toJson(listaDatos));
-        modelo.put("titulo", generarTituloChart(fechas.getFechaInicial(), fechas.getFechaFinal()));
+        modelo.put("titulo", servicioInforme.generarTituloChart(fechas.getFechaInicial(), fechas.getFechaFinal()));
 
         return new ModelAndView("informeVentasEmpleados", modelo);
-    }
-
-    private String generarTituloChart(LocalDate fechaInicial, LocalDate fechaFinal) {
-        String titulo = "Dinero generado de todas las ventas por empleado";
-
-        if (fechaInicial != null)
-            titulo = titulo.concat(" desde " + fechaInicial);
-
-        if(fechaFinal != null)
-            titulo = titulo.concat(" hasta " + fechaFinal);
-
-        return titulo;
     }
 }

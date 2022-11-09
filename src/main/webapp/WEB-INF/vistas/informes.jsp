@@ -17,12 +17,11 @@
 
 
 <h2>Ventas por empleado</h2>
-<form:form action="informes/ventasEmpleados" modelAttribute="fechas" method="get">
+<form:form action="informes/ventasEmpleados" modelAttribute="fechas" method="post">
     <form:input type="date" path="fechaInicial" />
     <form:input type="date" path="fechaFinal" />
     <form:button type="submit">Mostrar grafico</form:button>
 </form:form>
-
 
 <%@ include file="generales/footer.jsp" %>
 </body>

@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain.informe;
 
-import ar.edu.unlam.tallerweb1.delivery.DataEmpleado;
+import ar.edu.unlam.tallerweb1.delivery.DataChart;
 import ar.edu.unlam.tallerweb1.domain.empleados.Empleado;
 import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
@@ -27,8 +27,8 @@ public class ServicioInformeImpl implements ServicioInforme{
     }
 
     @Override
-    public List<DataEmpleado> obtenerVentasPorEmpleadoYPorFecha(LocalDate fechaInicio, LocalDate fechaFinal){
-        List<DataEmpleado> listaDataEmpleado = new ArrayList<>();
+    public List<DataChart<Double>> obtenerVentasPorEmpleadoYPorFecha(LocalDate fechaInicio, LocalDate fechaFinal){
+        List<DataChart<Double>> listaDataChart = new ArrayList<>();
         List<Empleado> listaEmpleados = servicioEmpleado.listarEmpleados();
 
         for (var empleado : listaEmpleados){
@@ -40,9 +40,21 @@ public class ServicioInformeImpl implements ServicioInforme{
                 total += venta.getTotal();
             }
 
-            listaDataEmpleado.add(new DataEmpleado(empleado.getName(), total));
+            listaDataChart.add(new DataChart<>(empleado.getName(), total));
         }
 
-        return listaDataEmpleado;
+        return listaDataChart;
+    }
+
+    public String generarTituloChart(LocalDate fechaInicial, LocalDate fechaFinal) {
+        String titulo = "Dinero generado de todas las ventas por empleado";
+
+        if (fechaInicial != null)
+            titulo = titulo.concat(" desde " + fechaInicial);
+
+        if(fechaFinal != null)
+            titulo = titulo.concat(" hasta " + fechaFinal);
+
+        return titulo;
     }
 }

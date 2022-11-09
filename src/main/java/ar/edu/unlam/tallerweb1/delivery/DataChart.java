@@ -3,12 +3,13 @@ package ar.edu.unlam.tallerweb1.delivery;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataEmpleado {
+public class DataChart<T> {
     private String name;
-    private List<Double> data = new ArrayList<>();
-    public DataEmpleado(String name, Double total) {
+    private List<T> data = new ArrayList<>();
+
+    public DataChart(String name, T data) {
         this.name = name;
-        this.data.add(total);
+        this.data.add(data);
     }
 
     public String getName() {
@@ -19,11 +20,11 @@ public class DataEmpleado {
         this.name = name;
     }
 
-    public List<Double> getData() {
+    public List<T> getData() {
         return data;
     }
 
-    public void setData(List<Double> data) {
+    public void setData(List<T> data) {
         this.data = data;
     }
 }
