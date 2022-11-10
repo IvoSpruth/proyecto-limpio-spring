@@ -63,9 +63,18 @@
                                         </a>
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="#" class="btn btn-default"><i class=" fa fa-question-circle"
-                                                                               aria-hidden="true"></i>
-                                        </a>
+                                        <c:choose>
+                                            <c:when test="${link.linkDePago != null}">
+                                                <a href="${link.linkDePago}" class="btn btn-default"><i class=" fa fa-question-circle"
+                                                                                       aria-hidden="true"></i>
+                                                </a>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="#" class="btn btn-danger"><i class=" fa fa-question-circle"
+                                                                                       aria-hidden="true"></i>
+                                                </a>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </c:otherwise>
                                 </c:choose>
                             </c:if>
