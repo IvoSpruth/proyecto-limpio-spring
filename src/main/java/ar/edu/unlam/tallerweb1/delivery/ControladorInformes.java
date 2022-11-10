@@ -50,7 +50,7 @@ public class ControladorInformes {
     }
 
     @RequestMapping(path = "/ventasHora")
-    public ModelAndView informeDeVentasPorHora(LocalDate fecha){
+    public ModelAndView informeDeVentasPorHora(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha){
         ModelMap modelo = new ModelMap();
 
         List<DataChart<Integer>> listaDatos = servicioInforme.obtenerVentasPorHoraSegunDia(fecha);
