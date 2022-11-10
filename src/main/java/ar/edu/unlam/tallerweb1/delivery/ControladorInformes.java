@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.xml.crypto.Data;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(path = "/informes")
@@ -45,5 +47,16 @@ public class ControladorInformes {
         modelo.put("titulo", servicioInforme.generarTituloChart(fechas.getFechaInicial(), fechas.getFechaFinal()));
 
         return new ModelAndView("informeVentasEmpleados", modelo);
+    }
+
+    @RequestMapping(path = "/ventasHora")
+    public ModelAndView informeDeVentasPorHora(LocalDate fecha){
+        ModelMap modelo = new ModelMap();
+
+        List<DataChart<Integer>> listaDatos = servicioInforme.obtenerVentasPorHoraSegunDia(fecha);
+
+        modelo.put("datos", gson.toJson(listaDatos));
+
+        return new ModelAndView("informeVentasHora", modelo);
     }
 }

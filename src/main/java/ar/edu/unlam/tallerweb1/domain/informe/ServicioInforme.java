@@ -8,5 +8,7 @@ import java.util.List;
 public interface ServicioInforme {
     List<DataChart<Double>> obtenerVentasPorEmpleadoYPorFecha(LocalDate fechaInicio, LocalDate fechaFinal);
 
+    List<DataChart<Integer>> obtenerVentasPorHoraSegunDia(LocalDate fechaFiltro);
+
     String generarTituloChart(LocalDate fechaInicial, LocalDate fechaFinal);
 }

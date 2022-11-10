@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -43,6 +44,28 @@ public class ServicioInformeImpl implements ServicioInforme{
             listaDataChart.add(new DataChart<>(empleado.getName(), total));
         }
 
+        return listaDataChart;
+    }
+
+    @Override
+    public List<DataChart<Integer>> obtenerVentasPorHoraSegunDia(LocalDate fechaFiltro) {
+        List<DataChart<Integer>> listaDataChart = new ArrayList<>();
+
+        List<Venta> listaVentas = servicioVenta.buscarVentasPorFecha(fechaFiltro);
+
+        Integer[] ventasPorHora = new Integer[24];
+        Arrays.fill(ventasPorHora, 0);
+
+        /*
+        for(var venta : listaVentas){
+            Integer nroHora = venta.getHora().getHour();
+            ventasPorHora[nroHora]++;
+        }
+
+        for(var hora : ventasPorHora){
+            listaDataHoraVentas.add(hora, new DataHoraVentas(String.valueOf(hora), ventasPorHora[hora]));
+        }
+        */
         return listaDataChart;
     }
 
