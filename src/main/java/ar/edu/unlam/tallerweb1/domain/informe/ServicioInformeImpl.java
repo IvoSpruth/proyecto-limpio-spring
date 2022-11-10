@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain.informe;
 
-import ar.edu.unlam.tallerweb1.delivery.DataEmpleado;
+import ar.edu.unlam.tallerweb1.delivery.DataChart;
 import ar.edu.unlam.tallerweb1.domain.empleados.Empleado;
 import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -27,8 +28,8 @@ public class ServicioInformeImpl implements ServicioInforme{
     }
 
     @Override
-    public List<DataEmpleado> obtenerVentasPorEmpleadoYPorFecha(LocalDate fechaInicio, LocalDate fechaFinal){
-        List<DataEmpleado> listaDataEmpleado = new ArrayList<>();
+    public List<DataChart<Double>> obtenerVentasPorEmpleadoYPorFecha(LocalDate fechaInicio, LocalDate fechaFinal){
+        List<DataChart<Double>> listaDataChart = new ArrayList<>();
         List<Empleado> listaEmpleados = servicioEmpleado.listarEmpleados();
 
         for (var empleado : listaEmpleados){
@@ -40,9 +41,42 @@ public class ServicioInformeImpl implements ServicioInforme{
                 total += venta.getTotal();
             }
 
-            listaDataEmpleado.add(new DataEmpleado(empleado.getName(), total));
+            listaDataChart.add(new DataChart<>(empleado.getName(), total));
         }
 
-        return listaDataEmpleado;
+        return listaDataChart;
+    }
+
+    @Override
+    public List<DataChart<Integer>> obtenerVentasPorHoraSegunDia(LocalDate fechaFiltro) {
+        List<DataChart<Integer>> listaDataChart = new ArrayList<>();
+
+        List<Venta> listaVentas = servicioVenta.buscarVentasPorFecha(fechaFiltro);
+
+        Integer[] ventasPorHora = new Integer[24];
+        Arrays.fill(ventasPorHora, 0);
+
+        for(var venta : listaVentas){
+            Integer nroHora = venta.getHora().getHour();
+            ventasPorHora[nroHora]++;
+        }
+
+        for(var hora : ventasPorHora){
+            listaDataChart.add(hora, new DataChart<>(String.valueOf(hora), ventasPorHora[hora]));
+        }
+
+        return listaDataChart;
+    }
+
+    public String generarTituloChart(LocalDate fechaInicial, LocalDate fechaFinal) {
+        String titulo = "Dinero generado de todas las ventas por empleado";
+
+        if (fechaInicial != null)
+            titulo = titulo.concat(" desde " + fechaInicial);
+
+        if(fechaFinal != null)
+            titulo = titulo.concat(" hasta " + fechaFinal);
+
+        return titulo;
     }
 }

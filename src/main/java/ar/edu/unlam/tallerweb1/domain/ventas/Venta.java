@@ -7,7 +7,7 @@ import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalTime;
 
 @Entity
 public class Venta {
@@ -33,6 +33,8 @@ public class Venta {
     @CreationTimestamp
     @Column(name= "fecha", nullable = false)
     private LocalDate fecha;
+
+    private LocalTime hora;
 
     private double total;
 
@@ -106,5 +108,13 @@ public class Venta {
 
     public void setCierre(CierreDiario cierre) {
         this.cierre = cierre;
+    }
+
+    public LocalTime getHora() {
+        return hora;
+    }
+
+    public void setHora(LocalTime hora) {
+        this.hora = hora;
     }
 }
