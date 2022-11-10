@@ -37,6 +37,7 @@ public class ControladorInformes {
         return new ModelAndView("informes", modelo);
     }
 
+    //TODO: cambiar ModelAttribute por parametros tipo LocalDate
     @RequestMapping(path = "/ventasEmpleados", method = RequestMethod.POST)
     public ModelAndView informeDeVentasPorEmpleados(@ModelAttribute("fechas") Fechas fechas){
         ModelMap modelo = new ModelMap();

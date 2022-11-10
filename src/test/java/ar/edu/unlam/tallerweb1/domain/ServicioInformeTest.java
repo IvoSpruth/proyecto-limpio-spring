@@ -47,27 +47,38 @@ public class ServicioInformeTest{
         entoncesObtengoLosDatosCorrectos(ventasPorEmpleado);
     }
 
-
     @Test
     public void cuandoPidoListarVentasPorHoraSegunFechaReciboElObjetoCorrespondiente(){
         dadoQueTengoVentasConHora();
-        LocalDate fechaFiltro = dadoQueTengoFecha(2022, 10, 21);
+        LocalDate fechaFiltro = LocalDate.now();
 
         List<DataChart<Integer>> ventasPorHora = cuandoObtengoVentasPorHoraSegunFecha(fechaFiltro);
 
         entoncesObtengoElObjetoCorrespondiente(ventasPorHora);
     }
 
+    private void entoncesObtengoLosDatosCorrectos(List<DataChart<Double>> ventasPorEmpleado) {
+        Double total1 = ventasPorEmpleado.get(0).getData().get(0);
+        Double total2 = ventasPorEmpleado.get(1).getData().get(0);
+
+        assertThat(total1).isEqualTo(181.12);
+        assertThat(total2).isEqualTo(415.58);
+    }
+
     private void entoncesObtengoElObjetoCorrespondiente(List<DataChart<Integer>> ventasPorHora) {
-        assertThat(true).isTrue();
+        Integer cantidadHora1 = ventasPorHora.get(0).getData().get(0);
+        Integer cantidadHora2 = ventasPorHora.get(1).getData().get(0);
+        String hora1 = ventasPorHora.get(0).getName();
+        String hora2 = ventasPorHora.get(1).getName();
+
+        assertThat(hora1).isEqualTo("10");
+        assertThat(hora2).isEqualTo("11");
+        assertThat(cantidadHora1).isEqualTo(1);
+        assertThat(cantidadHora2).isEqualTo(1);
     }
 
     private List<DataChart<Integer>> cuandoObtengoVentasPorHoraSegunFecha(LocalDate fechaFiltro) {
         return servicioInforme.obtenerVentasPorHoraSegunDia(fechaFiltro);
-    }
-
-    private LocalDate dadoQueTengoFecha(Integer anio, Integer mes, Integer dia) {
-        return LocalDate.now();
     }
 
     private List<DataChart<Double>> cuandoObtengoVentasPorEmpleadoYFecha(LocalDate fechaInicio, LocalDate fechaFinal) {
@@ -118,18 +129,5 @@ public class ServicioInformeTest{
         Venta venta = new Venta();
         venta.setHora(hora);
         lista.add(venta);
-    }
-
-
-    private void entoncesObtengoLosDatosCorrectos(List<DataChart<Double>> ventasPorEmpleado) {
-        Double total1 = obtenerTotal(ventasPorEmpleado, 0);
-        Double total2 = obtenerTotal(ventasPorEmpleado, 1);
-
-        assertThat(total1).isEqualTo(181.12);
-        assertThat(total2).isEqualTo(415.58);
-    }
-
-    private Double obtenerTotal(List<DataChart<Double>> ventasPorEmpleado, Integer index) {
-        return ventasPorEmpleado.get(index).getData().get(0);
     }
 }

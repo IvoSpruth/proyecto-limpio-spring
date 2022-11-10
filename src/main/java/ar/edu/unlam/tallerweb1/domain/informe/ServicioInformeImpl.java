@@ -57,12 +57,14 @@ public class ServicioInformeImpl implements ServicioInforme{
         Arrays.fill(ventasPorHora, 0);
 
         for(var venta : listaVentas){
-            Integer nroHora = venta.getHora().getHour();
-            ventasPorHora[nroHora]++;
+            Integer hora = venta.getHora().getHour();
+            ventasPorHora[hora]++;
         }
 
-        for(var hora : ventasPorHora){
-            listaDataChart.add(hora, new DataChart<>(String.valueOf(hora), ventasPorHora[hora]));
+        for(int i = 0; i < ventasPorHora.length; i++){
+            if(ventasPorHora[i] != 0){
+                listaDataChart.add(new DataChart<>(String.valueOf(i), ventasPorHora[i]));
+            }
         }
 
         return listaDataChart;
