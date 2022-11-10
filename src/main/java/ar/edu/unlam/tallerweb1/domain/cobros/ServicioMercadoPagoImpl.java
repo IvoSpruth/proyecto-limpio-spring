@@ -98,4 +98,9 @@ public class ServicioMercadoPagoImpl implements ServicioMercadoPago {
     public void actualizarPreferencia(MercadoPago preferencia) {
         repositorioMercadoPago.actualizar(preferencia);
     }
+
+    @Override
+    public List<MercadoPago> obtenerLinksSegunVentas(List<Venta> ventas) {
+        return repositorioMercadoPago.obtenerLinksSegunVentas(ventas);
+    }
 }

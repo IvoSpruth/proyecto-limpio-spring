@@ -2,6 +2,8 @@ package ar.edu.unlam.tallerweb1.domain.cobros;
 
 import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
 
+import java.util.List;
+
 public interface RepositorioMercadoPago {
     void guardar(MercadoPago preferencia);
 
@@ -12,4 +14,6 @@ public interface RepositorioMercadoPago {
     MercadoPago obtener(String preference_id);
 
     void actualizar(MercadoPago preferencia);
+
+    List<MercadoPago> obtenerLinksSegunVentas(List<Venta> ventas);
 }

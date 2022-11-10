@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional
 @Repository("repositorioMercadoPago")
 public class RepositorioMercadoPagoImpl implements RepositorioMercadoPago {
@@ -53,5 +55,13 @@ public class RepositorioMercadoPagoImpl implements RepositorioMercadoPago {
     @Override
     public void actualizar(MercadoPago preferencia) {
         sessionFactory.getCurrentSession().update(preferencia);
+    }
+
+    @Override
+    public List<MercadoPago> obtenerLinksSegunVentas(List<Venta> ventas) {
+        Session session = sessionFactory.getCurrentSession();
+        return (List<MercadoPago>) session.createCriteria(MercadoPago.class)
+                .add(Restrictions.in("venta",ventas))
+                .list();
     }
 }
