@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
+import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
 import ar.edu.unlam.tallerweb1.domain.usuarios.Usuario;
 import ar.edu.unlam.tallerweb1.domain.usuarios.ServicioLogin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,11 @@ public class ControladorLogin {
 	// dicha clase debe estar anotada como @Service o @Repository y debe estar en un paquete de los indicados en
 	// applicationContext.xml
 	private ServicioLogin servicioLogin;
+	private ServicioProducto servicioProducto;
 
 	@Autowired
-	public ControladorLogin(ServicioLogin servicioLogin){
+	public ControladorLogin(ServicioLogin servicioLogin,ServicioProducto servicioProducto){
+		this.servicioProducto = servicioProducto;
 		this.servicioLogin = servicioLogin;
 	}
 
@@ -52,13 +55,20 @@ public class ControladorLogin {
 		Usuario usuarioBuscado = servicioLogin.consultarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
 		if (usuarioBuscado != null) {
 			request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
-			return new ModelAndView("redirect:/home");
+			return new ModelAndView("redirect:/centroControl");
 		} else {
 			// si el usuario no existe agrega un mensaje de error en el modelo.
 			model.put("error", "Usuario o clave incorrecta");
 		}
 		return new ModelAndView("login", model);
 	}
+
+	@RequestMapping(path = "/centroControl", method = RequestMethod.GET)
+	public ModelAndView irACentroControl() {
+		return new ModelAndView("empleado-duenio-control");
+	}
+
+
 
 	// Escucha la URL /home por GET, y redirige a una vista.
 	@RequestMapping(path = "/home", method = RequestMethod.GET)
