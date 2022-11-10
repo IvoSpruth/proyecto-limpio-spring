@@ -20,10 +20,5 @@ src/main/resources/
 /resources/
 *.class
 /target/
-
-#contextos de hibernate
 src/main/resources/hibernateContext.xml
-src/test/resources/test-hibernateContext.xml
-
-#credenciales
 src/main/java/ar/edu/unlam/tallerweb1/domain/cobros/MercadoPagoCredenciales.java
