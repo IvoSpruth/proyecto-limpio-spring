@@ -30,8 +30,6 @@ public class Venta {
     @NotFound(action = NotFoundAction.IGNORE)
     private CierreDiario cierre;
 
-    @CreationTimestamp
-    @Column(name= "fecha", nullable = false)
     private LocalDate fecha;
 
     private LocalTime hora;

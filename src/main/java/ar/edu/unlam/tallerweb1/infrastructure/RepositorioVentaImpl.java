@@ -33,21 +33,6 @@ public class RepositorioVentaImpl implements RepositorioVenta {
     }
 
     @Override
-    public boolean modifyVenta(Venta venta) {
-        return false;
-    }
-
-    @Override
-    public boolean deleteVenta(Venta venta) {
-        return false;
-    }
-
-    @Override
-    public Venta buscarVenta(Venta venta) {
-        return null;
-    }
-
-    @Override
     public List<Venta> ventasDeUnEmpleado(int idEmpleado) {
         return sessionFactory.getCurrentSession().createCriteria(Venta.class)
                 .add(Restrictions.eq("idEmpleado", idEmpleado)).list();
