@@ -1,0 +1,83 @@
+.botones_separados {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+html, body, h1, h2, h3, h4, h5 {
+    font-family: "Raleway", sans-serif
+}
+
+.rowLine {
+    background-color: #e1e2e3;
+    border-bottom: 0;
+}
+
+.rowLine > td {
+    text-align: center;
+}
+
+.valueRows > td {
+    text-align: center;
+}
+
+.basicTable {
+    border-collapse: collapse;
+}
+
+.cerrarDesglose {
+    display: none;
+}
+
+.abrirDesglose {
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    top: 15%;
+    left: 0;
+    background-color: white;
+    width: 100%;
+    height: 100%;
+}
+
+.mostrarForm {
+    display: block;
+}
+
+.form_exportar {
+    display: none;
+}
+
+.abrirDesglose > td {
+    display: block;
+}
+
+.cerrarDesglose > td {
+    display: block;
+}
+
+.black_overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 1001;
+}
+
+.white_content {
+    min-width: 280px;
+    display: none;
+    position: fixed;
+    top: 10%;
+    left: 20%;
+    width: 60%;
+    height: 80%;
+    padding: 16px;
+    border: 2px solid black;
+    background-color: white;
+    z-index: 1002;
+    overflow: auto;
+}
