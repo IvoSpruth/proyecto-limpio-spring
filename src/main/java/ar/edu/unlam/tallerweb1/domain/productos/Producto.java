@@ -21,6 +21,16 @@ public class Producto {
 
     private int cantidad;
 
+    public Producto() {
+    }
+
+    public Producto(String nombre, int cantidad, double costo, int idProveedor) {
+        this.costo = costo;
+        this.nombre = nombre;
+        this.idProveedor = idProveedor;
+        this.cantidad = cantidad;
+    }
+
     public int getCantidad() {
         return cantidad;
     }
