@@ -60,8 +60,16 @@ public class ServicioProductoImpl implements ServicioProducto {
     @Transactional
     public void importarSCV(MultipartFile file) {
         List<Producto> productos = CSVHelper.csv2Productos(file);
+        Producto productoAux;
         for (Producto producto : productos) {
-            productoDao.agregarProducto(producto);
+            productoAux = buscarProductoPorID(producto.getId());
+            if (productoAux == null) {
+                productoDao.agregarProducto(producto);
+            } else {
+                productoAux.setCantidad(producto.getCantidad());
+                productoAux.setCosto(producto.getCosto());
+                productoDao.updateProducto(productoAux);
+            }
         }
     }
 

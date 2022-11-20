@@ -14,6 +14,7 @@ import java.util.List;
 
 public class CSVHelper {
     public static String TYPE = "text/csv";
+
     public static boolean hasCSVFormat(MultipartFile file) {
         return TYPE.equals(file.getContentType());
     }
@@ -23,21 +24,39 @@ public class CSVHelper {
         // https://www.bezkoder.com/spring-boot-upload-csv-file/
 
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(archivo.getInputStream(), StandardCharsets.UTF_8));
-             CSVParser csvParser = new CSVParser(fileReader,CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim())) {
+             CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim())) {
 
             List<Producto> ProductosRecuperados = new ArrayList<>();
 
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
 
-            for (CSVRecord csvRecord : csvRecords) {
-                Producto producto = new Producto(
-                        csvRecord.get("nombre"),
-                        Integer.parseInt(csvRecord.get("cantidad")),
-                        Double.parseDouble(csvRecord.get("costo")),
-                        Integer.parseInt(csvRecord.get("idProveedor"))
-                );
-                ProductosRecuperados.add(producto);
+            String columnaId = "id";
+            Producto producto;
+
+            //Pregunto una sola vez si tengo id y despues hago un for por cada opcion para no preguntar todas las veces
+            if (csvParser.getHeaderNames().contains(columnaId)) {
+                for (CSVRecord csvRecord : csvRecords) {
+                    producto = new Producto(
+                            Long.parseLong(csvRecord.get("id")),
+                            csvRecord.get("nombre"),
+                            Integer.parseInt(csvRecord.get("cantidad")),
+                            Double.parseDouble(csvRecord.get("costo")),
+                            Integer.parseInt(csvRecord.get("idProveedor"))
+                    );
+                    ProductosRecuperados.add(producto);
+                }
+            } else {
+                for (CSVRecord csvRecord : csvRecords) {
+                    producto = new Producto(
+                            csvRecord.get("nombre"),
+                            Integer.parseInt(csvRecord.get("cantidad")),
+                            Double.parseDouble(csvRecord.get("costo")),
+                            Integer.parseInt(csvRecord.get("idProveedor"))
+                    );
+                    ProductosRecuperados.add(producto);
+                }
             }
+
 
             return ProductosRecuperados;
         } catch (UnsupportedEncodingException e) {
@@ -46,13 +65,14 @@ public class CSVHelper {
             throw new RuntimeException("fail to parse CSV file: " + e.getMessage());
         }
     }
+
     public static ByteArrayInputStream productos2CSV(List<Producto> productos) {
         // https://www.bezkoder.com/spring-boot-download-csv-file/
         final CSVFormat format = CSVFormat.DEFAULT.withQuoteMode(QuoteMode.MINIMAL);
 
         try (ByteArrayOutputStream out = new ByteArrayOutputStream();
              CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(out), format)) {
-            csvPrinter.printRecord("id","nombre","cantidad","costo","idProveedor");
+            csvPrinter.printRecord("id", "nombre", "cantidad", "costo", "idProveedor");
             for (Producto producto : productos) {
                 List<String> data = Arrays.asList(
                         String.valueOf(producto.getId()),

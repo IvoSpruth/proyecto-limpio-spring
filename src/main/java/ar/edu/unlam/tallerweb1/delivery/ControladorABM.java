@@ -63,7 +63,7 @@ public class ControladorABM {
                 servicioProducto.importarSCV(file);
                 request.getSession().setAttribute("mensaje", "Archivo subido con exito");
             } catch (Exception e) {
-                request.getSession().setAttribute("mensaje", "No se pudo subir el archivo: " + file.getName() + "!" + e.getMessage());
+                request.getSession().setAttribute("mensaje", "No se pudo subir el archivo: " + file.getName() + "!");
             }
         } else {
             request.getSession().setAttribute("mensaje", "El archivo subido no es un CSV");

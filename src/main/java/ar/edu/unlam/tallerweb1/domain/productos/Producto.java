@@ -25,10 +25,18 @@ public class Producto {
     }
 
     public Producto(String nombre, int cantidad, double costo, int idProveedor) {
-        this.costo = costo;
         this.nombre = nombre;
-        this.idProveedor = idProveedor;
         this.cantidad = cantidad;
+        this.costo = costo;
+        this.idProveedor = idProveedor;
+    }
+
+    public Producto(long id, String nombre, int cantidad, double costo, int idProveedor) {
+        this.id = id;
+        this.nombre = nombre;
+        this.cantidad = cantidad;
+        this.costo = costo;
+        this.idProveedor = idProveedor;
     }
 
     public int getCantidad() {
