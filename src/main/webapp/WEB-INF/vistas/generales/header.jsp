@@ -13,7 +13,7 @@
             <div class="fa fa-user-o w3-xxxlarge" style="width:46px"></div>
         </div>
         <div class="w3-col s8 w3-bar">
-            <span>Fecha: ${fecha}</span><br>
+            <span>Fecha: ${sessionScope.fecha}</span><br>
             <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
             <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
             <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
@@ -25,11 +25,11 @@
     </div>
     <div class="w3-bar-block">
         <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black"
-           onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i> Rol</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i> Nombre</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i> Ventas</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-cog fa-fw"></i> Editar</a><br><br>
+           onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>Close Menu</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>
+            Rol: ${sessionScope.ROL}</a>
+        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i> Mail: ${sessionScope.mail}
+        </a>
     </div>
 </nav>
 
@@ -66,9 +66,7 @@
         <div class="w3-quarter">
             <div class="w3-container w3-red w3-padding-16">
                 <div class="w3-left"><i class="fa fa-money w3-xxxlarge"></i></div>
-                <div class="w3-right">
-                    <h3>52</h3>
-                </div>
+
                 <div class="w3-clear"></div>
                 <h4>
                     <a href="${pageContext.servletContext.contextPath}/goVentaForm">Venta</a>
@@ -78,9 +76,7 @@
         <div class="w3-quarter">
             <div class="w3-container w3-blue w3-padding-16">
                 <div class="w3-left"><i class="fa fa-archive w3-xxxlarge"></i></div>
-                <div class="w3-right">
-                    <h3>99</h3>
-                </div>
+
                 <div class="w3-clear"></div>
                 <h4>
                     <a href="${pageContext.servletContext.contextPath}/goCierreDiario">Cierre Diario</a>
@@ -90,9 +86,7 @@
         <div class="w3-quarter">
             <div class="w3-container w3-teal w3-padding-16">
                 <div class="w3-left"><i class="fa fa-gift w3-xxxlarge"></i></div>
-                <div class="w3-right">
-                    <h3>23</h3>
-                </div>
+
                 <div class="w3-clear"></div>
                 <h4>
                     <a href="${pageContext.servletContext.contextPath}/goProductoForm">Producto</a>
@@ -102,9 +96,7 @@
         <div class="w3-quarter">
             <div class="w3-container w3-orange w3-text-white w3-padding-16">
                 <div class="w3-left"><i class="fa fa-times-circle-o w3-xxxlarge"></i></div>
-                <div class="w3-right">
-                    <h3>50</h3>
-                </div>
+
                 <div class="w3-clear"></div>
                 <h4>
                     <a href="${pageContext.servletContext.contextPath}/goOfertas">Ofertas</a>
