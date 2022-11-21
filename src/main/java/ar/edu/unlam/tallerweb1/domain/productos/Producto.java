@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.productos;
 
+import ar.edu.unlam.tallerweb1.domain.Estado;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,7 +9,7 @@ import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity
-public class Producto {
+public class Producto implements Estado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +22,8 @@ public class Producto {
     private int idProveedor;
 
     private int cantidad;
+
+    private Integer stockMaximo;
 
     public int getCantidad() {
         return cantidad;
@@ -72,5 +76,26 @@ public class Producto {
     @Override
     public int hashCode() {
         return Objects.hash(id, costo, nombre, idProveedor, cantidad);
+    }
+
+    public Integer getStockMaximo() {
+        return stockMaximo;
+    }
+
+    public void setStockMaximo(Integer stockMaximo) {
+        this.stockMaximo = stockMaximo;
+    }
+
+    @Override
+    public String getEstado() {
+        if(this.cantidad < 10){
+            return "El producto " + this.nombre + " tiene solo " + this.cantidad + " items restantes";
+        }
+
+        if((this.stockMaximo - this.cantidad) < 10){
+            return "El producto " + this.nombre + " le falta " + (this.stockMaximo - this.cantidad) + " para alcanzar el stock máximo";
+        }
+
+        return "OK";
     }
 }
