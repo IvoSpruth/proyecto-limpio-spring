@@ -16,19 +16,6 @@
         </ul>
     </form:form>
 
-    <form action="${pageContext.request.contextPath}/informes/ventasHora" method="get">
-        <ul class="w3-ul w3-card-4 w3-white">
-            <li class="w3-padding-16">
-                <label></label>
-                <input type="text" name="params"/>
-                <label></label>
-                <input type="text" name="params"/>
-                <label></label>
-                <input type="text" name="params"/>
-                <button class="btn btn-info" type="Submit">Mostrar grafico</button>
-            </li>
-        </ul>
-    </form>
 </div>
 
 <%@ include file="generales/footer.jsp" %>
