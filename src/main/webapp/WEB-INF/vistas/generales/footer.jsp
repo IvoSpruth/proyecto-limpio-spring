@@ -1,19 +1,26 @@
 <!-- Footer -->
 <footer class="w3-container w3-padding-16 w3-light-grey">
-    <div class="w3-container w3-dark-grey w3-padding-32">
-        <div class="w3-row">
-            <div class="w3-container w3-third">
-                <h5 class="w3-bottombar w3-border-green">Reportes venta</h5>
-            </div>
-            <div class="w3-container w3-third">
-                <h5 class="w3-bottombar w3-border-red">Reportes cobro</h5>
-            </div>
-            <div class="w3-container w3-third">
-                <h5 class="w3-bottombar w3-border-orange">Reportes empleados</h5>
+    <% if (request.getSession().getAttribute("ROL") != null) {%>
+        <div class="w3-container w3-dark-grey w3-padding-32">
+            <div class="w3-row">
+                <div class="w3-container w3-third">
+                    <a href="${pageContext.request.contextPath}/informes/" class="link">
+                        <h5 class="w3-bottombar w3-border-green">Reportes venta</h5>
+                    </a>
+                </div>
+                <div class="w3-container w3-third">
+                    <a href="${pageContext.request.contextPath}/informes/" class="link">
+                        <h5 class="w3-bottombar w3-border-red">Reportes cobro</h5>
+                    </a>
+                </div>
+                <div class="w3-container w3-third">
+                    <a href="${pageContext.request.contextPath}/informes/" class="link">
+                        <h5 class="w3-bottombar w3-border-orange text-white">Reportes empleados</h5>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-
+        <%}%>
 
     <h4>Visita sistemasdeadministracion.com.ar</h4>
     <p>Basado en <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
@@ -22,7 +29,6 @@
 <!-- End page content -->
 
 </div>
-
 
 <c:if test="${result==false}">
     <div classs="container p-5">

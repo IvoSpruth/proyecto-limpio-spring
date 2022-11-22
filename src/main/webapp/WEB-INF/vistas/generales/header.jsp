@@ -20,17 +20,20 @@
         </div>
     </div>
     <hr>
-    <div class="w3-container">
-        <h5>Empleado: </h5>
-    </div>
-    <div class="w3-bar-block">
-        <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black"
-           onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>Close Menu</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>
-            Rol: ${sessionScope.ROL}</a>
-        <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i> Mail: ${sessionScope.mail}
-        </a>
-    </div>
+    <% if (request.getSession().getAttribute("ROL") != null) {%>
+        <div class="w3-container">
+            <h5>Empleado: </h5>
+        </div>
+        <div class="w3-bar-block">
+            <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black"
+               onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>Close Menu</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>
+                Rol: ${sessionScope.ROL}</a>
+            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>
+                Mail: ${sessionScope.mail}
+            </a>
+        </div>
+    <%}%>
 </nav>
 
 
@@ -43,6 +46,7 @@
     <header class="w3-container" style="padding-top:22px">
         <h5><b><i class="fa fa-dashboard"></i> Centro de control Negocio</b></h5>
     </header>
+
 
     <c:if test="${not empty error}">
     <div class="text-bg-danger">
@@ -61,7 +65,8 @@
         <h4><c:out value="${sessionScope.mensaje}"/></h4>
         <h4>${request.getSession().getAttribute("mensaje")}</h4>
     </div>
-        <%} request.getSession().setAttribute("Mensaje",null);%>
+        <%}request.getSession().setAttribute("Mensaje", null);%>
+        <% if (request.getSession().getAttribute("ROL") != null) {%>
     <div class="w3-row-padding w3-margin-bottom">
         <div class="w3-quarter">
             <div class="w3-container w3-red w3-padding-16">
@@ -69,7 +74,7 @@
 
                 <div class="w3-clear"></div>
                 <h4>
-                    <a href="${pageContext.servletContext.contextPath}/goVentaForm">Venta</a>
+                    <a href="${pageContext.servletContext.contextPath}/goVentaForm" class="link">Venta</a>
                 </h4>
             </div>
         </div>
@@ -79,7 +84,7 @@
 
                 <div class="w3-clear"></div>
                 <h4>
-                    <a href="${pageContext.servletContext.contextPath}/goCierreDiario">Cierre Diario</a>
+                    <a href="${pageContext.servletContext.contextPath}/goCierreDiario" class="link">Cierre Diario</a>
                 </h4>
             </div>
         </div>
@@ -89,7 +94,7 @@
 
                 <div class="w3-clear"></div>
                 <h4>
-                    <a href="${pageContext.servletContext.contextPath}/goProductoForm">Producto</a>
+                    <a href="${pageContext.servletContext.contextPath}/goProductoForm" class="link">Producto</a>
                 </h4>
             </div>
         </div>
@@ -99,13 +104,9 @@
 
                 <div class="w3-clear"></div>
                 <h4>
-                    <a href="${pageContext.servletContext.contextPath}/goOfertas">Ofertas</a>
+                    <a href="${pageContext.servletContext.contextPath}/goOfertas" class="link">Ofertas</a>
                 </h4>
             </div>
         </div>
     </div>
-
-
-    <div>
-
-    </div>
+<%}%>

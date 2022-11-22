@@ -26,20 +26,23 @@ public class Producto implements Estado {
     public Producto() {
     }
 
-    public Producto(String nombre, int cantidad, double costo, int idProveedor) {
+    public Producto(String nombre, int cantidad, double costo, int idProveedor, int stockMaximo) {
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.costo = costo;
         this.idProveedor = idProveedor;
+        this.stockMaximo = stockMaximo;
     }
 
-    public Producto(long id, String nombre, int cantidad, double costo, int idProveedor) {
+    public Producto(long id, String nombre, int cantidad, double costo, int idProveedor, int stockMaximo) {
         this.id = id;
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.costo = costo;
         this.idProveedor = idProveedor;
+        this.stockMaximo = stockMaximo;
     }
+
     private Integer stockMaximo;
 
     public int getCantidad() {
@@ -105,11 +108,15 @@ public class Producto implements Estado {
 
     @Override
     public String getEstado() {
-        if(this.cantidad < 10){
+        if (this.cantidad < 10) {
             return "El producto " + this.nombre + " tiene solo " + this.cantidad + " items restantes";
         }
 
-        if((this.stockMaximo - this.cantidad) < 10){
+        if (this.stockMaximo == null) {
+            return "El producto no tiene configurado el stock maximo";
+        }
+
+        if ((this.stockMaximo - this.cantidad) < 10) {
             return "Al producto " + this.nombre + " le faltan " + (this.stockMaximo - this.cantidad) + " items para alcanzar el stock maximo";
         }
 

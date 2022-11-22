@@ -1,19 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Alejandro
-  Date: 7/11/22
-  Time: 11:54
-  To change this template use File | Settings | File Templates.
---%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<html>
-<head>
-    <%@ include file="generales/head.jsp" %>
-</head>
-<body class="w3-light-grey">
-<%@ include file="generales/header.jsp" %>
+<%@ include file="generales/importsGenerales.jsp" %>
 
 <div class="w3-container">
     <h3 class="form-signin-heading">Cierre Diario</h3>
@@ -65,13 +50,14 @@
                                     <c:otherwise>
                                         <c:choose>
                                             <c:when test="${link.linkDePago != null}">
-                                                <a href="${link.linkDePago}" class="btn btn-default"><i class=" fa fa-question-circle"
-                                                                                       aria-hidden="true"></i>
+                                                <a href="${link.linkDePago}" class="btn btn-default"><i
+                                                        class=" fa fa-question-circle"
+                                                        aria-hidden="true"></i>
                                                 </a>
                                             </c:when>
                                             <c:otherwise>
                                                 <a href="#" class="btn btn-danger"><i class=" fa fa-question-circle"
-                                                                                       aria-hidden="true"></i>
+                                                                                      aria-hidden="true"></i>
                                                 </a>
                                             </c:otherwise>
                                         </c:choose>
@@ -80,7 +66,7 @@
                             </c:if>
                         </c:forEach>
                     </td>
-                    <td><a href="${pageContext.servletContext.contextPath}/goPDF" class="btn btn-info "
+                    <td><a href="${pageContext.servletContext.contextPath}/goPDF" class="btn btn-info"
                            role="button">PDF</a></td>
                 </tr>
             </c:forEach>
@@ -95,15 +81,16 @@
     <form:form action="ejecutarCierreDiario" method="POST" modelAttribute="cierre">
         <form:input path="idEmpleado" type="number" class="form-control mb-25" placeholder="empID" value="test"
                     style="display:none"/>
-        <button id="btn-registrarme" class="btn btn-lg btn-warning btn-block" Type="Submit">
+        <button id="btn-registrarme" class="w3-button w3-block w3-blue" type="Submit">
             Ejecutar Cierre
         </button>
+
     </form:form>
     <br><br>
-    <button id="btn-registrarme" class="btn btn-lg btn-warning btn-block" Type="Submit" onclick="openDesglose()">
-        Historial
-        Cierres
+    <button id="btn-registrarme" class="w3-button w3-block w3-cyan" type="Submit" onclick="openDesglose()">
+        Historial Cierres
     </button>
+
 </div>
 <c:if test="${exito==false}">
 <div classs="container p-5">

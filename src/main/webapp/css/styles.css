@@ -8,6 +8,15 @@ html, body, h1, h2, h3, h4, h5 {
     font-family: "Raleway", sans-serif
 }
 
+.link{
+    text-decoration: none ;
+    color: white ;
+}
+.link:hover{
+    color: white;
+    text-decoration: underline ;
+}
+
 .rowLine {
     background-color: #e1e2e3;
     border-bottom: 0;

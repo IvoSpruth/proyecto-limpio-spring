@@ -105,16 +105,5 @@ public class ControladorABM {
         return new ModelAndView("empleado-duenio-control", model);
     }
 
-    /*@RequestMapping(path="/addVenta", method= RequestMethod.POST)
-    public ModelAndView addVenta(@ModelAttribute("datosVenta") Venta venta, HttpServletRequest req){
-
-    }*/
-
-
-    /*@RequestMapping(path="/addEmpleado", method= RequestMethod.POST)
-    public ModelAndView addEmpleado(@ModelAttribute("datosEmpleado") Empleado empleado, HttpServletRequest req){
-
-    }*/
-
 
 }
