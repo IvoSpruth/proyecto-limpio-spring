@@ -204,6 +204,9 @@
 	}
 </script>
 
+<script type="text/javascript" src="js/toastify-js.js"></script>
+<script type="text/javascript" src="js/alertas.js"></script>
+
 <c:if test="${not empty factura}">
 	<a>${factura}</a>
 	<br>

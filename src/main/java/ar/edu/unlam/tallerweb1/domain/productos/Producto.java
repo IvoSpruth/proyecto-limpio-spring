@@ -93,7 +93,7 @@ public class Producto implements Estado {
         }
 
         if((this.stockMaximo - this.cantidad) < 10){
-            return "El producto " + this.nombre + " le falta " + (this.stockMaximo - this.cantidad) + " para alcanzar el stock máximo";
+            return "Al producto " + this.nombre + " le faltan " + (this.stockMaximo - this.cantidad) + " items para alcanzar el stock maximo";
         }
 
         return "OK";

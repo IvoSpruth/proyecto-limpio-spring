@@ -1,20 +1,15 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.domain.alertas.Alerta;
 import ar.edu.unlam.tallerweb1.domain.alertas.ServicioAlertas;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
-@Controller
-@RequestMapping("/alertas")
+@RestController
 public class ControladorAlertas {
 
+    private Gson gson = new Gson();
     private ServicioAlertas servicioAlertas;
 
     @Autowired
@@ -22,13 +17,11 @@ public class ControladorAlertas {
         this.servicioAlertas = servicioAlertas;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView obtenerAlertas(){
-        ModelMap modelo = new ModelMap();
+    @GetMapping("/alertas")
+    public String obtenerAlertas(){
 
-        List<Alerta> alertasInventario = servicioAlertas.obtenerAlertasInventario();
-        modelo.put("alertasInventario", alertasInventario);
+        String alertasInventario = servicioAlertas.obtenerAlertasInventario();
 
-        return new ModelAndView("alertas", modelo);
+        return alertasInventario;
     }
 }

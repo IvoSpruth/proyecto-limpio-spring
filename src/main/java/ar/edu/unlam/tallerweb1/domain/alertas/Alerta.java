@@ -7,8 +7,6 @@ public class Alerta {
     private String contenido;
     private LocalDateTime fecha;
 
-    private Boolean visible = true;
-
     public Alerta(String contenido) {
         this.contenido = contenido;
         this.fecha = LocalDateTime.now();
@@ -20,9 +18,5 @@ public class Alerta {
 
     public LocalDateTime getFecha() {
         return fecha;
-    }
-
-    public Boolean getVisible() {
-        return visible;
     }
 }
