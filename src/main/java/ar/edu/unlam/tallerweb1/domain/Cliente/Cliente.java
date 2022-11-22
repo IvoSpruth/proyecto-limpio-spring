@@ -1,9 +1,12 @@
 package ar.edu.unlam.tallerweb1.domain.Cliente;
 
+import ar.edu.unlam.tallerweb1.domain.envios.Direccion;
+import ar.edu.unlam.tallerweb1.domain.envios.Envio;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Cliente {
@@ -22,7 +25,11 @@ public class Cliente {
 
     private String mail;
 
+    @OneToMany
+    private List<Envio> envios;
 
+    @OneToMany
+    private List<Direccion> direccionEnvio;
 
     public Long getId() {
         return id;
@@ -64,4 +71,19 @@ public class Cliente {
         this.mail = mail;
     }
 
+    public List<Envio> getEnvios() {
+        return envios;
+    }
+
+    public void setEnvios(List<Envio> envios) {
+        this.envios = envios;
+    }
+
+    public List<Direccion> getDireccionEnvio() {
+        return direccionEnvio;
+    }
+
+    public void setDireccionEnvio(List<Direccion> direccionEnvio) {
+        this.direccionEnvio = direccionEnvio;
+    }
 }
