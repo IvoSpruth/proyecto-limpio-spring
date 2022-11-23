@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
+import ar.edu.unlam.tallerweb1.delivery.forms.DataChart;
+import ar.edu.unlam.tallerweb1.delivery.forms.Fechas;
 import ar.edu.unlam.tallerweb1.domain.informe.ServicioInforme;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.xml.crypto.Data;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping(path = "/informes")
