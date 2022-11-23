@@ -1,36 +1,24 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<html>
-<head>
-    <%@ include file="generales/head.jsp" %>
-</head>
-<body class="w3-light-grey">
-<%@ include file="generales/header.jsp" %>
+<%@ include file="generales/importsGenerales.jsp" %>
 
+<div class="w3-container">
 
-<h2>Ventas por empleado</h2>
-<main>
-    <form:form action="informes/ventasEmpleados" modelAttribute="fechas" method="post">
-        <form:input type="date" path="fechaInicial" />
-        <form:input type="date" path="fechaFinal" />
-        <form:button type="submit">Mostrar grafico</form:button>
+    <h3>Ventas por empleado</h3>
+
+    <form:form action="${pageContext.request.contextPath}/informes/ventasEmpleados" modelAttribute="fechas" method="post">
+        <ul class="w3-ul w3-card-4 w3-white">
+            <li class="w3-padding-16">
+                <form:label path="fechaInicial">Fecha inicial</form:label>
+                <form:input type="date" path="fechaInicial"/>
+                <form:label path="fechaFinal">Fecha final</form:label>
+                <form:input type="date" path="fechaFinal"/>
+                <form:button type="submit" class="btn btn-info">Mostrar grafico</form:button>
+            </li>
+        </ul>
     </form:form>
 
-    <form action="informes/ventasEmpleados" method="get">
+</div>
 
-    </form>
-
-    <form action="informes/ventasHora" method="get">
-        <input type="text" name="params">
-        <input type="text" name="params">
-        <input type="text" name="params">
-        <button type="submit">Mostrar grafico</button>
-    </form>
-</main>
 <%@ include file="generales/footer.jsp" %>
-</body>
-</html>
 
 
 

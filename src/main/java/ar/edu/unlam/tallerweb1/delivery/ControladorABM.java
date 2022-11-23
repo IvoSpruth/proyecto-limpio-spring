@@ -4,13 +4,21 @@ import ar.edu.unlam.tallerweb1.domain.empleados.Empleado;
 import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
+import ar.edu.unlam.tallerweb1.domain.utils.CSVHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,19 +30,49 @@ public class ControladorABM {
     private ServicioEmpleado servicioEmpleado;
 
     @Autowired
-    public ControladorABM(ServicioProducto servicioProducto, ServicioEmpleado servicioEmpleado){
+    public ControladorABM(ServicioProducto servicioProducto, ServicioEmpleado servicioEmpleado) {
         this.servicioProducto = servicioProducto;
         this.servicioEmpleado = servicioEmpleado;
     }
 
     @RequestMapping(path = "/goProductoForm", method = RequestMethod.GET)
     public ModelAndView irProductoForm(@ModelAttribute("producto") Producto producto) {
-        return new ModelAndView("productoForm");
+        ModelMap model = new ModelMap();
+        model.put("productos", servicioProducto.buscarProductos());
+        return new ModelAndView("productoForm", model);
     }
 
+    @RequestMapping(path = "/exportarProductos")
+    public ResponseEntity<Resource> exportarCSVProductos() {
+        String filename = "productos.csv";
+        InputStreamResource file = new InputStreamResource(servicioProducto.exportarCSV());
 
-    @RequestMapping(path="/addProducto", method= RequestMethod.POST)
-    public ModelAndView addProducto(@ModelAttribute("producto") Producto producto, BindingResult bindingResult, HttpServletRequest req){
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .contentType(MediaType.parseMediaType("application/csv"))
+                .body(file);
+    }
+
+    @RequestMapping(path = "/importarProductos", method = RequestMethod.POST)
+    public ModelAndView importarCSVProductos(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+
+        ModelMap model = new ModelMap();
+
+        if (CSVHelper.hasCSVFormat(file)) {
+            try {
+                servicioProducto.importarSCV(file);
+                request.getSession().setAttribute("mensaje", "Archivo subido con exito");
+            } catch (Exception e) {
+                request.getSession().setAttribute("mensaje", "No se pudo subir el archivo: " + file.getName() + "!");
+            }
+        } else {
+            request.getSession().setAttribute("mensaje", "El archivo subido no es un CSV");
+        }
+        return new ModelAndView("redirect:goProductoForm");
+    }
+
+    @RequestMapping(path = "/addProducto", method = RequestMethod.POST)
+    public ModelAndView addProducto(@ModelAttribute("producto") Producto producto, BindingResult bindingResult, HttpServletRequest req) {
         ModelMap model = new ModelMap();
         try {
             servicioProducto.addProducto(producto);
@@ -43,7 +81,7 @@ public class ControladorABM {
             return new ModelAndView("empleado-duenio-control", new ModelMap());
         }
         model.addAttribute("exito", false);
-        model.addAttribute("mensaje","El producto se cargo con exito");
+        model.addAttribute("mensaje", "El producto se cargo con exito");
         return new ModelAndView("empleado-duenio-control", model);
     }
 
@@ -53,8 +91,8 @@ public class ControladorABM {
     }
 
 
-    @RequestMapping(path="/addEmpleado", method= RequestMethod.POST)
-    public ModelAndView addProducto(@ModelAttribute("empleado") Empleado empleado, BindingResult bindingResult, HttpServletRequest req){
+    @RequestMapping(path = "/addEmpleado", method = RequestMethod.POST)
+    public ModelAndView addProducto(@ModelAttribute("empleado") Empleado empleado, BindingResult bindingResult, HttpServletRequest req) {
         ModelMap model = new ModelMap();
         try {
             servicioEmpleado.addEmpleado(empleado);
@@ -63,23 +101,9 @@ public class ControladorABM {
             return new ModelAndView("empleado-duenio-control", new ModelMap());
         }
         model.addAttribute("exito", false);
-        model.addAttribute("mensaje","El Empleado se cargo con exito");
+        model.addAttribute("mensaje", "El Empleado se cargo con exito");
         return new ModelAndView("empleado-duenio-control", model);
     }
-
-    /*@RequestMapping(path="/addVenta", method= RequestMethod.POST)
-    public ModelAndView addVenta(@ModelAttribute("datosVenta") Venta venta, HttpServletRequest req){
-
-    }*/
-
-
-    /*@RequestMapping(path="/addEmpleado", method= RequestMethod.POST)
-    public ModelAndView addEmpleado(@ModelAttribute("datosEmpleado") Empleado empleado, HttpServletRequest req){
-
-    }*/
-    
-
-
 
 
 }

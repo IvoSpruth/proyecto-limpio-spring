@@ -1,19 +1,26 @@
 <!-- Footer -->
 <footer class="w3-container w3-padding-16 w3-light-grey">
-    <div class="w3-container w3-dark-grey w3-padding-32">
-        <div class="w3-row">
-            <div class="w3-container w3-third">
-                <h5 class="w3-bottombar w3-border-green">Reportes venta</h5>
-            </div>
-            <div class="w3-container w3-third">
-                <h5 class="w3-bottombar w3-border-red">Reportes cobro</h5>
-            </div>
-            <div class="w3-container w3-third">
-                <h5 class="w3-bottombar w3-border-orange">Reportes empleados</h5>
+    <% if (request.getSession().getAttribute("ROL") != null) {%>
+        <div class="w3-container w3-dark-grey w3-padding-32">
+            <div class="w3-row">
+                <div class="w3-container w3-third">
+                    <a href="${pageContext.request.contextPath}/informes/" class="link">
+                        <h5 class="w3-bottombar w3-border-green">Reportes venta</h5>
+                    </a>
+                </div>
+                <div class="w3-container w3-third">
+                    <a href="${pageContext.request.contextPath}/informes/" class="link">
+                        <h5 class="w3-bottombar w3-border-red">Reportes cobro</h5>
+                    </a>
+                </div>
+                <div class="w3-container w3-third">
+                    <a href="${pageContext.request.contextPath}/informes/" class="link">
+                        <h5 class="w3-bottombar w3-border-orange text-white">Reportes empleados</h5>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-
+        <%}%>
 
     <h4>Visita sistemasdeadministracion.com.ar</h4>
     <p>Basado en <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
@@ -22,54 +29,6 @@
 <!-- End page content -->
 
 </div>
-<script>
-    // Get the Sidebar
-    var mySidebar = document.getElementById("mySidebar");
-
-    // Get the DIV with overlay effect
-    var overlayBg = document.getElementById("myOverlay");
-
-    // Toggle between showing and hiding the sidebar, and add overlay effect
-    function w3_open() {
-        if (mySidebar.style.display === 'block') {
-            mySidebar.style.display = 'none';
-            overlayBg.style.display = "none";
-        } else {
-            mySidebar.style.display = 'block';
-            overlayBg.style.display = "block";
-        }
-    }
-
-    // Close the sidebar with the close button
-    function w3_close() {
-        mySidebar.style.display = "none";
-        overlayBg.style.display = "none";
-    }
-
-    function closeDesglose() {
-
-        target = event.target;
-        id = target.id;
-
-        document.getElementById('desgMinCNContainer').style.display = 'none';
-        document.getElementById('desgMinCN').style.display = 'none';
-
-
-    }
-
-    function openDesglose() {
-        target = event.target;
-        id = target.id;
-        console.log(id);
-        //redesList = ['INSTAGRAM', 'FACEBOOK', 'TWITTER', 'UBER', 'SNAPCHAT', 'WHATSAPP'];
-
-
-        document.getElementById('desgMinCNContainer').style.display = 'block';
-        document.getElementById('desgMinCN').style.display = 'block';
-
-    }
-
-</script>
 
 <c:if test="${result==false}">
     <div classs="container p-5">
