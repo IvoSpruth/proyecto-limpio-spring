@@ -1,6 +1,5 @@
-package ar.edu.unlam.tallerweb1.domain.Cliente;
+package ar.edu.unlam.tallerweb1.domain.cliente;
 
-import ar.edu.unlam.tallerweb1.domain.envios.Direccion;
 import ar.edu.unlam.tallerweb1.domain.envios.Envio;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -9,6 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Table(name = "cliente")
 public class Cliente {
 
     @Id
@@ -25,11 +25,12 @@ public class Cliente {
 
     private String mail;
 
-    @OneToMany
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Envio> envios;
 
     @OneToMany
-    private List<Direccion> direccionEnvio;
+    @JoinColumn(name = "cliente_id")
+    private List<Direccion> direcciones;
 
     public Long getId() {
         return id;
@@ -79,11 +80,11 @@ public class Cliente {
         this.envios = envios;
     }
 
-    public List<Direccion> getDireccionEnvio() {
-        return direccionEnvio;
+    public List<Direccion> getDirecciones() {
+        return direcciones;
     }
 
-    public void setDireccionEnvio(List<Direccion> direccionEnvio) {
-        this.direccionEnvio = direccionEnvio;
+    public void setDirecciones(List<Direccion> direcciones) {
+        this.direcciones = direcciones;
     }
 }
