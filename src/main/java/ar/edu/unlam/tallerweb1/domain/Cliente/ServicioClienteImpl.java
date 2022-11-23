@@ -1,23 +1,16 @@
-package ar.edu.unlam.tallerweb1.domain.Cliente;
+package ar.edu.unlam.tallerweb1.domain.cliente;
 
-import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
-import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiarioYaEfectuadoException;
-import ar.edu.unlam.tallerweb1.domain.cierreDiario.RepositorioCierreDiario;
-import ar.edu.unlam.tallerweb1.domain.cierreDiario.ServicioCierreDiario;
-import ar.edu.unlam.tallerweb1.domain.productos.Producto;
-import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("servicioCliente")
+@Transactional
 public class ServicioClienteImpl implements ServicioCliente {
 
-   private RepositorioCliente repositorioCliente;
+    private RepositorioCliente repositorioCliente;
 
     @Autowired
     public ServicioClienteImpl(RepositorioCliente repositorioCliente){
@@ -25,8 +18,8 @@ public class ServicioClienteImpl implements ServicioCliente {
     }
 
     @Override
-    public Cliente buscarCliente(int id) {
-        return null;
+    public Cliente buscarCliente(Long id) {
+        return repositorioCliente.buscarCliente(id);
     }
 
     @Override
@@ -37,5 +30,20 @@ public class ServicioClienteImpl implements ServicioCliente {
     @Override
     public List<Cliente> traerClientesSuscriptos() {
         return repositorioCliente.buscarClientesSuscriptos();
+    }
+
+    @Override
+    public List<Cliente> obtenerClientes() {
+        return repositorioCliente.buscarTodosLosClientes();
+    }
+
+    @Override
+    public List<Direccion> obtenerDireccionesCliente(Long idCliente) {
+        return repositorioCliente.obtenerDireccionCliente(idCliente);
+    }
+
+    @Override
+    public Direccion obtenerDireccion(Long id) {
+        return repositorioCliente.obtenerDireccion(id);
     }
 }

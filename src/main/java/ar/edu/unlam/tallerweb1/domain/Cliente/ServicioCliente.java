@@ -1,15 +1,18 @@
-package ar.edu.unlam.tallerweb1.domain.Cliente;
-
-import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
-import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiarioYaEfectuadoException;
+package ar.edu.unlam.tallerweb1.domain.cliente;
 
 import java.util.List;
 
 public interface ServicioCliente {
 
-   Cliente buscarCliente(int id);
+   Cliente buscarCliente(Long id);
 
    Cliente buscarCliente(Cliente cliente);
 
    List<Cliente> traerClientesSuscriptos();
+
+   List<Cliente> obtenerClientes();
+
+    List<Direccion> obtenerDireccionesCliente(Long idCliente);
+
+    Direccion obtenerDireccion(Long idDireccion);
 }

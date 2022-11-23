@@ -1,8 +1,5 @@
-package ar.edu.unlam.tallerweb1.domain.Cliente;
+package ar.edu.unlam.tallerweb1.domain.cliente;
 
-import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
-
-import java.time.LocalDate;
 import java.util.List;
 
 public interface RepositorioCliente {
@@ -13,4 +10,9 @@ public interface RepositorioCliente {
 
    List<Cliente> buscarTodosLosClientes();
 
+   Cliente buscarCliente(Long id);
+
+   Direccion obtenerDireccion(Long id);
+
+   List<Direccion> obtenerDireccionCliente(Long idCliente);
 }
