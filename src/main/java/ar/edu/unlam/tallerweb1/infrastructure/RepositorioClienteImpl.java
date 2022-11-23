@@ -1,16 +1,15 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
-import ar.edu.unlam.tallerweb1.domain.Cliente.Cliente;
-import ar.edu.unlam.tallerweb1.domain.Cliente.RepositorioCliente;
-import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
-import ar.edu.unlam.tallerweb1.domain.cierreDiario.RepositorioCierreDiario;
+import ar.edu.unlam.tallerweb1.domain.cliente.Cliente;
+import ar.edu.unlam.tallerweb1.domain.cliente.Direccion;
+import ar.edu.unlam.tallerweb1.domain.cliente.RepositorioCliente;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 
@@ -43,6 +42,26 @@ public class RepositorioClienteImpl implements RepositorioCliente {
     @Override
     public List<Cliente> buscarTodosLosClientes() {
         final Session session = sessionFactory.getCurrentSession();
-        return (List<Cliente>) session.createCriteria(Cliente.class).list();
+        return session.createCriteria(Cliente.class).list();
+    }
+
+    @Override
+    public Cliente buscarCliente(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Cliente.class, id);
+    }
+
+    @Override
+    public Direccion obtenerDireccion(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Direccion.class, id);
+    }
+
+    @Override
+    public List<Direccion> obtenerDireccionCliente(Long idCliente) {
+        Session session = sessionFactory.getCurrentSession();
+        Criteria cr = session.createCriteria(Direccion.class);
+        cr.add(Restrictions.eq("Cliente_id", idCliente));
+        return cr.list();
     }
 }
