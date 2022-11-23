@@ -5,11 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-  <form:form action="${pageContext.servletContext.contextPath}/envios/form/datosEnvio" modelAttribute="form" method="post">
+<form:form action="${pageContext.servletContext.contextPath}/envios/form/datosEnvio" modelAttribute="form"
+           method="post">
+    <form:hidden path="idVenta"/>
     <form:select path="idCliente">
-        <form:options items="${clientes}" itemLabel="nombre" itemValue="id"></form:options>
+        <form:options items="${clientes}" itemLabel="nombre" itemValue="id"/>
     </form:select>
-      <form:button type="submit">Enviar</form:button>
-  </form:form>
+    <form:button type="submit">Enviar</form:button>
+</form:form>
 </body>
 </html>

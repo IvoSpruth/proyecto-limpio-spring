@@ -265,4 +265,9 @@ public class ServicioVentaImpl implements ServicioVenta {
     public List<Venta> listarPorEmpleadoYPorFecha(Long idEmpleado, LocalDate fechaInicial, LocalDate fechaFinal) {
         return repositorioVenta.listarVentasPorEmpleadoYFechas(Math.toIntExact(idEmpleado), fechaInicial, fechaFinal);
     }
+
+    @Override
+    public Venta buscarVenta(Long id) {
+        return repositorioVenta.buscarVenta(id);
+    }
 }

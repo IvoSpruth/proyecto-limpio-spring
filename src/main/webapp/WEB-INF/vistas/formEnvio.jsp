@@ -18,9 +18,10 @@
     <p>${cliente.mail}</p>
 </div>
 <form:form action="${pageContext.servletContext.contextPath}/envios/procesarEnvio" modelAttribute="form" method="post">
-    <form:hidden path="idCliente"></form:hidden>
+    <form:hidden path="idVenta"/>
+    <form:hidden path="idCliente"/>
     <form:select path="idDireccion">
-        <form:options items="${direcciones}" itemLabel="nombreCompleto" itemValue="id"></form:options>
+        <form:options items="${direcciones}" itemLabel="nombreCompleto" itemValue="id"/>
     </form:select>
     <form:button type="submit">Enviar</form:button>
 </form:form>

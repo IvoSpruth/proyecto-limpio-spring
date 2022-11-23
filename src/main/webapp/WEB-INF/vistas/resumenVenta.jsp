@@ -170,6 +170,9 @@
             <button class="w3-button w3-dark-grey">
                 <a href="${linkDePago}" target="_blank">
                     <i class="fa fa-arrow-right"></i>Ir a link de pago</a></button>
+            <button class="w3-button w3-dark-grey">
+                <a href="${pageContext.servletContext.contextPath}/envios/form/datosCliente?idVenta=${idVenta}">Enviar producto</a>
+            </button>
         </div>
         <hr>
     </div>

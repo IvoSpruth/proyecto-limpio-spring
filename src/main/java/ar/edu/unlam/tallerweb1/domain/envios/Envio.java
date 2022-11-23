@@ -20,7 +20,7 @@ public class Envio {
     @JoinColumn //foreign key column of envio table referencing cliente table
     private Cliente cliente; //cliente_id
 
-    @OneToOne //owning side of the relationship
+    @OneToOne(fetch = FetchType.EAGER) //owning side of the relationship
     @JoinColumn //venta_id
     private Venta venta;
 
@@ -32,8 +32,10 @@ public class Envio {
 
     private LocalDateTime fechaLlegada;
 
+    private Double costo;
+
     @Enumerated
-    private EstadoEnvio estadoEnvio = EstadoEnvio.EMPAQUETADO;
+    private EstadoEnvio estadoEnvio = EstadoEnvio.EN_PREPARACION;
 
     public Envio(){}
 
@@ -91,5 +93,13 @@ public class Envio {
 
     public void setFechaSalida(LocalDateTime fechaSalida) {
         this.fechaSalida = fechaSalida;
+    }
+
+    public void setCosto(double costo) {
+        this.costo = costo;
+    }
+
+    public double getCosto() {
+        return costo;
     }
 }

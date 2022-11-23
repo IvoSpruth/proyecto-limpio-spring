@@ -6,6 +6,7 @@ import ar.edu.unlam.tallerweb1.domain.cliente.Direccion;
 import ar.edu.unlam.tallerweb1.domain.cliente.ServicioCliente;
 import ar.edu.unlam.tallerweb1.domain.envios.enums.EstadoEnvio;
 import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
+import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,31 +36,31 @@ public class ServicioEnvioImpl implements ServicioEnvio {
 
         Cliente cliente = servicioCliente.buscarCliente(form.getIdCliente());
         Direccion direccion = servicioCliente.obtenerDireccion(form.getIdDireccion());
-        //Venta venta = servicioVenta.obtenerVenta(form.getIdVenta());
+        Venta venta = servicioVenta.buscarVenta(form.getIdVenta());
 
         envio.setCliente(cliente);
         envio.setDireccionEnvio(direccion);
-        //TODO: envio.setVenta(venta);
+        envio.setVenta(venta);
+        envio.setCosto(venta.getTotal() * 0.2);
         envio.setFechaSalida(LocalDateTime.now());
         envio.setFechaLlegada(LocalDateTime.now().plusDays(2));
-        envio.setEstadoEnvio(EstadoEnvio.EMPAQUETADO);
-
-        Envio e = repositorioEnvio.guardarEnvio(envio);
+        envio.setEstadoEnvio(EstadoEnvio.EN_PREPARACION);
+        repositorioEnvio.guardarEnvio(envio);
 
         return envio;
     }
 
     @Override
-    public void cambiarEstadoEnvio(Long id){
+    public void siguienteEtapaEnvio(Long id){
         Envio envio = repositorioEnvio.obtenerEnvio(id);
 
-        if(envio.getEstadoEnvio() == EstadoEnvio.EMPAQUETADO){
-            envio.setEstadoEnvio(EstadoEnvio.ENVIADO);
+        if(envio.getEstadoEnvio() == EstadoEnvio.EN_PREPARACION){
+            envio.setEstadoEnvio(EstadoEnvio.EN_CAMINO);
             repositorioEnvio.actualizarEnvio(envio);
             return;
         }
 
-        if(envio.getEstadoEnvio() == EstadoEnvio.ENVIADO){
+        if(envio.getEstadoEnvio() == EstadoEnvio.EN_CAMINO){
             envio.setEstadoEnvio(EstadoEnvio.ENTREGADO);
             repositorioEnvio.actualizarEnvio(envio);
             return;
@@ -67,8 +68,34 @@ public class ServicioEnvioImpl implements ServicioEnvio {
     }
 
     @Override
+    public void anteriorEtapaEnvio(Long id){
+        Envio envio = repositorioEnvio.obtenerEnvio(id);
+
+        if(envio.getEstadoEnvio() == EstadoEnvio.ENTREGADO){
+            envio.setEstadoEnvio(EstadoEnvio.EN_CAMINO);
+            repositorioEnvio.actualizarEnvio(envio);
+            return;
+        }
+
+        if(envio.getEstadoEnvio() == EstadoEnvio.EN_CAMINO){
+            envio.setEstadoEnvio(EstadoEnvio.EN_PREPARACION);
+            repositorioEnvio.actualizarEnvio(envio);
+            return;
+        }
+
+    }
+
+    @Override
     public List<Envio> obtenerEnvios() {
         return repositorioEnvio.obtenerTodosLosEnvios();
+    }
+
+    @Override
+    public void devolverEnvio(Long id) {
+        Envio envio = repositorioEnvio.obtenerEnvio(id);
+
+        envio.setEstadoEnvio(EstadoEnvio.DEVUELTO);
+        repositorioEnvio.actualizarEnvio(envio);
     }
 
 }

@@ -7,7 +7,11 @@ import java.util.List;
 public interface ServicioEnvio {
     Envio concretarEnvio(FormEnvio formEnvio);
 
-    void cambiarEstadoEnvio(Long id);
+    void siguienteEtapaEnvio(Long id);
+
+    void anteriorEtapaEnvio(Long id);
 
     List<Envio> obtenerEnvios();
+
+    void devolverEnvio(Long idEnvio);
 }

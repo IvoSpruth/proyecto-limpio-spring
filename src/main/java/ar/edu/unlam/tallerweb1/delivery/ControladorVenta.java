@@ -124,6 +124,7 @@ public class ControladorVenta {
         model.put("cantidadDos", venta.getCantidadProducto2());
         model.put("totalProductoDos", totalProductoDos);
         model.put("sumaTotal", sumaTotal);
+        model.put("idVenta", venta.getId()); //id de venta para envio
         model.addAttribute("fecha", new Date().toString());
         model.addAttribute("exito", true);
         model.addAttribute("mensaje", "La venta se cargo con exito");

@@ -1,10 +1,11 @@
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
     <head>
         <title>Title</title>
     </head>
     <body>
-        <h3>Confirmación de envio</h3>
+        <h3>Detalles del envio</h3>
         <h5>Datos de cliente</h5>
         <div>
             <p>Id cliente: ${envio.cliente.id}</p>
@@ -15,7 +16,10 @@
 
         <h5>Datos de venta</h5>
         <div>
-            nada aun
+            <p>Id venta: ${envio.venta.id}</p>
+            <p>Total: <f:formatNumber type="number" value="${envio.venta.total}" maxFractionDigits="2"/></p>
+            <p>Fecha: ${envio.venta.fecha.toString()}</p>
+            <p>Hora: ${envio.venta.hora.toString()}</p>
         </div>
 
         <h5>Datos de envio</h5>

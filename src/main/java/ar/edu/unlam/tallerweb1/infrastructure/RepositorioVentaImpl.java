@@ -83,4 +83,10 @@ public class RepositorioVentaImpl implements RepositorioVenta {
 
         return cr.list();
     }
+
+    @Override
+    public Venta buscarVenta(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Venta.class, id);
+    }
 }

@@ -30,11 +30,14 @@ public class ControladorEnvio {
     }
 
     @RequestMapping(path = "/form/datosCliente", method = RequestMethod.GET)
-    public ModelAndView irAFormCliente(){
+    public ModelAndView irAFormCliente(@RequestParam("idVenta") Long idVenta){
         ModelMap modelo = new ModelMap();
 
+        FormEnvio form = new FormEnvio();
+        form.setIdVenta(idVenta);
+
         modelo.put("clientes", servicioCliente.obtenerClientes());
-        modelo.put("form", new FormEnvio());
+        modelo.put("form", form);
 
         return new ModelAndView("formCliente", modelo);
     }
@@ -63,11 +66,27 @@ public class ControladorEnvio {
     }
 
     @RequestMapping(path = "/siguienteEtapa", method = RequestMethod.GET)
-    public ModelAndView pasarASiguienteEtapa(@RequestParam Long idEnvio){
+    public ModelAndView pasarASiguienteEtapa(@RequestParam("idEnvio") Long idEnvio){
 
-        servicioEnvio.cambiarEstadoEnvio(idEnvio);
+        servicioEnvio.siguienteEtapaEnvio(idEnvio);
 
-        return new ModelAndView("redirect:/mostrarEnvios");
+        return new ModelAndView("redirect:/envios/mostrar");
+    }
+
+    @RequestMapping(path = "/anteriorEtapa", method = RequestMethod.GET)
+    public ModelAndView pasarAnteriorEtapa(@RequestParam("idEnvio") Long idEnvio){
+
+        servicioEnvio.anteriorEtapaEnvio(idEnvio);
+
+        return new ModelAndView("redirect:/envios/mostrar");
+    }
+
+    @RequestMapping(path = "/devolver", method = RequestMethod.GET)
+    public ModelAndView devolverEnvio(@RequestParam("idEnvio") Long idEnvio){
+
+        servicioEnvio.devolverEnvio(idEnvio);
+
+        return new ModelAndView("redirect:/envios/mostrar");
     }
 
     @RequestMapping(path = "/mostrar", method = RequestMethod.GET)
