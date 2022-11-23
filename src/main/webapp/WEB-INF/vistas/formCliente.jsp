@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-  <form:form action="${pageContext.servletContext.contextPath}/envios/form/datosEnvio" modelAttribute="form">
+  <form:form action="${pageContext.servletContext.contextPath}/envios/form/datosEnvio" modelAttribute="form" method="post">
     <form:select path="idCliente">
         <form:options items="${clientes}" itemLabel="nombre" itemValue="id"></form:options>
     </form:select>

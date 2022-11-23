@@ -17,6 +17,10 @@ public class Direccion {
 
     private String descripcion;
 
+    @ManyToOne
+    @JoinColumn
+    private Cliente cliente;
+
     public Long getId() {
         return id;
     }
@@ -55,5 +59,17 @@ public class Direccion {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getNombreCompleto() {
+        return nombreCalle + " " + alturaCalle;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }

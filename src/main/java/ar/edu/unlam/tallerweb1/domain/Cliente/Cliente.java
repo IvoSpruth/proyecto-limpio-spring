@@ -2,6 +2,8 @@ package ar.edu.unlam.tallerweb1.domain.cliente;
 
 import ar.edu.unlam.tallerweb1.domain.envios.Envio;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -26,10 +28,11 @@ public class Cliente {
     private String mail;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Envio> envios;
 
-    @OneToMany
-    @JoinColumn(name = "cliente_id")
+    @OneToMany(mappedBy = "cliente")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Direccion> direcciones;
 
     public Long getId() {

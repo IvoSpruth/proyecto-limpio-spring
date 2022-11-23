@@ -61,7 +61,7 @@ public class RepositorioClienteImpl implements RepositorioCliente {
     public List<Direccion> obtenerDireccionCliente(Long idCliente) {
         Session session = sessionFactory.getCurrentSession();
         Criteria cr = session.createCriteria(Direccion.class);
-        cr.add(Restrictions.eq("Cliente_id", idCliente));
+        //cr.add(Restrictions.eq("cliente_id", idCliente));
         return cr.list();
     }
 }
