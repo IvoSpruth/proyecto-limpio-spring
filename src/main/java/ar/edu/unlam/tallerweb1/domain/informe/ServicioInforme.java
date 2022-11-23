@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain.informe;
 
-import ar.edu.unlam.tallerweb1.delivery.DataChart;
+import ar.edu.unlam.tallerweb1.delivery.forms.DataChart;
 
 import java.time.LocalDate;
 import java.util.List;

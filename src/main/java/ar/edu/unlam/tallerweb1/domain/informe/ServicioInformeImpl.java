@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain.informe;
 
-import ar.edu.unlam.tallerweb1.delivery.DataChart;
+import ar.edu.unlam.tallerweb1.delivery.forms.DataChart;
 import ar.edu.unlam.tallerweb1.domain.empleados.Empleado;
 import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
