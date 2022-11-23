@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.envios;
 
-import ar.edu.unlam.tallerweb1.domain.Cliente.Cliente;
+import ar.edu.unlam.tallerweb1.domain.cliente.Cliente;
+import ar.edu.unlam.tallerweb1.domain.cliente.Direccion;
 import ar.edu.unlam.tallerweb1.domain.envios.enums.EstadoEnvio;
 import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
 
@@ -8,24 +9,28 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "envio")
 public class Envio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Cliente cliente;
+    @ManyToOne //owning side of the relationship
+    @JoinColumn //foreign key column of envio table referencing cliente table
+    private Cliente cliente; //cliente_id
 
-    @OneToOne
+    @OneToOne //owning side of the relationship
+    @JoinColumn //venta_id
     private Venta venta;
 
-    private LocalDateTime fechaSalida = LocalDateTime.now();
+    @ManyToOne //owning side of the relationship
+    @JoinColumn //direccionEnvio_id
+    private Direccion direccionEnvio;
+
+    private LocalDateTime fechaSalida;
 
     private LocalDateTime fechaLlegada;
-
-    @OneToOne
-    private Direccion direccionEnvio;
 
     @Enumerated
     private EstadoEnvio estadoEnvio = EstadoEnvio.EMPAQUETADO;
@@ -78,5 +83,13 @@ public class Envio {
 
     public void setVenta(Venta venta) {
         this.venta = venta;
+    }
+
+    public LocalDateTime getFechaSalida() {
+        return fechaSalida;
+    }
+
+    public void setFechaSalida(LocalDateTime fechaSalida) {
+        this.fechaSalida = fechaSalida;
     }
 }
