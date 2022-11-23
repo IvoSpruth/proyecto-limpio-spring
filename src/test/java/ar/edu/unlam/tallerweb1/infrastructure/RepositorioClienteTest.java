@@ -1,8 +1,8 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
-import ar.edu.unlam.tallerweb1.domain.Cliente.Cliente;
-import ar.edu.unlam.tallerweb1.domain.Cliente.RepositorioCliente;
+import ar.edu.unlam.tallerweb1.domain.cliente.Cliente;
+import ar.edu.unlam.tallerweb1.domain.cliente.RepositorioCliente;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
