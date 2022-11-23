@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.ventas;
 
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
+import ar.edu.unlam.tallerweb1.domain.envios.Envio;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
+@Table(name = "venta")
 public class Venta {
 
     @Id
@@ -37,6 +39,9 @@ public class Venta {
     private LocalTime hora;
 
     private double total;
+
+    @OneToOne(mappedBy = "venta")
+    private Envio envio;
 
     public Long getId() {
         return id;
@@ -116,5 +121,13 @@ public class Venta {
 
     public void setHora(LocalTime hora) {
         this.hora = hora;
+    }
+
+    public Envio getEnvio() {
+        return envio;
+    }
+
+    public void setEnvio(Envio envio) {
+        this.envio = envio;
     }
 }
