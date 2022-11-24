@@ -4,7 +4,7 @@
 
   <h3>Ventas por empleado</h3>
 
-  <form:form action="${pageContext.request.contextPath}/informes/ventasEmpleados" modelAttribute="fechas" method="post">
+  <form:form action="${pagePath}/informes/ventasEmpleados" modelAttribute="fechas" method="post">
     <ul class="w3-ul w3-card-4 w3-white">
       <li class="w3-padding-16">
         <form:label path="fechaInicial">Fecha inicial</form:label>
