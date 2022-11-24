@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- Footer -->
 <footer class="w3-container w3-padding-16 w3-light-grey">
     <% if (request.getSession().getAttribute("ROL") != null) {%>
@@ -26,8 +28,6 @@
     <p>Basado en <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
 </footer>
 
-<!-- End page content -->
-
 </div>
 
 <c:if test="${result==false}">
@@ -38,9 +38,8 @@
     </div>
 </c:if>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-<script src="js/bootstrap.min.js" type="text/javascript"></script>
-
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.6.1/toastify.min.js" integrity="sha512-79j1YQOJuI8mLseq9icSQKT6bLlLtWknKwj1OpJZMdPt2pFBry3vQTt+NZuJw7NSd1pHhZlu0s12Ngqfa371EA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="js/alertas.js"></script>
+<script src="js/propios.js"></script>
 </html>
