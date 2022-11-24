@@ -66,7 +66,7 @@
                             </c:if>
                         </c:forEach>
                     </td>
-                    <td><a href="${pageContext.servletContext.contextPath}/goPDF" class="btn btn-info"
+                    <td><a href="${pagePath}/goPDF" class="btn btn-info"
                            role="button">PDF</a></td>
                 </tr>
             </c:forEach>

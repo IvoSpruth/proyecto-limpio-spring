@@ -42,7 +42,7 @@
                     </tr>
                 </table><br>
                 <button class="w3-button w3-dark-grey">
-                    <a href="${pageContext.servletContext.contextPath}/centroControl">Volver al inicio</a>
+                    <a href="${pagePath}/centroControl">Volver al inicio</a>
                     <i class="fa fa-arrow-left"></i></button>
                 <button class="w3-button w3-dark-grey">
                     <a href="#">Descargar factura</a>
@@ -51,7 +51,7 @@
                     <a href="${linkDePago}" target="_blank" class="link">
                         <i class="fa fa-arrow-right"></i>Ir a link de pago</a></button>
                 <button class="w3-button w3-dark-grey">
-                    <a href="${pageContext.servletContext.contextPath}/envios/form/datosCliente?idVenta=${idVenta}">Enviar producto</a>
+                    <a href="${pagePath}/envios/form/datosCliente?idVenta=${idVenta}">Enviar producto</a>
                 </button>
             </div>
             <hr>

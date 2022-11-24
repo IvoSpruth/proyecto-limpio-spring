@@ -1,3 +1,7 @@
+html, body {
+    min-height: 100vh;
+}
+
 .botones_separados {
     display: flex;
     justify-content: space-between;
@@ -8,13 +12,14 @@ html, body, h1, h2, h3, h4, h5 {
     font-family: "Raleway", sans-serif
 }
 
-.link{
-    text-decoration: none ;
-    color: white ;
-}
-.link:hover{
+.link {
+    text-decoration: none;
     color: white;
-    text-decoration: underline ;
+}
+
+.link:hover {
+    color: white;
+    text-decoration: underline;
 }
 
 .rowLine {
