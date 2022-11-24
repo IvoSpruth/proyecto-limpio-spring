@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.domain.cierreDiario.delivery.forms;
+package ar.edu.unlam.tallerweb1.delivery.forms;
 
 import java.util.ArrayList;
 import java.util.List;

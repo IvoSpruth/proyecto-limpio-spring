@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.domain.cierreDiario.delivery;
+package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
 import ar.edu.unlam.tallerweb1.domain.ofertas.Oferta;
