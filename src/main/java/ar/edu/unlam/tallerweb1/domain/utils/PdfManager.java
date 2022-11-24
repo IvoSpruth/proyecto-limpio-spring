@@ -6,18 +6,19 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.pdfbox.multipdf.PDFMergerUtility;
 
 
+@Component
 public class PdfManager {
 
     private int cantidadRegistros;
@@ -37,10 +38,10 @@ public class PdfManager {
     
     private int lastEmisionesLine;
     
-    private String inputPath = "C://Users//IvoSpruth//Documents//Personal//Taller Web I//proyecto-limpio-spring//resources//pruebaTaller.pdf";
-    private String outputPath = "C://Users//IvoSpruth//Documents//Personal//Taller Web I//proyecto-limpio-spring//resources//Factura";
-    private String outputPath2 = "C:\\Users\\IvoSpruth\\Documents\\WorkZone\\Test_PDF\\pdf_White.pdf";
-    
+    @Value(value="${inputPathPDF}")
+    private String inputPath ;
+    @Value(value="${outputPathPDF}")
+    private String outputPath ;
     private PdfReader reader;
     private PdfStamper stamper; // output PDF - SI ES SOLAMENTE 1
     private List<PdfContentByte> pdfs;
@@ -68,9 +69,11 @@ public class PdfManager {
     
     public File createPDF(HashMap<Integer, ArrayList<String>> lineas, Venta venta) throws DocumentException, FileNotFoundException, IOException{
         List<File> filesToMerge = new ArrayList<File>();
+
         reader = new PdfReader(inputPath);
 
-        outputPath+= String.valueOf(new Random().nextInt()*10)+_extension;
+
+        outputPath += String.valueOf(new Random().nextInt()*10)+_extension;
 
         for (int i=1; i<=reader.getNumberOfPages(); i++){
             stamper = new PdfStamper(reader, new FileOutputStream(outputPath));

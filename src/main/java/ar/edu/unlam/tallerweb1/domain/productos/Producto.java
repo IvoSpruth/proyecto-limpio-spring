@@ -1,22 +1,16 @@
 package ar.edu.unlam.tallerweb1.domain.productos;
 
-import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
-import ar.edu.unlam.tallerweb1.domain.ventas.VentaProducto;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
+import ar.edu.unlam.tallerweb1.domain.Estado;
 import org.hibernate.annotations.NaturalIdCache;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-
-import ar.edu.unlam.tallerweb1.domain.Estado;
 
 
 @Entity(name = "Producto")
 @Table(name = "producto")
 @NaturalIdCache
-public class Producto {
+public class Producto implements Estado{
 
 
     @Id

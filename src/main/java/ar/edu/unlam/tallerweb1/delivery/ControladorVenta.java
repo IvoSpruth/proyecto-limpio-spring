@@ -20,9 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -91,18 +90,17 @@ public class ControladorVenta {
         Venta ventaTest = new Venta();
         ventaTest.setIdEmpleado(1);
         ventaTest.setFecha(LocalDate.now());
-        Set<Producto> productos = new HashSet<>();
         Producto producto1, producto2, producto3, producto4, producto5;
 
         producto1 = new Producto();
-        producto1.setId((long)2);
+        producto1.setId((long) 2);
         producto1.setCantidad(3);
         producto1.setCosto(500);
         producto1.setNombre("lavarropas");
         producto1.setIdProveedor(1);
 
         producto2 = new Producto();
-        producto2.setId((long)3);
+        producto2.setId((long) 3);
         producto2.setCantidad(2);
         producto2.setCosto(1700);
         producto2.setNombre("notebook");
@@ -110,24 +108,25 @@ public class ControladorVenta {
 
         producto3 = new Producto();
         producto3.setNombre("auriculares");
-        producto3.setId((long)4);
+        producto3.setId((long) 4);
         producto3.setCantidad(2);
         producto3.setCosto(8855);
         producto3.setIdProveedor(2);
 
         producto4 = new Producto();
         producto4.setNombre("regla");
-        producto4.setId((long)5);
+        producto4.setId((long) 5);
         producto4.setCantidad(2);
         producto4.setCosto(4400);
         producto4.setIdProveedor(2);
 
         producto5 = new Producto();
         producto5.setNombre("televisor");
-        producto5.setId((long)6);
+        producto5.setId((long) 6);
         producto5.setCantidad(2);
         producto5.setCosto(5566);
         producto5.setIdProveedor(2);
+
 
         ventaTest.addProducto(producto1);
         ventaTest.addProducto(producto2);
@@ -145,24 +144,21 @@ public class ControladorVenta {
         model.put("comision", servicioVenta.calcularComisionEmpleado(venta.getTotal()));
         model.put("sumaTotal", venta.getTotal());
         model.addAttribute("fecha", LocalDate.now().toString());
-        model.addAttribute("productos", (List)prepareProductosModel(venta.getProductos()));
-        String nombreProductoUno = servicioVenta.buscarNombreProducto(venta.getIdProducto());
-        double costoProductoUno = servicioVenta.buscarCostoProducto(venta.getIdProducto());
+        model.addAttribute("productos", (List) prepareProductosModel(venta.getProductos()));
         servicioVenta.fillTotal(venta);
-        double totalProductoUno = servicioVenta.getSubtotalProducto1();
-        String nombreProductoDos = servicioVenta.buscarNombreProducto(venta.getIdProducto2());
-        double costoProductoDos = servicioVenta.buscarCostoProducto(venta.getIdProducto2());
         servicioVenta.fillTotal(venta);
-        double totalProductoDos = servicioVenta.getSubtotalProducto2();
+        venta.setId(1L);
         model.put("idVenta", venta.getId()); //id de venta para envio
         model.addAttribute("exito", true);
         model.addAttribute("mensaje", "La venta se cargo con exito");
 
         //Link de pago
         MercadoPago link = servicioMercadoPago.obtener(venta);
-        model.put("preferenciaID", link.getId_preferencia());
-        model.put("linkDePago", link.getLinkDePago());
-        model.put("PUBLIC_ACCESS_TOKEN", MercadoPagoCredenciales.PUBLIC_ACCESS_TOKEN);
+        if (link != null) {
+            model.put("preferenciaID", link.getId_preferencia());
+            model.put("linkDePago", link.getLinkDePago());
+            model.put("PUBLIC_ACCESS_TOKEN", MercadoPagoCredenciales.PUBLIC_ACCESS_TOKEN);
+        }
 
         //model.addAttribute("factura",factura.getPath());
     }
@@ -183,17 +179,17 @@ public class ControladorVenta {
 //        }
 //    }
 
-    private List<ModelMap> prepareProductosModel(List<Producto> productos){
+    private List<ModelMap> prepareProductosModel(List<Producto> productos) {
         ModelMap prods = new ModelMap();
         ArrayList<ModelMap> pp = new ArrayList<>();
 
-        for(Producto p: productos){
+        for (Producto p : productos) {
             ModelMap producto = new ModelMap();
             producto.addAttribute("nombre", p.getNombre());
             producto.addAttribute("precio", p.getCosto());
             producto.addAttribute("id", p.getId());
             producto.addAttribute("cantidad", p.getCantidad());
-            producto.addAttribute("totalProducto", p.getCosto()*p.getCantidad());
+            producto.addAttribute("totalProducto", p.getCosto() * p.getCantidad());
             producto.addAttribute("descuento", false);
             pp.add(producto);
         }

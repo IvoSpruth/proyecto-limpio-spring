@@ -8,14 +8,16 @@ import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
 import ar.edu.unlam.tallerweb1.domain.utils.PdfManager;
-import com.mercadopago.resources.preference.Preference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ServicioVentaImpl implements ServicioVenta {
@@ -47,7 +49,7 @@ public class ServicioVentaImpl implements ServicioVenta {
             venta.setCierre(adjuntarCierre());
             repositorioVenta.addVenta(venta);
             actualizarCantidadesStock(venta);
-            generarLinkDePago(venta);
+            servicioMercadoPago.crearLinkDePago(venta);
             createFactura(venta);
             return true;
         } catch (CantidadInsuficienteException cie) {
@@ -61,9 +63,6 @@ public class ServicioVentaImpl implements ServicioVenta {
         }
     }
 
-    private Preference generarLinkDePago(Venta venta) {
-        return servicioMercadoPago.crearLinkDePago(venta);
-    }
 
     private CierreDiario adjuntarCierre() {
         return servicioCierreDiario.validarCierreDelDia();

@@ -76,8 +76,9 @@ public class ControladorCierreDiario {
     }
 
     @RequestMapping(path = "/goPDF", method = RequestMethod.GET)
-    public ModelAndView goPFD() {
+    public ModelAndView goPFD(String path) {
         ModelMap model = new ModelMap();
+        model.addAttribute("path",path);
         return new ModelAndView("pdfView", model);
     }
 

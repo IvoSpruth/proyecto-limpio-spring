@@ -27,7 +27,7 @@
         <h4><c:out value="${sessionScope.mensaje}"/></h4>
         <h4>${request.getSession().getAttribute("mensaje")}</h4>
     </div>
-        <%}request.getSession().setAttribute("Mensaje", null);%>
+        <%}request.getSession().setAttribute("mensaje", null);%>
         <% if (request.getSession().getAttribute("ROL") != null) {%>
     <div class="w3-row-padding w3-margin-bottom">
         <div class="w3-quarter">

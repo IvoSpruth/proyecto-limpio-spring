@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -47,18 +48,18 @@ public class ServicioMercadoPagoImpl implements ServicioMercadoPago {
         // Crea un ítem en la preferencia
         List<PreferenceItemRequest> items = new ArrayList<>();
 
-        Producto productoAux;
-        //Creo que aca se rompe
-        productoAux = servicioProducto.buscarProductoPorID((long) venta.getIdProducto());
+        List<Producto> productos = servicioProducto.buscarProductos();
+        PreferenceItemRequest itemAuxiliar;
 
-        //TODO Reemplazar por un foreach
-        PreferenceItemRequest Producto1 = PreferenceItemRequest.builder().title(productoAux.getNombre()).quantity(venta.getCantidadProducto()).unitPrice(BigDecimal.valueOf(productoAux.getCosto())).build();
-        items.add(Producto1);
-
-        productoAux = servicioProducto.buscarProductoPorID((long) venta.getIdProducto2());
-
-        PreferenceItemRequest Producto2 = PreferenceItemRequest.builder().title(productoAux.getNombre()).quantity(venta.getCantidadProducto2()).unitPrice(BigDecimal.valueOf(productoAux.getCosto())).build();
-        items.add(Producto2);
+        for (Producto producto : productos) {
+            for (Producto productoVenta : venta.getProductos()) {
+                if (Objects.equals(producto.getId(), productoVenta.getId())) {
+                    itemAuxiliar = PreferenceItemRequest.builder().title(producto.getNombre()).quantity(productoVenta.getCantidad()).unitPrice(BigDecimal.valueOf(producto.getCosto())).build();
+                    items.add(itemAuxiliar);
+                    break;
+                }
+            }
+        }
 
         //URLs de retorno
         String server = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
@@ -92,7 +93,9 @@ public class ServicioMercadoPagoImpl implements ServicioMercadoPago {
     }
 
     @Override
-    public MercadoPago obtener(String preference_id) {return repositorioMercadoPago.obtener(preference_id);}
+    public MercadoPago obtener(String preference_id) {
+        return repositorioMercadoPago.obtener(preference_id);
+    }
 
     @Override
     public void actualizarPreferencia(MercadoPago preferencia) {

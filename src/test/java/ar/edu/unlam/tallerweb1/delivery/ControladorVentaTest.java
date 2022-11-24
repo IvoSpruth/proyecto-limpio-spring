@@ -1,23 +1,26 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
-
-import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import ar.edu.unlam.tallerweb1.domain.cobros.MercadoPago;
 import ar.edu.unlam.tallerweb1.domain.cobros.ServicioMercadoPago;
+import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
-import ar.edu.unlam.tallerweb1.domain.ventas.*;
-import org.dom4j.rule.Mode;
+import ar.edu.unlam.tallerweb1.domain.ventas.CantidadInsuficienteException;
+import ar.edu.unlam.tallerweb1.domain.ventas.IdEmpleadoNoValidoException;
+import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
+import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -56,7 +59,7 @@ public class ControladorVentaTest extends SpringTest {
 
     @Test
     public void cuandoArrojaCantidadInsufienteMeDaElMavCorrecto() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
-
+        dadoQueMockeMercadoPago();
         dadoQueExisteUnaVentaConCantidadIncorrecta();
         ModelAndView mav = cuandoRealizoUnaVenta();
         entoncesEncuentro2(mav);
@@ -66,7 +69,7 @@ public class ControladorVentaTest extends SpringTest {
 
     @Test
     public void cuandoArrojaEmpleadoNoValidoMeDaElMavCorrecto() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
-
+        dadoQueMockeMercadoPago();
         dadoQueExisteUnaVentaConEmpleadoInexistente();
         ModelAndView mav = cuandoRealizoUnaVenta();
         entoncesEncuentro2(mav);
@@ -87,13 +90,12 @@ public class ControladorVentaTest extends SpringTest {
     public void alSolicitarElResumenMeTraeLaCantidadVendidaCorrecta() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
         dadoQueMockeMercadoPago();
         ModelAndView mav = controladorVenta.addVenta(venta, request);
-        Integer cantidadVenta = (Integer) mav.getModel().get("cantidadUno");
-        assertThat(cantidadVenta).isEqualTo(venta.getCantidadProducto());
-
+        List<Producto> cantidadVenta = (List<Producto>) mav.getModel().get("productos");
+        assertThat(cantidadVenta.get(0).getCantidad()).isEqualTo(venta.getProductos().get(0).getCantidad());
     }
 
     private void dadoQueMockeMercadoPago() {
-        MercadoPago ml = new MercadoPago(venta,"","");
+        MercadoPago ml = new MercadoPago(any(), "", "");
         when(servicioMercadoPago.obtener(venta)).thenReturn(ml);
     }
 
@@ -101,9 +103,10 @@ public class ControladorVentaTest extends SpringTest {
     @Test
     public void alSolicitarElResumenMeTraeElIdDeProductoCorrecto() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
         dadoQueMockeMercadoPago();
+        dadoQueExisteUnaVentaCorrecta();
         ModelAndView mav = controladorVenta.addVenta(venta, request);
-        Integer idProductoDos = (Integer) mav.getModel().get("idProductoDos");
-        assertThat(idProductoDos).isEqualTo(venta.getIdProducto2());
+        List<ModelMap> cantidadVenta = (List<ModelMap>) mav.getModel().get("productos");
+        assertThat(cantidadVenta.get(0).get("id")).isEqualTo(venta.getProductos().get(0).getId());
     }
 
     private void entoncesMeLLevaALaVistaDeResumen(ModelAndView mav, String vistaEsperada) {
@@ -151,19 +154,19 @@ public class ControladorVentaTest extends SpringTest {
         return venta;
     }
 
-    private Set<Producto> prepareProductos(){
+    private Set<Producto> prepareProductos() {
         Set<Producto> productos = new HashSet<>();
         Producto producto1, producto2;
 
         producto1 = new Producto();
-        producto1.setId((long)1);
+        producto1.setId((long) 1);
         producto1.setCantidad(50);
         producto1.setCosto(500);
         producto1.setNombre("cargador");
         producto1.setIdProveedor(1);
 
         producto2 = new Producto();
-        producto2.setId((long)2);
+        producto2.setId((long) 2);
         producto2.setCantidad(100);
         producto2.setCosto(1700);
         producto2.setNombre("adaptador");
