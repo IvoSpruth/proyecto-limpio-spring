@@ -2,39 +2,44 @@ package ar.edu.unlam.tallerweb1.domain.ventas;
 
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.ServicioCierreDiario;
+import ar.edu.unlam.tallerweb1.domain.cobros.ServicioMercadoPago;
 import ar.edu.unlam.tallerweb1.domain.empleados.Empleado;
 import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
 import ar.edu.unlam.tallerweb1.domain.utils.PdfManager;
+import com.mercadopago.resources.preference.Preference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.io.File;
 import java.time.LocalDate;
 import java.util.*;
 
 @Service
-public class ServicioVentaImpl  implements   ServicioVenta{
+public class ServicioVentaImpl implements ServicioVenta {
 
     private RepositorioVenta repositorioVenta;
     private ServicioProducto servicioProducto;
     private ServicioEmpleado servicioEmpleado;
     private ServicioCierreDiario servicioCierreDiario;
     private double subtotalProductos= 0.0;
+    private ServicioMercadoPago servicioMercadoPago;
 
     @Autowired
-    public ServicioVentaImpl(RepositorioVenta repositorioVenta, ServicioProducto servicioProducto, ServicioEmpleado servicioEmpleado, ServicioCierreDiario servicioCierre){
+    public ServicioVentaImpl(RepositorioVenta repositorioVenta, ServicioProducto servicioProducto, ServicioEmpleado servicioEmpleado, ServicioCierreDiario servicioCierre, ServicioMercadoPago servicioMercadoPago) {
         this.repositorioVenta = repositorioVenta;
         this.servicioProducto = servicioProducto;
         this.servicioEmpleado = servicioEmpleado;
         this.servicioCierreDiario = servicioCierre;
+        this.servicioMercadoPago = servicioMercadoPago;
     }
 
 
     @Override
     @Transactional
-    public boolean addVenta(Venta venta) throws CantidadInsuficienteException, IdEmpleadoNoValidoException{
+    public boolean addVenta(Venta venta) throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
         try {
             validarEmpleado(venta);
             validarVenta(venta);
@@ -42,17 +47,22 @@ public class ServicioVentaImpl  implements   ServicioVenta{
             venta.setCierre(adjuntarCierre());
             repositorioVenta.addVenta(venta);
             actualizarCantidadesStock(venta);
+            generarLinkDePago(venta);
             createFactura(venta);
             return true;
-        }catch(CantidadInsuficienteException cie){
+        } catch (CantidadInsuficienteException cie) {
             throw new CantidadInsuficienteException(cie.getMessage());
         }catch (IdEmpleadoNoValidoException ienve){
-            servicioEmpleado.traemeTodosLosEmpleados();
+            servicioEmpleado.listarEmpleados();
             String mensaje = "El id ingresado no es valido. Los ids de los empleados registrados son : " + servicioEmpleado.listaDeIdsDeTodosLosEmpleados();
             throw new IdEmpleadoNoValidoException(mensaje);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             return false;
         }
+    }
+
+    private Preference generarLinkDePago(Venta venta) {
+        return servicioMercadoPago.crearLinkDePago(venta);
     }
 
     private CierreDiario adjuntarCierre() {
@@ -101,7 +111,7 @@ public class ServicioVentaImpl  implements   ServicioVenta{
 
     @Override
     public String buscarNombreEmpleado(int idEmpleado) {
-        ArrayList<Empleado> empleados = (ArrayList) servicioEmpleado.traemeTodosLosEmpleados();
+        ArrayList<Empleado> empleados = (ArrayList) servicioEmpleado.listarEmpleados();
         for (Empleado e : empleados) {
             if (idEmpleado == e.getId()) {
                 return e.getName();
@@ -109,11 +119,6 @@ public class ServicioVentaImpl  implements   ServicioVenta{
         }
         return null;
     }
-
-/*    @Override
-    public String buscarNombreDeEmpleadoPorId(int idEmpleado) {
-        return servicioEmpleado.buscarNombreDeEmpleadoPorId(idEmpleado);
-    }*/
 
     @Override
     public String buscarNombreProducto(int idProducto) {
@@ -137,7 +142,7 @@ public class ServicioVentaImpl  implements   ServicioVenta{
         return 0.0;
     }
 
-    public double calcularComisionEmpleado(double sumaTotal){
+    public double calcularComisionEmpleado(double sumaTotal) {
         return sumaTotal * 0.05;
     }
 
@@ -145,8 +150,8 @@ public class ServicioVentaImpl  implements   ServicioVenta{
 //        return subtotalProductos;
 //    }
 
-    private void validarVenta(Venta v) throws CantidadInsuficienteException{
-        ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
+    private void validarVenta(Venta v) throws CantidadInsuficienteException {
+        ArrayList<Producto> productos = (ArrayList) servicioProducto.buscarProductos();
 
         for(Producto p : productos){
             for(Producto pV: v.getProductos()){
@@ -161,15 +166,15 @@ public class ServicioVentaImpl  implements   ServicioVenta{
     }
 
     private void validarEmpleado(Venta v) throws IdEmpleadoNoValidoException{
-        ArrayList<Empleado> empleados = (ArrayList)servicioEmpleado.traemeTodosLosEmpleados();
+        ArrayList<Empleado> empleados = (ArrayList)servicioEmpleado.listarEmpleados();
         boolean empleadoEncontrado = false;
-        for(Empleado e : empleados){
-            if (e.getId() == v.getIdEmpleado()){
+        for (Empleado e : empleados) {
+            if (e.getId() == v.getIdEmpleado()) {
                 empleadoEncontrado = true;
             }
         }
 
-        if (empleadoEncontrado == false){
+        if (empleadoEncontrado == false) {
             throw new IdEmpleadoNoValidoException(v.getIdEmpleado());
         }
     }
@@ -193,22 +198,23 @@ public class ServicioVentaImpl  implements   ServicioVenta{
             indice++;
         }
 
-        try{
+        try {
             pdf = pdfM.createPDF(lineas, venta);
             return pdf;
-        } catch(Exception e){
+        } catch (Exception e) {
 
         }
         return new File("fail.pdf");
     }
+
     @Transactional
-    public List<Venta> buscarTodasLasVentas(){
-        return (List)repositorioVenta.buscarTodasLasVentas();
+    public List<Venta> buscarTodasLasVentas() {
+        return (List) repositorioVenta.buscarTodasLasVentas();
     }
 
     @Transactional
-    public List<Venta> buscarVentasPorFecha(LocalDate fecha){
-        return (List)repositorioVenta.buscarVentaPorFecha(fecha);
+    public List<Venta> buscarVentasPorFecha(LocalDate fecha) {
+        return (List) repositorioVenta.buscarVentaPorFecha(fecha);
     }
 
     public Map<String, Integer> getSubTotalProducto(Venta venta){
@@ -219,4 +225,13 @@ public class ServicioVentaImpl  implements   ServicioVenta{
         return subtotales;
     }
 
+    @Override
+    public List<Venta> listarPorEmpleadoYPorFecha(Long idEmpleado, LocalDate fechaInicial, LocalDate fechaFinal) {
+        return repositorioVenta.listarVentasPorEmpleadoYFechas(Math.toIntExact(idEmpleado), fechaInicial, fechaFinal);
+    }
+
+    @Override
+    public Venta buscarVenta(Long id) {
+        return repositorioVenta.buscarVenta(id);
+    }
 }

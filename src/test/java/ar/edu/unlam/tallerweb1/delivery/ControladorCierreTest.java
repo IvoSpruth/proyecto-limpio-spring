@@ -4,8 +4,7 @@ import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiarioYaEfectuadoException;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.ServicioCierreDiario;
-import ar.edu.unlam.tallerweb1.domain.ventas.CantidadInsuficienteException;
-import ar.edu.unlam.tallerweb1.domain.ventas.IdEmpleadoNoValidoException;
+import ar.edu.unlam.tallerweb1.domain.cobros.ServicioMercadoPago;
 import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,19 +18,21 @@ import static org.mockito.Mockito.when;
 
 public class ControladorCierreTest extends SpringTest {
 
-   private ServicioCierreDiario servicioCierre;
-   private ControladorCierreDiario controladorCierre;
-   private ServicioVenta servicioVenta;
+    private ServicioCierreDiario servicioCierre;
+    private ControladorCierreDiario controladorCierre;
+    private ServicioVenta servicioVenta;
+    private ServicioMercadoPago servicioMercadoPago;
 
-   private HttpServletRequest request;
+    private HttpServletRequest request;
 
 
     @Before
-    public void init(){
+    public void init() {
         this.request = mock(HttpServletRequest.class);
         this.servicioCierre = mock(ServicioCierreDiario.class);
         this.servicioVenta = mock(ServicioVenta.class);
-        this.controladorCierre = new ControladorCierreDiario(servicioCierre, servicioVenta);
+        this.servicioMercadoPago = mock(ServicioMercadoPago.class);
+        this.controladorCierre = new ControladorCierreDiario(servicioCierre, servicioVenta, servicioMercadoPago);
     }
 
     @Test
@@ -74,17 +75,17 @@ public class ControladorCierreTest extends SpringTest {
         assertThat(mav.getViewName()).isEqualTo(vistaEsperada);
     }
 
-    private void entoncesEncuentro(ModelAndView mav){
+    private void entoncesEncuentro(ModelAndView mav) {
         assertThat(mav.getModel().get("exito").equals(true));
         assertThat(mav.getModel().get("mensaje").toString().equals("El Cierre se ejecuto con Exito!!"));
     }
 
-    private void entoncesEncuentro2(ModelAndView mav){
+    private void entoncesEncuentro2(ModelAndView mav) {
         assertThat(mav.getModel().get("exito").equals(false));
         assertThat(mav.getModel().get("mensaje").toString().contains("El cierre de la fecha"));
     }
 
-    private ModelAndView cuandoEjecutoElCierre(){
+    private ModelAndView cuandoEjecutoElCierre() {
         return controladorCierre.ejecutarCierre(new CierreDiario(), request);
     }
 

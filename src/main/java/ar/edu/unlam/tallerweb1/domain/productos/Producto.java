@@ -10,11 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import ar.edu.unlam.tallerweb1.domain.Estado;
+
 
 @Entity(name = "Producto")
 @Table(name = "producto")
 @NaturalIdCache
 public class Producto {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +30,28 @@ public class Producto {
     private int idProveedor;
 
     private int cantidad;
+
+    public Producto() {
+    }
+
+    public Producto(String nombre, int cantidad, double costo, int idProveedor, int stockMaximo) {
+        this.nombre = nombre;
+        this.cantidad = cantidad;
+        this.costo = costo;
+        this.idProveedor = idProveedor;
+        this.stockMaximo = stockMaximo;
+    }
+
+    public Producto(long id, String nombre, int cantidad, double costo, int idProveedor, int stockMaximo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.cantidad = cantidad;
+        this.costo = costo;
+        this.idProveedor = idProveedor;
+        this.stockMaximo = stockMaximo;
+    }
+
+    private Integer stockMaximo;
 
     public int getCantidad() {
         return cantidad;
@@ -79,5 +104,30 @@ public class Producto {
     @Override
     public int hashCode() {
         return Objects.hash(id, costo, nombre, idProveedor, cantidad);
+    }
+
+    public Integer getStockMaximo() {
+        return stockMaximo;
+    }
+
+    public void setStockMaximo(Integer stockMaximo) {
+        this.stockMaximo = stockMaximo;
+    }
+
+    @Override
+    public String getEstado() {
+        if (this.cantidad < 10) {
+            return "El producto " + this.nombre + " tiene solo " + this.cantidad + " items restantes";
+        }
+
+        if (this.stockMaximo == null) {
+            return "El producto no tiene configurado el stock maximo";
+        }
+
+        if ((this.stockMaximo - this.cantidad) < 10) {
+            return "Al producto " + this.nombre + " le faltan " + (this.stockMaximo - this.cantidad) + " items para alcanzar el stock maximo";
+        }
+
+        return "OK";
     }
 }

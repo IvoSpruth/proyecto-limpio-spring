@@ -1,12 +1,11 @@
 package ar.edu.unlam.tallerweb1.infrastructure;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
-import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
-import ar.edu.unlam.tallerweb1.domain.cierreDiario.RepositorioCierreDiario;
-import ar.edu.unlam.tallerweb1.domain.productos.Producto;
-import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
+import ar.edu.unlam.tallerweb1.domain.cierreDiario.*;
+import ar.edu.unlam.tallerweb1.domain.ventas.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +16,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class RepositorioCierreDiarioTest extends SpringTest {
 
     @Autowired
@@ -25,7 +25,7 @@ public class RepositorioCierreDiarioTest extends SpringTest {
     @Test
     @Rollback
     @Transactional
-    public void debeDevolverTodosLosCierresSiHayCargados(){
+    public void debeDevolverTodosLosCierresSiHayCargados() {
 
         dadoQueHayCierres();
         List<CierreDiario> listaCierres = cuandoConsultoPorElHistorialDeLosCierres();
@@ -35,7 +35,7 @@ public class RepositorioCierreDiarioTest extends SpringTest {
     @Test
     @Rollback
     @Transactional
-    public void alBuscarCierrePorFechaLoEncuentra(){
+    public void alBuscarCierrePorFechaLoEncuentra() {
 
         dadoQueHayCierres();
         LocalDate fechaBuscada = LocalDate.of(2022, 10, 27);
@@ -76,7 +76,7 @@ public class RepositorioCierreDiarioTest extends SpringTest {
         return cd;
     }
 
-    private void entoncesObtengoLaCantidadCorrecta(List<CierreDiario> listaCierres, int cantidad){
+    private void entoncesObtengoLaCantidadCorrecta(List<CierreDiario> listaCierres, int cantidad) {
         assertThat(listaCierres).hasSize(cantidad);
     }
 
@@ -93,25 +93,26 @@ public class RepositorioCierreDiarioTest extends SpringTest {
         v1.setId(1l);
         v1.setTotal(5000.0);
         Venta v2 = new Venta();
-        v1.setId(2l);
-        v1.setTotal(12000.0);
+        v2.setId(2l);
+        v2.setTotal(12000.0);
         cd.getVentas().add(v1);
         cd.getVentas().add(v2);
+        cd.setFecha(LocalDate.of(2022, 10, 27));
 
 
         CierreDiario cd2 = new CierreDiario();
-        cd.setIdEmpleado(3l);
+        cd.setIdEmpleado(3L);
         cd.setTotal(100000.0);
 
         Venta v3 = new Venta();
-        v1.setId(2l);
-        v1.setTotal(5000.0);
+        v3.setId(3L);
+        v3.setTotal(5000.0);
         Venta v4 = new Venta();
-        v1.setId(4l);
-        v1.setTotal(12000.0);
+        v4.setId(4L);
+        v4.setTotal(12000.0);
         cd2.getVentas().add(v3);
         cd2.getVentas().add(v4);
-        cd2.setFecha(LocalDate.of(2022,10,21));
+        cd2.setFecha(LocalDate.of(2022, 10, 21));
 
         session().save(cd);
         //session().save(cd2);

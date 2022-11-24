@@ -1,15 +1,12 @@
 package ar.edu.unlam.tallerweb1.domain.ofertas;
 
-import ar.edu.unlam.tallerweb1.domain.Cliente.Cliente;
-import ar.edu.unlam.tallerweb1.domain.Cliente.RepositorioCliente;
-import ar.edu.unlam.tallerweb1.domain.Cliente.ServicioCliente;
+import ar.edu.unlam.tallerweb1.domain.cliente.Cliente;
+import ar.edu.unlam.tallerweb1.domain.cliente.ServicioCliente;
 import ar.edu.unlam.tallerweb1.domain.utils.MailManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Executable;
 import java.util.ArrayList;
 import java.util.List;
 

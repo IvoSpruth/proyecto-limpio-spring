@@ -1,15 +1,15 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
+import ar.edu.unlam.tallerweb1.domain.cobros.MercadoPago;
+import ar.edu.unlam.tallerweb1.domain.cobros.MercadoPagoCredenciales;
+import ar.edu.unlam.tallerweb1.domain.cobros.ServicioMercadoPago;
 import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
-import ar.edu.unlam.tallerweb1.domain.utils.PdfManager;
 import ar.edu.unlam.tallerweb1.domain.ventas.CantidadInsuficienteException;
 import ar.edu.unlam.tallerweb1.domain.ventas.IdEmpleadoNoValidoException;
 import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
 import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
-import com.itextpdf.text.DocumentException;
-import ar.edu.unlam.tallerweb1.domain.ventas.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 public class ControladorVenta {
@@ -32,14 +34,17 @@ public class ControladorVenta {
 
     private ServicioEmpleado servicioEmpleado;
 
+    private ServicioMercadoPago servicioMercadoPago;
+
     @Autowired
-    public ControladorVenta(ServicioProducto servicioProducto, ServicioVenta servicioVenta){
+    public ControladorVenta(ServicioProducto servicioProducto, ServicioVenta servicioVenta, ServicioMercadoPago servicioMercadoPago) {
         this.servicioProducto = servicioProducto;
         this.servicioVenta = servicioVenta;
+        this.servicioMercadoPago = servicioMercadoPago;
     }
 
-    @RequestMapping(path = "/goVentaForm", method = RequestMethod.GET )
-    public ModelAndView irVentaForm(@ModelAttribute("venta") Venta venta ){
+    @RequestMapping(path = "/goVentaForm", method = RequestMethod.GET)
+    public ModelAndView irVentaForm(@ModelAttribute("venta") Venta venta) {
         ModelMap model = new ModelMap();
         ModelMap productos = new ModelMap();
         model.addAttribute("fecha", new Date().toString());
@@ -47,7 +52,16 @@ public class ControladorVenta {
         return new ModelAndView("ventaForm", model);
     }
 
-    @RequestMapping(path="/addVenta", method= RequestMethod.POST)    public ModelAndView addVenta(@ModelAttribute("venta") Venta venta, HttpServletRequest req){
+
+/*    @RequestMapping(path = "/goResumen", method = RequestMethod.GET )
+    public ModelAndView irAResumen(@ModelAttribute("venta") Venta venta ) {
+        ModelMap model = new ModelMap();
+
+        return new ModelAndView("resumenVenta", model);
+    }*/
+
+    @RequestMapping(path = "/addVenta", method = RequestMethod.POST)
+    public ModelAndView addVenta(@ModelAttribute("venta") Venta venta, HttpServletRequest req) {
         ModelMap model = new ModelMap();
         File factura;
         try {
@@ -57,11 +71,10 @@ public class ControladorVenta {
 
         } catch (CantidadInsuficienteException cie) {
             return new ModelAndView("ventaForm", getModelError(cie.getMessage()));
-        } catch (IdEmpleadoNoValidoException ienve){
+        } catch (IdEmpleadoNoValidoException ienve) {
             return new ModelAndView("ventaForm", getModelError(ienve.getMessage()));
-        }
-        catch (Exception e) {
-            return new ModelAndView("empleado-dueño-control", getModelError("Hubo un error inesperado"));
+        } catch (Exception e) {
+            return new ModelAndView("ventaForm", getModelError("Hubo un error inesperado" + e.getMessage()));
         }
 
         //String nombreEmpleado = servicioVenta.buscarNombreEmpleado(venta.getIdEmpleado());
@@ -132,14 +145,29 @@ public class ControladorVenta {
         model.put("comision", servicioVenta.calcularComisionEmpleado(venta.getTotal()));
         model.put("sumaTotal", venta.getTotal());
         model.addAttribute("fecha", LocalDate.now().toString());
-        model.addAttribute("exito", true);
-        model.addAttribute("mensaje","La venta se cargo con exito");
         model.addAttribute("productos", (List)prepareProductosModel(venta.getProductos()));
+        String nombreProductoUno = servicioVenta.buscarNombreProducto(venta.getIdProducto());
+        double costoProductoUno = servicioVenta.buscarCostoProducto(venta.getIdProducto());
+        servicioVenta.fillTotal(venta);
+        double totalProductoUno = servicioVenta.getSubtotalProducto1();
+        String nombreProductoDos = servicioVenta.buscarNombreProducto(venta.getIdProducto2());
+        double costoProductoDos = servicioVenta.buscarCostoProducto(venta.getIdProducto2());
+        servicioVenta.fillTotal(venta);
+        double totalProductoDos = servicioVenta.getSubtotalProducto2();
+        model.put("idVenta", venta.getId()); //id de venta para envio
+        model.addAttribute("exito", true);
+        model.addAttribute("mensaje", "La venta se cargo con exito");
 
-//        model.addAttribute("factura",factura.getPath());
+        //Link de pago
+        MercadoPago link = servicioMercadoPago.obtener(venta);
+        model.put("preferenciaID", link.getId_preferencia());
+        model.put("linkDePago", link.getLinkDePago());
+        model.put("PUBLIC_ACCESS_TOKEN", MercadoPagoCredenciales.PUBLIC_ACCESS_TOKEN);
+
+        //model.addAttribute("factura",factura.getPath());
     }
 
-    private ModelMap getModelError(String mensaje){
+    private ModelMap getModelError(String mensaje) {
         ModelMap modelError = new ModelMap();
         modelError.addAttribute("fecha", new Date().toString());
         modelError.addAttribute("productos", (List) servicioProducto.buscarProductos());

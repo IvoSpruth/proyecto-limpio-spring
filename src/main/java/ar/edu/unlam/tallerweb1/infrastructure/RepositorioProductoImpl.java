@@ -16,7 +16,7 @@ public class RepositorioProductoImpl implements RepositorioProducto {
     private SessionFactory sessionFactory;
 
     @Autowired
-    public RepositorioProductoImpl(SessionFactory sessionFactory){
+    public RepositorioProductoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
@@ -44,5 +44,11 @@ public class RepositorioProductoImpl implements RepositorioProducto {
         sessionFactory.getCurrentSession().update(producto);
     }
 
-
+    @Override
+    public Producto buscarProductoPorID(Long ID) {
+        final Session session = sessionFactory.getCurrentSession();
+        return (Producto) session.createCriteria(Producto.class)
+                .add(Restrictions.eq("id", ID))
+                .uniqueResult();
+    }
 }

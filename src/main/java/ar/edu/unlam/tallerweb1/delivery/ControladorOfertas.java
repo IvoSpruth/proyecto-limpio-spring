@@ -1,12 +1,8 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
-import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiarioYaEfectuadoException;
-import ar.edu.unlam.tallerweb1.domain.cierreDiario.ServicioCierreDiario;
 import ar.edu.unlam.tallerweb1.domain.ofertas.Oferta;
 import ar.edu.unlam.tallerweb1.domain.ofertas.ServicioOferta;
-import ar.edu.unlam.tallerweb1.domain.utils.MailManager;
-import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -46,7 +42,7 @@ public class ControladorOfertas {
         try {
             servicioOferta.enviarNotificaciones();
         } catch (Exception e) {
-            return new ModelAndView("empleado-dueño-control", getModelError("Hubo un error inesperado"));
+            return new ModelAndView("empleado-duenio-control", getModelError("Hubo un error inesperado"));
         }
 
         prepareModelSuccess(model);
