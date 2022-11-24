@@ -24,8 +24,7 @@
         </div>
         <%}%>
 
-    <h4>Visita sistemasdeadministracion.com.ar</h4>
-    <p>Basado en <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    <h4>Visitá sistemasdeadministracion.com.ar</h4>
 </footer>
 
 </div>

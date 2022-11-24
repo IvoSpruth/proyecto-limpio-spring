@@ -1,52 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!-- Top container -->
-<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
-    <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i
-            class="fa fa-bars"></i> Menu
-    </button>
-    <span class="w3-bar-item w3-right">Sistema Administracion <small>Negocio Fisico v.01</small></span>
-</div>
-
-<!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
-    <div class="w3-container w3-row">
-        <div class="w3-col s4">
-            <div class="fa fa-user-o w3-xxxlarge" style="width:46px"></div>
-        </div>
-        <div class="w3-col s8 w3-bar">
-            <span>Fecha: ${sessionScope.fecha}</span><br>
-            <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
-            <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
-            <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
-        </div>
-    </div>
-    <hr>
-    <% if (request.getSession().getAttribute("ROL") != null) {%>
-        <div class="w3-container">
-            <h5>Empleado: </h5>
-        </div>
-        <div class="w3-bar-block">
-            <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black"
-               onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>Close Menu</a>
-            <a href="#" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>
-                Rol: ${sessionScope.ROL}</a>
-            <a href="#" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>
-                Mail: ${sessionScope.mail}
-            </a>
-        </div>
-    <%}%>
-</nav>
-
-
-<!-- Overlay effect when opening sidebar on small screens -->
-<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
-     title="close side menu" id="myOverlay"></div>
-<div class="w3-main container" style="margin-left:300px;margin-top:43px;">
+<header class="w3-bar w3-black w3-large" >
+    <span class="w3-bar-item w3-right">Tu negocio WEB<small class="w3-margin-left">versión v1.6</small></span>
+</header>
 
     <!-- Header -->
-    <header class="w3-container" style="padding-top:22px">
-        <h5><b><i class="fa fa-dashboard"></i> Centro de control Negocio</b></h5>
-    </header>
+    <div class="w3-container">
+        <h5><b><i class="fa fa-dashboard"></i>Centro de control</b></h5>
+    </div>
 
 
     <c:if test="${not empty error}">
@@ -75,7 +36,7 @@
 
                 <div class="w3-clear"></div>
                 <h4>
-                    <a href="${pageContext.servletContext.contextPath}/goVentaForm" class="link">Venta</a>
+                    <a href="${pageContext.servletContext.contextPath}/goVentaForm" class="link">Hacé tu venta</a>
                 </h4>
             </div>
         </div>
@@ -85,7 +46,7 @@
 
                 <div class="w3-clear"></div>
                 <h4>
-                    <a href="${pageContext.servletContext.contextPath}/goCierreDiario" class="link">Cierre Diario</a>
+                    <a href="${pageContext.servletContext.contextPath}/goCierreDiario" class="link">Cerrá la caja del día</a>
                 </h4>
             </div>
         </div>
@@ -95,7 +56,7 @@
 
                 <div class="w3-clear"></div>
                 <h4>
-                    <a href="${pageContext.servletContext.contextPath}/goProductoForm" class="link">Producto</a>
+                    <a href="${pageContext.servletContext.contextPath}/goProductoForm" class="link">Registrá tus productos</a>
                 </h4>
             </div>
         </div>
@@ -105,7 +66,7 @@
 
                 <div class="w3-clear"></div>
                 <h4>
-                    <a href="${pageContext.servletContext.contextPath}/goOfertas" class="link">Ofertas</a>
+                    <a href="${pageContext.servletContext.contextPath}/goOfertas" class="link">Enviá tus ofertas</a>
                 </h4>
             </div>
         </div>

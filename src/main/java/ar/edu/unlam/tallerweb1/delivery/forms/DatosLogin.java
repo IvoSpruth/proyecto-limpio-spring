@@ -1,4 +1,4 @@
-package ar.edu.unlam.tallerweb1.delivery.forms;
+package ar.edu.unlam.tallerweb1.domain.cierreDiario.delivery.forms;
 
 public class DatosLogin {
     private String email;

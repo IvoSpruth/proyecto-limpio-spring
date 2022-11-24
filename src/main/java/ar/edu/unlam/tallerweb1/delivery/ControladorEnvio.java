@@ -39,7 +39,7 @@ public class ControladorEnvio {
         modelo.put("clientes", servicioCliente.obtenerClientes());
         modelo.put("form", form);
 
-        return new ModelAndView("formCliente", modelo);
+        return new ModelAndView("envioFormCliente", modelo);
     }
 
     @RequestMapping(path = "/form/datosEnvio", method = RequestMethod.POST)
@@ -52,7 +52,7 @@ public class ControladorEnvio {
         modelo.put("direcciones", cliente.getDirecciones());
         modelo.put("form", form);
 
-        return new ModelAndView("formEnvio", modelo);
+        return new ModelAndView("envioFormEnvio", modelo);
     }
 
     @RequestMapping(path = "/procesarEnvio", method = RequestMethod.POST)
@@ -62,7 +62,7 @@ public class ControladorEnvio {
         Envio envio = servicioEnvio.concretarEnvio(form);
         modelo.put("envio", envio);
 
-        return new ModelAndView("confirmacionEnvio", modelo);
+        return new ModelAndView("envioConfirmacion", modelo);
     }
 
     @RequestMapping(path = "/siguienteEtapa", method = RequestMethod.GET)
@@ -97,6 +97,6 @@ public class ControladorEnvio {
 
         modelo.put("envios", envios);
 
-        return new ModelAndView("envios", modelo);
+        return new ModelAndView("envioMostrarEnvios", modelo);
     }
 }

@@ -1,7 +1,7 @@
-package ar.edu.unlam.tallerweb1.delivery;
+package ar.edu.unlam.tallerweb1.domain.cierreDiario.delivery;
 
-import ar.edu.unlam.tallerweb1.delivery.forms.DataChart;
-import ar.edu.unlam.tallerweb1.delivery.forms.Fechas;
+import ar.edu.unlam.tallerweb1.domain.cierreDiario.delivery.forms.DataChart;
+import ar.edu.unlam.tallerweb1.domain.cierreDiario.delivery.forms.Fechas;
 import ar.edu.unlam.tallerweb1.domain.informe.ServicioInforme;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;

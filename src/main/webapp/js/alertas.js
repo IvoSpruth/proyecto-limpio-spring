@@ -3,7 +3,7 @@
 function crearToast(alerta) {
     Toastify({
         text: alerta.contenido,
-        duration: -1,
+        duration: 1000,
         close: true,
     }).showToast();
 }
