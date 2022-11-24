@@ -109,11 +109,8 @@ public class RepositorioVentaTest extends SpringTest {
         session().save(p1);
         session().save(p2);
 
-        Set<Producto> ventaFinal = venta.getProductos();
-        ventaFinal.add(p1);
-        ventaFinal.add(p2);
-
-        venta.setProductos(ventaFinal);
+        venta.addProducto(p1);
+        venta.addProducto(p2);
 
 
         session().save(venta);

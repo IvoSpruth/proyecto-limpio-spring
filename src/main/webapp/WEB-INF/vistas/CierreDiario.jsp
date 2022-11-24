@@ -205,7 +205,7 @@
                 <tr class="valueRows">
                 <td scope="row">${v.id}</td>
                 <td >${v.idEmpleado}</td>
-                <td >${v.cantidadProducto+v.cantidadProducto2}</td>
+                <td ></td>
                 <td >${v.total}</td>
                 <td "><a href="${pageContext.servletContext.contextPath}/goPDF"" class="btn btn-info " role="button">PDF</a></td>
                 </tr>

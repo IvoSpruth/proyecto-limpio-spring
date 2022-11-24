@@ -34,7 +34,7 @@ public class ServicioVentaImpl  implements   ServicioVenta{
 
     @Override
     @Transactional
-    public boolean  addVenta(Venta venta) throws CantidadInsuficienteException, IdEmpleadoNoValidoException{
+    public boolean addVenta(Venta venta) throws CantidadInsuficienteException, IdEmpleadoNoValidoException{
         try {
             validarEmpleado(venta);
             validarVenta(venta);
@@ -42,7 +42,7 @@ public class ServicioVentaImpl  implements   ServicioVenta{
             venta.setCierre(adjuntarCierre());
             repositorioVenta.addVenta(venta);
             actualizarCantidadesStock(venta);
-            //createFactura(venta);
+            createFactura(venta);
             return true;
         }catch(CantidadInsuficienteException cie){
             throw new CantidadInsuficienteException(cie.getMessage());
@@ -60,15 +60,11 @@ public class ServicioVentaImpl  implements   ServicioVenta{
     }
 
     public double fillTotal(Venta venta) {
-        ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
+//        ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
         double subtotalProductos = 0.0;
 
-        for(Producto p : productos){
-            for(Producto pv: venta.getProductos()){
-                if(p.getId()==pv.getId()){
-                    subtotalProductos += pv.getCantidad()*p.getCosto();
-                }
-            }
+        for(Producto p : venta.getProductos()){
+            subtotalProductos += p.getCantidad()*p.getCosto();
         }
 
         venta.setTotal(subtotalProductos);
@@ -179,41 +175,30 @@ public class ServicioVentaImpl  implements   ServicioVenta{
     }
 
     public File createFactura(Venta venta) {
-//        PdfManager pdfM = new PdfManager();
-//        File pdf;
-//        String pipe = "|";
+        PdfManager pdfM = new PdfManager();
+        File pdf;
+        String pipe = "|";
 //        ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
-//        String linea;
-//        HashMap<Integer, ArrayList<String>> lineas = new HashMap<>();
-//        int indice = 0;
-//
-//        for(Producto p : productos){
-//            if(venta.getIdProducto()==p.getId()){
-//                ArrayList<String> columnas = new ArrayList<String>();
-//                columnas.add(p.getNombre());
-//                columnas.add(String.valueOf(venta.getCantidadProducto()));
-//                columnas.add(String.valueOf(p.getCosto()));
-//                columnas.add(String.valueOf(venta.getCantidadProducto()*p.getCosto()));
-//                lineas.put(indice, columnas);
-//                indice++;
-//            }
-//            if(venta.getIdProducto2()==p.getId()){
-//                ArrayList<String> columnas = new ArrayList<String>();
-//                columnas.add(p.getNombre());
-//                columnas.add(String.valueOf(venta.getCantidadProducto2()));
-//                columnas.add(String.valueOf(p.getCosto()));
-//                columnas.add(String.valueOf(venta.getCantidadProducto2()*p.getCosto()));
-//                lineas.put(indice, columnas);
-//                indice++;
-//            }
-//        }
-//
-//        try{
-//            pdf = pdfM.createPDF(lineas, venta);
-//            return pdf;
-//        } catch(Exception e){
-//
-//        }
+        String linea;
+        HashMap<Integer, ArrayList<String>> lineas = new HashMap<>();
+        int indice = 0;
+
+        for(Producto p : venta.getProductos()){
+            ArrayList<String> columnas = new ArrayList<String>();
+            columnas.add(p.getNombre());
+            columnas.add(String.valueOf(p.getCantidad()));
+            columnas.add(String.valueOf(p.getCosto()));
+            columnas.add(String.valueOf(p.getCantidad()*p.getCosto()));
+            lineas.put(indice, columnas);
+            indice++;
+        }
+
+        try{
+            pdf = pdfM.createPDF(lineas, venta);
+            return pdf;
+        } catch(Exception e){
+
+        }
         return new File("fail.pdf");
     }
     @Transactional

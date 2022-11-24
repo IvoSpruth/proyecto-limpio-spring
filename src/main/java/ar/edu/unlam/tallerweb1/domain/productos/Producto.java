@@ -1,11 +1,19 @@
 package ar.edu.unlam.tallerweb1.domain.productos;
 
 import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
+import ar.edu.unlam.tallerweb1.domain.ventas.VentaProducto;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.NaturalIdCache;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-@Entity
+
+@Entity(name = "Producto")
+@Table(name = "producto")
+@NaturalIdCache
 public class Producto {
 
     @Id
@@ -19,9 +27,6 @@ public class Producto {
     private int idProveedor;
 
     private int cantidad;
-
-//    @ManyToMany(mappedBy = "productos")
-//    private Venta venta;
 
     public int getCantidad() {
         return cantidad;

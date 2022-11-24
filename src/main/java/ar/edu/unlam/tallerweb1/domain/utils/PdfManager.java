@@ -111,9 +111,9 @@ public class PdfManager {
             if(y != 0){
                 sumatoriaCoordenada_Y -= 13;    
             }
-            
+
             ArrayList<String> linea = lineas.get(y);
-            
+
 //          Producto
             createLine(over, bf, EMIONES_SIZE, 27, sumatoriaCoordenada_Y, linea.get(0));
 

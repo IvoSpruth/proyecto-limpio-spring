@@ -122,7 +122,7 @@ public class ControladorVentaTest extends SpringTest {
     private Venta prepareVenta() {
         Venta venta = new Venta();
         venta.setIdEmpleado(1);
-        venta.setProductos(prepareProductos());
+        //venta.setProductos(prepareProductos());
         return venta;
     }
 

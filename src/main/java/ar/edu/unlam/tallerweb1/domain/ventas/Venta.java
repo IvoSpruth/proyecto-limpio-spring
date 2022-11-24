@@ -5,13 +5,13 @@ import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.springframework.ui.ModelMap;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
 
-@Entity
+@Entity(name = "Venta")
+@Table(name = "venta")
 public class Venta {
 
     @Id
@@ -19,13 +19,6 @@ public class Venta {
     Long id;
 
     private int idEmpleado;
-
-
-//    @JoinTable(name = "ventaProducto",
-//            joinColumns = @JoinColumn(name = "venta_id"),
-//            inverseJoinColumns = @JoinColumn(name = "producto_id"))
-//
-//    private List<Producto> productos;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @NotFound(action = NotFoundAction.IGNORE)
@@ -38,27 +31,16 @@ public class Venta {
     private double total;
 
 
-//    @ManyToMany
-//    @JoinTable(name = "Venta_producto",
-//            joinColumns = @JoinColumn(name = "venta_id", referencedColumnName = "producto_id"))
-
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @NotFound(action = NotFoundAction.IGNORE)
-    private Set<Producto> productos = new LinkedHashSet<>();
-
     public Venta(){
-        productos = new LinkedHashSet<>();
+
     }
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @NotFound(action = NotFoundAction.IGNORE)
-    public Set<Producto> getProductos() {
-        return productos;
-    }
-
-    public void setProductos(Set<Producto> productos) {
-        this.productos = productos;
-    }
+    @OneToMany(
+            mappedBy = "venta",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<VentaProducto> productos = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -80,6 +62,14 @@ public class Venta {
         this.fecha = fecha;
     }
 
+    public List<VentaProducto> getVentaProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<VentaProducto> productos) {
+        this.productos = productos;
+    }
+
     public double getTotal() {
         return total;
     }
@@ -98,6 +88,34 @@ public class Venta {
 
     public void setCierre(CierreDiario cierre) {
         this.cierre = cierre;
+    }
+
+    public void addProducto(Producto producto) {
+        VentaProducto ventaProducto = new VentaProducto(this, producto, producto.getCantidad());
+        productos.add(ventaProducto);
+    }
+
+    public List<Producto> getProductos(){
+        List<Producto> productosV = new ArrayList<>();
+        for(VentaProducto vp : this.productos){
+            vp.getProducto().setCantidad(vp.getCantidad());
+            productosV.add(vp.getProducto());
+        }
+        return productosV;
+    }
+
+    public void borrarProducto(Producto producto) {
+        for (Iterator<VentaProducto> iterator = productos.iterator();
+             iterator.hasNext(); ) {
+            VentaProducto ventaProducto = iterator.next();
+
+            if (ventaProducto.getVenta().equals(this) &&
+                    ventaProducto.getProducto().equals(producto)) {
+                iterator.remove();
+                ventaProducto.setVenta(null);
+                ventaProducto.setProducto(null);
+            }
+        }
     }
 
 //    public ModelMap getModelMapProductos(){

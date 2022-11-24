@@ -85,14 +85,16 @@ public class ServicioVentaTest extends SpringTest {
     private Venta prepareVentaConCantidadProductosInsuficientes() {
         Venta venta = new Venta();
         venta.setIdEmpleado(1);
-        venta.setProductos(prepareProductosCantInsuf());
+        venta.addProducto(prepareProductosCantInsuf().get(0));
+        venta.addProducto(prepareProductosCantInsuf().get(1));
         return venta;
     }
 
     private Venta prepareVentaConIdEmpleadoInvalido() {
         Venta venta = new Venta();
         venta.setIdEmpleado(6);
-        venta.setProductos(prepareProductos());
+        venta.addProducto(prepareProductos().get(0));
+        venta.addProducto(prepareProductos().get(1));
         return venta;
     }
 
@@ -120,8 +122,8 @@ public class ServicioVentaTest extends SpringTest {
         return servicioVenta.addVenta(venta);
     }
 
-    private Set<Producto> prepareProductos(){
-        Set<Producto> productos = new HashSet<>();
+    private ArrayList<Producto> prepareProductos(){
+        ArrayList<Producto> productos = new ArrayList<>();
         Producto producto1, producto2;
 
         producto1 = new Producto();
@@ -144,8 +146,8 @@ public class ServicioVentaTest extends SpringTest {
         return productos;
     }
 
-    private Set<Producto> prepareProductosCantInsuf(){
-        Set<Producto> productos = new HashSet<>();
+    private List<Producto> prepareProductosCantInsuf(){
+        ArrayList<Producto> productos = new ArrayList<>();
         Producto producto1, producto2;
 
         producto1 = new Producto();
@@ -217,7 +219,8 @@ public class ServicioVentaTest extends SpringTest {
     private Venta prepareVenta(){
         Venta venta = new Venta();
         venta.setIdEmpleado(1);
-        venta.setProductos(prepareProductos());
+        venta.addProducto(prepareProductos().get(0));
+        venta.addProducto(prepareProductos().get(1));
         return venta;
     }
 }

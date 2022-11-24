@@ -68,12 +68,13 @@ public class ServicioCierreDiarioTest extends SpringTest {
         v1.setId(12l);
         v1.setCierre(cd);
         v1.setTotal(10000);
-        v1.setProductos(prepareProductos());
+        v1.addProducto(prepareProductos().get(0));
+        v1.addProducto(prepareProductos().get(1));
 
         v2.setId(9l);
         v2.setCierre(cd);
-        v2.setTotal(5000);
-        v2.setProductos(prepareProductos());
+        v2.addProducto(prepareProductos().get(0));
+        v2.addProducto(prepareProductos().get(1));
 
         cd.getVentas().add(v1);
         cd.getVentas().add(v2);
@@ -93,12 +94,14 @@ public class ServicioCierreDiarioTest extends SpringTest {
         v1.setId(12l);
         v1.setCierre(cd);
         v1.setTotal(10000);
-        v1.setProductos(prepareProductos());
+        v1.addProducto(prepareProductos().get(0));
+        v1.addProducto(prepareProductos().get(1));
 
         v2.setId(9l);
         v2.setCierre(cd);
         v2.setTotal(5000);
-        v2.setProductos(prepareProductos());
+        v2.addProducto(prepareProductos().get(0));
+        v2.addProducto(prepareProductos().get(1));
 
         cd.getVentas().add(v1);
         cd.getVentas().add(v2);
@@ -171,12 +174,13 @@ public class ServicioCierreDiarioTest extends SpringTest {
     private Venta prepareVenta(){
         Venta venta = new Venta();
         venta.setIdEmpleado(1);
-        venta.setProductos(prepareProductos());
+        venta.addProducto(prepareProductos().get(0));
+        venta.addProducto(prepareProductos().get(1));
         return venta;
     }
 
-    private Set<Producto> prepareProductos(){
-        Set<Producto> productos = new HashSet<>();
+    private ArrayList<Producto> prepareProductos(){
+        ArrayList<Producto> productos = new ArrayList<>();
         Producto producto1, producto2;
 
         producto1 = new Producto();
@@ -195,6 +199,7 @@ public class ServicioCierreDiarioTest extends SpringTest {
 
         productos.add(producto1);
         productos.add(producto2);
+
         return productos;
     }
 }

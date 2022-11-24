@@ -127,24 +127,22 @@
                         <th scope="col">Id producto</th>
                         <th scope="col">Cantidad</th>
                         <th scope="col">Total del producto</th>
-                        <th scope="col">Suma total</th>
+                        <th scope="col">Descuento</th>
                     </tr>
-                    <tr>
-                        <th scope="row">${nombreProductoUno}</th>
-                        <td>${precioUnitarioUno}</td>
-                        <td>${idProductoUno}</td>
-                        <td>${cantidadUno}</td>
-                        <td>${totalProductoUno}</td>
-                        <td>${sumaTotal}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">${nombreProductoDos}</th>
-                        <td>${precioUnitarioDos}</td>
-                        <td>${idProductoDos}</td>
-                        <td>${cantidadDos}</td>
-                        <td>${totalProductoDos}</td>
-                        <td>${sumaTotal}</td>
-                    </tr>
+
+                    
+                    <c:forEach items="${productos}" var="p">
+                        <tr>
+                            <td>${p.nombre}</td>
+                            <td>${p.precio}</td>
+                            <td>${p.id}</td>
+                            <td>${p.cantidad}</td>
+                            <td>${p.totalProducto}</td>
+                            <td>${p.descuento}</td>
+                        </tr>
+                    </c:forEach>
+                    
+                    
                     <tr>
                         <th scope="row">TOTAL</th>
                         <td></td>
