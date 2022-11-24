@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.ventas;
 
+import ar.edu.unlam.tallerweb1.domain.productos.Producto;
+
 import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
@@ -36,4 +38,6 @@ public interface ServicioVenta {
     List<Venta> listarPorEmpleadoYPorFecha(Long idEmpleado, LocalDate fechaInicial, LocalDate fechaFinal);
 
     Venta buscarVenta(Long idVenta);
+
+    List<Producto> getProductos(Venta venta);
 }

@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.SpringTest;
+import ar.edu.unlam.tallerweb1.delivery.forms.DatosVenta;
 import ar.edu.unlam.tallerweb1.domain.cobros.MercadoPago;
 import ar.edu.unlam.tallerweb1.domain.cobros.ServicioMercadoPago;
 import ar.edu.unlam.tallerweb1.domain.productos.Producto;
@@ -31,6 +32,8 @@ public class ControladorVentaTest extends SpringTest {
     private ServicioProducto servicioProducto;
     private ServicioMercadoPago servicioMercadoPago;
 
+    private DatosVenta datosVenta;
+
     private HttpServletRequest request;
 
     private Venta venta;
@@ -38,6 +41,7 @@ public class ControladorVentaTest extends SpringTest {
 
     @Before
     public void init() {
+        this.datosVenta = mock(DatosVenta.class);
         this.servicioVenta = mock(ServicioVenta.class);
         this.servicioProducto = mock(ServicioProducto.class);
         this.servicioMercadoPago = mock(ServicioMercadoPago.class);
@@ -89,7 +93,7 @@ public class ControladorVentaTest extends SpringTest {
     @Test
     public void alSolicitarElResumenMeTraeLaCantidadVendidaCorrecta() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
         dadoQueMockeMercadoPago();
-        ModelAndView mav = controladorVenta.addVenta(venta, request);
+        ModelAndView mav = controladorVenta.addVenta(datosVenta, request);
         List<Producto> cantidadVenta = (List<Producto>) mav.getModel().get("productos");
         assertThat(cantidadVenta.get(0).getCantidad()).isEqualTo(venta.getProductos().get(0).getCantidad());
     }
@@ -104,7 +108,7 @@ public class ControladorVentaTest extends SpringTest {
     public void alSolicitarElResumenMeTraeElIdDeProductoCorrecto() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
         dadoQueMockeMercadoPago();
         dadoQueExisteUnaVentaCorrecta();
-        ModelAndView mav = controladorVenta.addVenta(venta, request);
+        ModelAndView mav = controladorVenta.addVenta(datosVenta, request);
         List<ModelMap> cantidadVenta = (List<ModelMap>) mav.getModel().get("productos");
         assertThat(cantidadVenta.get(0).get("id")).isEqualTo(venta.getProductos().get(0).getId());
     }
@@ -115,7 +119,7 @@ public class ControladorVentaTest extends SpringTest {
 
 
     private ModelAndView cuandoSolicitoElResumen() {
-        return controladorVenta.addVenta(this.venta, request);
+        return controladorVenta.addVenta(datosVenta, request);
     }
 
     private void entoncesMeLLevaALaVista(ModelAndView mav, String vistaEsperada) {
@@ -131,10 +135,11 @@ public class ControladorVentaTest extends SpringTest {
     }
 
     private ModelAndView cuandoRealizoUnaVenta() {
-        return controladorVenta.addVenta(this.venta, request);
+        return controladorVenta.addVenta(this.datosVenta, request);
     }
 
     private void dadoQueExisteUnaVentaCorrecta() throws CantidadInsuficienteException, IdEmpleadoNoValidoException {
+        when(this.datosVenta.toVenta()).thenReturn(prepareVenta());
         when(this.servicioVenta.addVenta(this.venta)).thenReturn(true);
     }
 

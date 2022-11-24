@@ -69,12 +69,17 @@ public class ServicioVentaImpl implements ServicioVenta {
     }
 
     public double fillTotal(Venta venta) {
-//        ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
+        ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
         double subtotalProductos = 0.0;
 
-        for(Producto p : venta.getProductos()){
-            subtotalProductos += p.getCantidad()*p.getCosto();
+        for(Producto pStock : productos){
+            for(Producto p : venta.getProductos()){
+                if(pStock.getId() == p.getId()){
+                    subtotalProductos += p.getCantidad()*pStock.getCosto();
+                }
+            }
         }
+
 
         venta.setTotal(subtotalProductos);
         return subtotalProductos;
@@ -182,19 +187,23 @@ public class ServicioVentaImpl implements ServicioVenta {
         PdfManager pdfM = new PdfManager();
         File pdf;
         String pipe = "|";
-//        ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
+        ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
         String linea;
         HashMap<Integer, ArrayList<String>> lineas = new HashMap<>();
         int indice = 0;
 
         for(Producto p : venta.getProductos()){
-            ArrayList<String> columnas = new ArrayList<String>();
-            columnas.add(p.getNombre());
-            columnas.add(String.valueOf(p.getCantidad()));
-            columnas.add(String.valueOf(p.getCosto()));
-            columnas.add(String.valueOf(p.getCantidad()*p.getCosto()));
-            lineas.put(indice, columnas);
-            indice++;
+            for(Producto ps : productos) {
+                if(p.getId()==ps.getId()){
+                    ArrayList<String> columnas = new ArrayList<String>();
+                    columnas.add(ps.getNombre());
+                    columnas.add(String.valueOf(p.getCantidad()));
+                    columnas.add(String.valueOf(ps.getCosto()));
+                    columnas.add(String.valueOf(p.getCantidad() * ps.getCosto()));
+                    lineas.put(indice, columnas);
+                    indice++;
+                }
+            }
         }
 
         try {
@@ -216,6 +225,8 @@ public class ServicioVentaImpl implements ServicioVenta {
         return (List) repositorioVenta.buscarVentaPorFecha(fecha);
     }
 
+
+
     public Map<String, Integer> getSubTotalProducto(Venta venta){
         HashMap<String, Integer> subtotales = new HashMap<String, Integer>();
         for(Producto p : venta.getProductos()){
@@ -232,5 +243,21 @@ public class ServicioVentaImpl implements ServicioVenta {
     @Override
     public Venta buscarVenta(Long id) {
         return repositorioVenta.buscarVenta(id);
+    }
+
+    @Override
+    public List<Producto> getProductos(Venta venta) {
+        fillTotal(venta);
+        ArrayList<Producto> productos = (ArrayList)servicioProducto.buscarProductos();
+        ArrayList<Producto> productosFinal = new ArrayList<>();
+        for(Producto p: productos){
+            for(Producto pv : venta.getProductos()){
+                if(p.getId() == pv.getId()){
+                    pv.setCosto(p.getCosto());
+                    productosFinal.add(pv);
+                }
+            }
+        }
+        return productosFinal;
     }
 }

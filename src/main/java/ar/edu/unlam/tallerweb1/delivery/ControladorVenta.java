@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
+import ar.edu.unlam.tallerweb1.delivery.forms.DatosVenta;
 import ar.edu.unlam.tallerweb1.domain.cobros.MercadoPago;
 import ar.edu.unlam.tallerweb1.domain.cobros.MercadoPagoCredenciales;
 import ar.edu.unlam.tallerweb1.domain.cobros.ServicioMercadoPago;
@@ -43,7 +44,7 @@ public class ControladorVenta {
     }
 
     @RequestMapping(path = "/goVentaForm", method = RequestMethod.GET)
-    public ModelAndView irVentaForm(@ModelAttribute("venta") Venta venta) {
+    public ModelAndView irVentaForm(@ModelAttribute("datosVenta") DatosVenta venta) {
         ModelMap model = new ModelMap();
         ModelMap productos = new ModelMap();
         model.addAttribute("fecha", new Date().toString());
@@ -60,14 +61,13 @@ public class ControladorVenta {
     }*/
 
     @RequestMapping(path = "/addVenta", method = RequestMethod.POST)
-    public ModelAndView addVenta(@ModelAttribute("venta") Venta venta, HttpServletRequest req) {
+    public ModelAndView addVenta(@ModelAttribute("datosVenta") DatosVenta datosVenta, HttpServletRequest req) {
         ModelMap model = new ModelMap();
         File factura;
+        Venta venta;
         try {
-
-//            servicioVenta.addVenta(venta); !!! DESCOMENTAR SI NO ESTA TESTEANDO !!!
-            servicioVenta.addVenta(prepareVentaTest());
-
+            venta = datosVenta.toVenta();
+            servicioVenta.addVenta(venta);
         } catch (CantidadInsuficienteException cie) {
             return new ModelAndView("ventaForm", getModelError(cie.getMessage()));
         } catch (IdEmpleadoNoValidoException ienve) {
@@ -79,74 +79,21 @@ public class ControladorVenta {
         //String nombreEmpleado = servicioVenta.buscarNombreEmpleado(venta.getIdEmpleado());
         //model.put("nombreEmpleado", nombreEmpleado);
         //String nombreEmpleado = servicioVenta.buscarNombreDeEmpleadoPorId(venta.getIdEmpleado());
-//        cargaDeDatos(model, venta);
-        cargaDeDatos(model, prepareVentaTest());
 
-
+        cargaDeDatos(model, venta);
         return new ModelAndView("resumenVenta", model);
-    }
-
-    private Venta prepareVentaTest() {
-        Venta ventaTest = new Venta();
-        ventaTest.setIdEmpleado(1);
-        ventaTest.setFecha(LocalDate.now());
-        Producto producto1, producto2, producto3, producto4, producto5;
-
-        producto1 = new Producto();
-        producto1.setId((long) 2);
-        producto1.setCantidad(3);
-        producto1.setCosto(500);
-        producto1.setNombre("lavarropas");
-        producto1.setIdProveedor(1);
-
-        producto2 = new Producto();
-        producto2.setId((long) 3);
-        producto2.setCantidad(2);
-        producto2.setCosto(1700);
-        producto2.setNombre("notebook");
-        producto2.setIdProveedor(2);
-
-        producto3 = new Producto();
-        producto3.setNombre("auriculares");
-        producto3.setId((long) 4);
-        producto3.setCantidad(2);
-        producto3.setCosto(8855);
-        producto3.setIdProveedor(2);
-
-        producto4 = new Producto();
-        producto4.setNombre("regla");
-        producto4.setId((long) 5);
-        producto4.setCantidad(2);
-        producto4.setCosto(4400);
-        producto4.setIdProveedor(2);
-
-        producto5 = new Producto();
-        producto5.setNombre("televisor");
-        producto5.setId((long) 6);
-        producto5.setCantidad(2);
-        producto5.setCosto(5566);
-        producto5.setIdProveedor(2);
-
-
-        ventaTest.addProducto(producto1);
-        ventaTest.addProducto(producto2);
-        ventaTest.addProducto(producto3);
-        ventaTest.addProducto(producto4);
-        ventaTest.addProducto(producto5);
-
-        return ventaTest;
     }
 
     private void cargaDeDatos(ModelMap model, Venta venta) {
         servicioVenta.fillTotal(venta);
 
+
         model.put("idEmpleado", venta.getIdEmpleado());
         model.put("comision", servicioVenta.calcularComisionEmpleado(venta.getTotal()));
         model.put("sumaTotal", venta.getTotal());
         model.addAttribute("fecha", LocalDate.now().toString());
-        model.addAttribute("productos", (List) prepareProductosModel(venta.getProductos()));
-        servicioVenta.fillTotal(venta);
-        servicioVenta.fillTotal(venta);
+        model.addAttribute("productos", (List) prepareProductosModel(servicioVenta.getProductos(venta)));
+
         venta.setId(1L);
         model.put("idVenta", venta.getId()); //id de venta para envio
         model.addAttribute("exito", true);
