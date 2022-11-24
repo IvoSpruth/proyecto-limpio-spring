@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.infrastructure;
 import ar.edu.unlam.tallerweb1.domain.cobros.MercadoPago;
 import ar.edu.unlam.tallerweb1.domain.cobros.RepositorioMercadoPago;
 import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -60,6 +61,10 @@ public class RepositorioMercadoPagoImpl implements RepositorioMercadoPago {
     @Override
     public List<MercadoPago> obtenerLinksSegunVentas(List<Venta> ventas) {
         Session session = sessionFactory.getCurrentSession();
+        if(ventas.size() == 0){
+            return null;
+        }
+
         return (List<MercadoPago>) session.createCriteria(MercadoPago.class)
                 .add(Restrictions.in("venta",ventas))
                 .list();
