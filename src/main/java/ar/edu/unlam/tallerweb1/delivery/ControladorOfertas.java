@@ -52,7 +52,7 @@ public class ControladorOfertas {
 
     private void prepareModelSuccess(ModelMap model) {
         model.addAttribute("exito", true);
-        model.addAttribute("mensaje","Las Notificaciones fueron enviadas con EXITO!");
+        model.addAttribute("mensaje","Las notificaciones fueron enviadas con exito");
         model.addAttribute("fecha", LocalDate.now().toString());
         model.addAttribute("ofertasCargadas", (List<Oferta>) servicioOferta.traerOfertasCargadas());
     }

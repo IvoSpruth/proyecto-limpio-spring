@@ -66,7 +66,7 @@ public class ControladorCierreDiario {
 
     private void prepareModelSuccess(ModelMap model) {
         model.addAttribute("exito", true);
-        model.addAttribute("mensaje", "El Cierre se ejecuto con Exito!!");
+        model.addAttribute("mensaje", "El cierre se ejecuto con éxito");
         model.addAttribute("botonHabilitado", false);
         model.addAttribute("fecha", LocalDate.now().toString());
         model.addAttribute("cierres", (List) servicioCierre.historialCierres());

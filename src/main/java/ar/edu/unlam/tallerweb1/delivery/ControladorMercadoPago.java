@@ -39,11 +39,11 @@ public class ControladorMercadoPago {
                 model.put("preferencia", preferencia);
                 return new ModelAndView("resultadoMercadoPago", model);
             } else {
-                model.put("msg", "El ID de prefeerencia no coincide con el ID de venta");
+                model.put("msg", "El ID de preferencia no coincide con el ID de venta");
                 return new ModelAndView("error", model);
             }
         }
-        model.put("msg", "El ID de prefeerencia no existe en el sistema");
+        model.put("msg", "El ID de preferencia no existe en el sistema");
         return new ModelAndView("error", model);
     }
 

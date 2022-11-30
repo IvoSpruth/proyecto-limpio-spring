@@ -94,10 +94,9 @@ public class ControladorVenta {
         model.addAttribute("fecha", LocalDate.now().toString());
         model.addAttribute("productos", (List) prepareProductosModel(servicioVenta.getProductos(venta)));
 
-        //venta.setId(1L);
-        model.put("idVenta", venta.getId()); //id de venta para envio
+        model.put("idVenta", venta.getId());
         model.addAttribute("exito", true);
-        model.addAttribute("mensaje", "La venta se cargo con exito");
+        model.addAttribute("mensaje", "La venta se cargó con éxito");
 
         //Link de pago
         MercadoPago link = servicioMercadoPago.obtener(venta);
@@ -115,7 +114,7 @@ public class ControladorVenta {
         modelError.addAttribute("fecha", new Date().toString());
         modelError.addAttribute("productos", (List) servicioProducto.buscarProductos());
         modelError.addAttribute("exito", false);
-        modelError.addAttribute("message", mensaje);
+        modelError.addAttribute("mensaje", mensaje);
         return modelError;
     }
 

@@ -1,15 +1,13 @@
-html, body {
+body{
     min-height: 100vh;
+    position: relative;
+    padding-bottom: 4rem;
 }
 
 .botones_separados {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-html, body, h1, h2, h3, h4, h5 {
-    font-family: "Raleway", sans-serif
 }
 
 .link {
@@ -94,4 +92,15 @@ html, body, h1, h2, h3, h4, h5 {
     background-color: white;
     z-index: 1002;
     overflow: auto;
+}
+
+.abajo-de-todo{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.centrado-horizontal{
+    width: 50%;
+    margin: auto;
 }

@@ -36,9 +36,15 @@ public class ControladorABM {
     }
 
     @RequestMapping(path = "/goProductoForm", method = RequestMethod.GET)
-    public ModelAndView irProductoForm(@ModelAttribute("producto") Producto producto) {
+    public ModelAndView irProductoForm(@ModelAttribute("producto") Producto producto, HttpServletRequest request) {
         ModelMap model = new ModelMap();
+
+        //coloco en el modelo el mensaje que está en la sesion seteado en importarCSVProductos()
+        model.put("mensaje", request.getSession().getAttribute("mensaje"));
+        //luego elimino el atributo de la sesion para dejar via libre a otro posible mensaje|
+        request.getSession().removeAttribute("mensaje");
         model.put("productos", servicioProducto.buscarProductos());
+
         return new ModelAndView("productoForm", model);
     }
 
@@ -61,7 +67,7 @@ public class ControladorABM {
         if (CSVHelper.hasCSVFormat(file)) {
             try {
                 servicioProducto.importarSCV(file);
-                request.getSession().setAttribute("mensaje", "Archivo subido con exito");
+                request.getSession().setAttribute("mensaje", "Archivo subido con éxito");
             } catch (Exception e) {
                 request.getSession().setAttribute("mensaje", "No se pudo subir el archivo: " + file.getName() + "!");
             }
@@ -81,7 +87,7 @@ public class ControladorABM {
             return new ModelAndView("empleado-duenio-control", new ModelMap());
         }
         model.addAttribute("exito", false);
-        model.addAttribute("mensaje", "El producto se cargo con exito");
+        model.addAttribute("mensaje", "El producto se cargó con éxito");
         return new ModelAndView("empleado-duenio-control", model);
     }
 
@@ -101,7 +107,7 @@ public class ControladorABM {
             return new ModelAndView("empleado-duenio-control", new ModelMap());
         }
         model.addAttribute("exito", false);
-        model.addAttribute("mensaje", "El Empleado se cargo con exito");
+        model.addAttribute("mensaje", "El empleado se cargó con éxito");
         return new ModelAndView("empleado-duenio-control", model);
     }
 

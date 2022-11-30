@@ -1,14 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <%@ include file="generales/head.jsp" %>
-</head>
-<body class="w3-light-grey">
-<%@ include file="generales/header.jsp" %>
+<%@ include file="generales/importsGenerales.jsp" %>
 
-<h1>Error: ${msg}</h1>
-
+<div class="w3-panel w3-red">
+    <h4>Error!</h4>
+    <p>${msg}</p>
 </div>
+
 <%@ include file="generales/footer.jsp" %>
-</body>
-</html>
+
