@@ -43,6 +43,8 @@
                                href="${pagePath}/envios/anteriorEtapa?idEnvio=${envio.id}">Anterior etapa</a>
                             <a class="w3-block w3-button w3-teal"
                                href="${pagePath}/envios/siguienteEtapa?idEnvio=${envio.id}">Siguiente etapa</a>
+                            <a class="w3-block w3-button w3-teal"
+                               href="${pagePath}/envios/devolver?idEnvio=${envio.id}">Devolver</a>
                         </c:when>
 
                         <c:when test="${envio.estadoEnvio.ordinal() == 3}">
