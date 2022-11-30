@@ -70,4 +70,24 @@ public class RepositorioEnvioImpl implements RepositorioEnvio {
 
         return criteriaList;
     }
+
+    @Override
+    public List<Envio> obtenerEnviosDevueltos(Venta venta) {
+        Session session = sessionFactory.getCurrentSession();
+        Criteria cr = session.createCriteria(Envio.class);
+        cr.add(Restrictions.or(
+                        Restrictions.eq("estadoEnvio", EstadoEnvio.DEVUELTO)
+                )
+        );
+
+        cr.add(Restrictions.eq("venta", venta));
+
+        List criteriaList = cr.list();
+
+        if(criteriaList.size() == 0){
+            return null;
+        }
+
+        return criteriaList;
+    }
 }

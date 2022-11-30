@@ -14,4 +14,6 @@ public interface RepositorioEnvio {
     List<Envio> obtenerTodosLosEnvios();
 
     List<Envio> obtenerEnviosValidos(Venta venta);
+
+    List<Envio> obtenerEnviosDevueltos(Venta buscarVenta);
 }
