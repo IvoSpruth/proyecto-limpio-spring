@@ -17,6 +17,7 @@
   <table class="w3-table w3-striped w3-centered">
     <tr class="w3-teal">
       <th>Número de envío</th>
+      <th>Número de venta</th>
       <th>Nombre de cliente</th>
       <th>Dirección de envío</th>
       <th>Costo de envío</th>
@@ -28,6 +29,7 @@
     <c:forEach var="envio" items="${envios}">
       <tr>
         <td class="w3-cell-middle">${envio.id}</td>
+        <td>${envio.venta.id}</td>
         <td>${envio.cliente.nombre}</td>
         <td>${envio.direccionEnvio.nombreCompleto}</td>
         <td><f:formatNumber type="number" value="${envio.costo}" maxFractionDigits="2"/></td>
@@ -41,7 +43,7 @@
           </c:if>
           <c:choose>
             <c:when test="${envio.estadoEnvio.ordinal() == 3}">
-              <a class="w3-block w3-button w3-teal" href="${pagePath}/envios/reenviar?idEnvio=${envio.id}">Reenviar</a>
+              <a class="w3-block w3-button w3-teal" href="${pagePath}/envios/enviar/datosCliente?idVenta=${envio.venta.id}">Reenviar</a>
             </c:when>
             <c:otherwise>
               <a class="w3-block w3-button w3-teal" href="${pagePath}/envios/devolver?idEnvio=${envio.id}">Devolver</a>

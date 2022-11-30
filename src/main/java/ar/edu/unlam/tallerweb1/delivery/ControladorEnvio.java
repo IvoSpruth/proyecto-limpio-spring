@@ -109,18 +109,4 @@ public class ControladorEnvio {
         return new ModelAndView("redirect:/envios/mostrar");
     }
 
-    /*
-    @RequestMapping(path = "/reenviar", method = RequestMethod.GET)
-    public ModelAndView reenviarVenta(@RequestParam("idEnvio") Long idEnvio) {
-
-        Envio envio = servicioEnvio.obtenerEnvio(idEnvio);
-        FormEnvio form = new FormEnvio();
-        form.setIdVenta(envio.getVenta().getId());
-        form.setIdCliente(envio.getCliente().getId());
-
-        ModelAndView mav = irAFormEnvio(form);
-
-        return mav;
-    }
-    */
 }
