@@ -24,10 +24,6 @@
         <form:input path="costo" type="text" id="costo"/>
       </li>
       <li class="w3-padding-16">
-        <label for="idProveedor">Id Proveedor: </label>
-        <form:input path="idProveedor" type="number" id="idProveedor"/>
-      </li>
-      <li class="w3-padding-16">
         <label for="cantidad">Cantidad: </label>
         <form:input path="cantidad" type="number" id="cantidad"/>
       </li>
@@ -54,7 +50,6 @@
         <td>Cantidad</td>
         <td>costo</td>
         <td>Stock Maximo</td>
-        <td>ID Proveedor</td>
       </tr>
 
       <c:forEach items="${productos}" var="producto">
@@ -64,7 +59,6 @@
           <td>${producto.cantidad}</td>
           <td>${producto.costo}</td>
           <td>${producto.stockMaximo}</td>
-          <td>${producto.idProveedor}</td>
         </tr>
       </c:forEach>
 

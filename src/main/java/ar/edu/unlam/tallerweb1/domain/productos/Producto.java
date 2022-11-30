@@ -21,27 +21,22 @@ public class Producto implements Estado{
 
     private String nombre;
 
-    private int idProveedor;
-
     private int cantidad;
 
-    public Producto() {
-    }
+    public Producto() {}
 
-    public Producto(String nombre, int cantidad, double costo, int idProveedor, int stockMaximo) {
+    public Producto(String nombre, int cantidad, double costo, int stockMaximo) {
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.costo = costo;
-        this.idProveedor = idProveedor;
         this.stockMaximo = stockMaximo;
     }
 
-    public Producto(long id, String nombre, int cantidad, double costo, int idProveedor, int stockMaximo) {
+    public Producto(long id, String nombre, int cantidad, double costo, int stockMaximo) {
         this.id = id;
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.costo = costo;
-        this.idProveedor = idProveedor;
         this.stockMaximo = stockMaximo;
     }
 
@@ -79,25 +74,17 @@ public class Producto implements Estado{
         this.nombre = nombre;
     }
 
-    public int getIdProveedor() {
-        return idProveedor;
-    }
-
-    public void setIdProveedor(int idProveedor) {
-        this.idProveedor = idProveedor;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Producto producto = (Producto) o;
-        return Double.compare(producto.costo, costo) == 0 && idProveedor == producto.idProveedor && cantidad == producto.cantidad && id.equals(producto.id) && Objects.equals(nombre, producto.nombre);
+        return Double.compare(producto.costo, costo) == 0 && cantidad == producto.cantidad && id.equals(producto.id) && Objects.equals(nombre, producto.nombre);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, costo, nombre, idProveedor, cantidad);
+        return Objects.hash(id, costo, nombre, cantidad);
     }
 
     public Integer getStockMaximo() {

@@ -41,7 +41,6 @@ public class CSVHelper {
                             csvRecord.get("nombre"),
                             Integer.parseInt(csvRecord.get("cantidad")),
                             Double.parseDouble(csvRecord.get("costo")),
-                            Integer.parseInt(csvRecord.get("idProveedor")),
                             Integer.parseInt(csvRecord.get("stockMaximo"))
                     );
                     ProductosRecuperados.add(producto);
@@ -52,7 +51,6 @@ public class CSVHelper {
                             csvRecord.get("nombre"),
                             Integer.parseInt(csvRecord.get("cantidad")),
                             Double.parseDouble(csvRecord.get("costo")),
-                            Integer.parseInt(csvRecord.get("idProveedor")),
                             Integer.parseInt(csvRecord.get("stockMaximo"))
                     );
                     ProductosRecuperados.add(producto);
@@ -81,8 +79,7 @@ public class CSVHelper {
                         producto.getNombre(),
                         String.valueOf(producto.getCantidad()),
                         String.valueOf(producto.getCosto()),
-                        String.valueOf(producto.getStockMaximo()),
-                        String.valueOf(producto.getIdProveedor())
+                        String.valueOf(producto.getStockMaximo())
                 );
 
                 csvPrinter.printRecord(data);
