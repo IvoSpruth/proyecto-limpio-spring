@@ -3,23 +3,18 @@ package ar.edu.unlam.tallerweb1.domain;
 import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.*;
 import ar.edu.unlam.tallerweb1.domain.empleados.Empleado;
-import ar.edu.unlam.tallerweb1.domain.empleados.RepositorioEmpleado;
-import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
-import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleadoImpl;
 import ar.edu.unlam.tallerweb1.domain.productos.Producto;
-import ar.edu.unlam.tallerweb1.domain.productos.RepositorioProducto;
-import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
-import ar.edu.unlam.tallerweb1.domain.productos.ServicioProductoImpl;
-import ar.edu.unlam.tallerweb1.domain.ventas.*;
+import ar.edu.unlam.tallerweb1.domain.ventas.CantidadInsuficienteException;
+import ar.edu.unlam.tallerweb1.domain.ventas.IdEmpleadoNoValidoException;
+import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
+import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -188,14 +183,11 @@ public class ServicioCierreDiarioTest extends SpringTest {
         producto1.setCantidad(50);
         producto1.setCosto(500);
         producto1.setNombre("cargador");
-        producto1.setIdProveedor(1);
-
         producto2 = new Producto();
         producto2.setId((long)2);
         producto2.setCantidad(100);
         producto2.setCosto(1700);
         producto2.setNombre("adaptador");
-        producto2.setIdProveedor(2);
 
         productos.add(producto1);
         productos.add(producto2);

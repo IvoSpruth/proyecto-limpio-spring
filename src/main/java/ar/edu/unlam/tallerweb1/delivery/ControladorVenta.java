@@ -129,7 +129,6 @@ public class ControladorVenta {
 //    }
 
     private List<ModelMap> prepareProductosModel(List<Producto> productos) {
-        ModelMap prods = new ModelMap();
         ArrayList<ModelMap> pp = new ArrayList<>();
 
         for (Producto p : productos) {
