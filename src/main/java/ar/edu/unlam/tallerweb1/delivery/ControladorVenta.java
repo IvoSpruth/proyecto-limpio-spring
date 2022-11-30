@@ -118,6 +118,7 @@ public class ControladorVenta {
         modelError.addAttribute("productos", (List) servicioProducto.buscarProductos());
         modelError.addAttribute("exito", false);
         modelError.addAttribute("message", mensaje);
+        modelError.addAttribute("empleados",servicioEmpleado.listarEmpleados());
         return modelError;
     }
 
