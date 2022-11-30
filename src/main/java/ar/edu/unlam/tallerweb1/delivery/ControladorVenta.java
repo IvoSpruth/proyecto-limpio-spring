@@ -37,10 +37,11 @@ public class ControladorVenta {
     private ServicioMercadoPago servicioMercadoPago;
 
     @Autowired
-    public ControladorVenta(ServicioProducto servicioProducto, ServicioVenta servicioVenta, ServicioMercadoPago servicioMercadoPago) {
+    public ControladorVenta(ServicioProducto servicioProducto, ServicioVenta servicioVenta, ServicioMercadoPago servicioMercadoPago, ServicioEmpleado servicioEmpleado) {
         this.servicioProducto = servicioProducto;
         this.servicioVenta = servicioVenta;
         this.servicioMercadoPago = servicioMercadoPago;
+        this.servicioEmpleado = servicioEmpleado;
     }
 
     @RequestMapping(path = "/goVentaForm", method = RequestMethod.GET)
@@ -49,6 +50,7 @@ public class ControladorVenta {
         ModelMap productos = new ModelMap();
         model.addAttribute("fecha", new Date().toString());
         model.addAttribute("productos", (List) servicioProducto.buscarProductos());
+        model.addAttribute("empleados", servicioEmpleado.listarEmpleados());
         return new ModelAndView("ventaForm", model);
     }
 

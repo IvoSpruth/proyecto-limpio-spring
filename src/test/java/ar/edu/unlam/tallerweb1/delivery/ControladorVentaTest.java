@@ -4,6 +4,7 @@ import ar.edu.unlam.tallerweb1.SpringTest;
 import ar.edu.unlam.tallerweb1.delivery.forms.DatosVenta;
 import ar.edu.unlam.tallerweb1.domain.cobros.MercadoPago;
 import ar.edu.unlam.tallerweb1.domain.cobros.ServicioMercadoPago;
+import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
 import ar.edu.unlam.tallerweb1.domain.ventas.CantidadInsuficienteException;
@@ -31,7 +32,7 @@ public class ControladorVentaTest extends SpringTest {
     private ServicioVenta servicioVenta;
     private ServicioProducto servicioProducto;
     private ServicioMercadoPago servicioMercadoPago;
-
+    private ServicioEmpleado servicioEmpleado;
     private DatosVenta datosVenta;
 
     private HttpServletRequest request;
@@ -45,7 +46,8 @@ public class ControladorVentaTest extends SpringTest {
         this.servicioVenta = mock(ServicioVenta.class);
         this.servicioProducto = mock(ServicioProducto.class);
         this.servicioMercadoPago = mock(ServicioMercadoPago.class);
-        this.controladorVenta = new ControladorVenta(this.servicioProducto, this.servicioVenta, this.servicioMercadoPago);
+        this.servicioEmpleado = mock(ServicioEmpleado.class);
+        this.controladorVenta = new ControladorVenta(this.servicioProducto, this.servicioVenta, this.servicioMercadoPago,this.servicioEmpleado);
         venta = prepareVenta();
         this.request = mock(HttpServletRequest.class);
     }
