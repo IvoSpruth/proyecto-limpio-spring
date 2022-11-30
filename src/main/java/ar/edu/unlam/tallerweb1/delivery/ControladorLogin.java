@@ -34,12 +34,18 @@ public class ControladorLogin {
 
     // Este metodo escucha la URL localhost:8080/NOMBRE_APP/login si la misma es invocada por metodo http GET
     @RequestMapping("/login")
-    public ModelAndView irALogin() {
+    public ModelAndView irALogin(HttpServletRequest request) {
+
+        if (request.getSession().getAttribute("ROL") != null) {
+            return new ModelAndView("redirect:/centroControl");
+        }
 
         ModelMap modelo = new ModelMap();
         // Se agrega al modelo un objeto con key 'datosLogin' para que el mismo sea asociado
         // al model attribute del form que esta definido en la vista 'login'
         modelo.put("datosLogin", new DatosLogin());
+        //Se agrega un flag para saber que es login y no otra pagina
+        modelo.put("login", true);
         // Se va a la vista login (el nombre completo de la lista se resuelve utilizando el view resolver definido en el archivo spring-servlet.xml)
         // y se envian los datos a la misma  dentro del modelo
         return new ModelAndView("login", modelo);
@@ -83,8 +89,18 @@ public class ControladorLogin {
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public ModelAndView inicio(HttpServletRequest request) {
 
-        if (request.getAttribute("ROL") != null) {
+        if (request.getSession().getAttribute("ROL") != null) {
             return new ModelAndView("redirect:/centroControl");
+        }
+        return new ModelAndView("redirect:/login");
+    }
+
+    @RequestMapping(path = "/cerrarSesion", method = RequestMethod.GET)
+    public ModelAndView cerrarSesion(HttpServletRequest request) {
+
+        if (request.getSession().getAttribute("ROL") != null) {
+            request.getSession().invalidate();
+            return new ModelAndView("redirect:/login");
         }
         return new ModelAndView("redirect:/login");
     }
