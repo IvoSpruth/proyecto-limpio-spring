@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -24,14 +25,33 @@ public class ControladorEnvio {
     private ServicioEnvio servicioEnvio;
 
     @Autowired
-    public ControladorEnvio(ServicioCliente servicioCliente, ServicioEnvio servicioEnvio){
+    public ControladorEnvio(ServicioCliente servicioCliente, ServicioEnvio servicioEnvio) {
         this.servicioCliente = servicioCliente;
         this.servicioEnvio = servicioEnvio;
     }
 
-    @RequestMapping(path = "/form/datosCliente", method = RequestMethod.GET)
-    public ModelAndView irAFormCliente(@RequestParam("idVenta") Long idVenta){
+    @RequestMapping(path = "/mostrar", method = RequestMethod.GET)
+    public ModelAndView mostrarEnvios(HttpServletRequest request) {
         ModelMap modelo = new ModelMap();
+
+        List<Envio> envios = servicioEnvio.obtenerEnvios();
+
+        modelo.put("errorEnvio", request.getSession().getAttribute("errorEnvio"));
+        modelo.put("envios", envios);
+
+        request.getSession().removeAttribute("errorEnvio");
+
+        return new ModelAndView("envioMostrarEnvios", modelo);
+    }
+
+    @RequestMapping(path = "/enviar/datosCliente", method = RequestMethod.GET)
+    public ModelAndView irAFormCliente(@RequestParam("idVenta") Long idVenta, HttpServletRequest request) {
+        ModelMap modelo = new ModelMap();
+
+        if(servicioEnvio.obtenerEnviosPorVentaValidos(idVenta) != null){
+            request.getSession().setAttribute("errorEnvio", "La venta ya tiene un envio asociado");
+            return new ModelAndView("redirect:/envios/mostrar");
+        }
 
         FormEnvio form = new FormEnvio();
         form.setIdVenta(idVenta);
@@ -42,8 +62,8 @@ public class ControladorEnvio {
         return new ModelAndView("envioFormCliente", modelo);
     }
 
-    @RequestMapping(path = "/form/datosEnvio", method = RequestMethod.POST)
-    public ModelAndView irAFormEnvio(@ModelAttribute FormEnvio form){
+    @RequestMapping(path = "/enviar/datosEnvio", method = RequestMethod.POST)
+    public ModelAndView irAFormEnvio(@ModelAttribute FormEnvio form) {
         ModelMap modelo = new ModelMap();
 
         Cliente cliente = servicioCliente.buscarCliente(form.getIdCliente());
@@ -56,7 +76,7 @@ public class ControladorEnvio {
     }
 
     @RequestMapping(path = "/procesarEnvio", method = RequestMethod.POST)
-    public ModelAndView procesarInfoEnvio(@ModelAttribute FormEnvio form){
+    public ModelAndView procesarInfoEnvio(@ModelAttribute FormEnvio form) {
         ModelMap modelo = new ModelMap();
 
         Envio envio = servicioEnvio.concretarEnvio(form);
@@ -66,7 +86,7 @@ public class ControladorEnvio {
     }
 
     @RequestMapping(path = "/siguienteEtapa", method = RequestMethod.GET)
-    public ModelAndView pasarASiguienteEtapa(@RequestParam("idEnvio") Long idEnvio){
+    public ModelAndView pasarASiguienteEtapa(@RequestParam("idEnvio") Long idEnvio) {
 
         servicioEnvio.siguienteEtapaEnvio(idEnvio);
 
@@ -74,7 +94,7 @@ public class ControladorEnvio {
     }
 
     @RequestMapping(path = "/anteriorEtapa", method = RequestMethod.GET)
-    public ModelAndView pasarAnteriorEtapa(@RequestParam("idEnvio") Long idEnvio){
+    public ModelAndView pasarAnteriorEtapa(@RequestParam("idEnvio") Long idEnvio) {
 
         servicioEnvio.anteriorEtapaEnvio(idEnvio);
 
@@ -82,21 +102,25 @@ public class ControladorEnvio {
     }
 
     @RequestMapping(path = "/devolver", method = RequestMethod.GET)
-    public ModelAndView devolverEnvio(@RequestParam("idEnvio") Long idEnvio){
+    public ModelAndView devolverEnvio(@RequestParam("idEnvio") Long idEnvio) {
 
         servicioEnvio.devolverEnvio(idEnvio);
 
         return new ModelAndView("redirect:/envios/mostrar");
     }
 
-    @RequestMapping(path = "/mostrar", method = RequestMethod.GET)
-    public ModelAndView mostrarEnvios(){
-        ModelMap modelo = new ModelMap();
+    /*
+    @RequestMapping(path = "/reenviar", method = RequestMethod.GET)
+    public ModelAndView reenviarVenta(@RequestParam("idEnvio") Long idEnvio) {
 
-        List<Envio> envios = servicioEnvio.obtenerEnvios();
+        Envio envio = servicioEnvio.obtenerEnvio(idEnvio);
+        FormEnvio form = new FormEnvio();
+        form.setIdVenta(envio.getVenta().getId());
+        form.setIdCliente(envio.getCliente().getId());
 
-        modelo.put("envios", envios);
+        ModelAndView mav = irAFormEnvio(form);
 
-        return new ModelAndView("envioMostrarEnvios", modelo);
+        return mav;
     }
+    */
 }

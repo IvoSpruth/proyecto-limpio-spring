@@ -7,6 +7,7 @@ import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "envio")
@@ -20,7 +21,7 @@ public class Envio {
     @JoinColumn //foreign key column of envio table referencing cliente table
     private Cliente cliente; //cliente_id
 
-    @OneToOne(fetch = FetchType.EAGER) //owning side of the relationship
+    @ManyToOne //owning side of the relationship
     @JoinColumn //venta_id
     private Venta venta;
 
@@ -38,6 +39,25 @@ public class Envio {
     private EstadoEnvio estadoEnvio = EstadoEnvio.EN_PREPARACION;
 
     public Envio(){}
+
+    public Envio(Cliente cliente, Direccion direccion, Venta venta){
+        this.cliente = cliente;
+        this.direccionEnvio = direccion;
+        this.venta = venta;
+        this.costo = calcularCosto(this.venta.getTotal());
+        this.setEstadoEnvio(EstadoEnvio.EN_PREPARACION);
+        this.setFechaSalida(LocalDateTime.now());
+        this.setFechaLlegada(LocalDateTime.now().plusDays(2));
+    }
+
+    private Double calcularCosto(double total) {
+        if(total < 1000){
+            return 200D;
+        }
+        else{
+            return total * 0.2;
+        }
+    }
 
     public Long getId() {
         return id;
@@ -89,6 +109,14 @@ public class Envio {
 
     public LocalDateTime getFechaSalida() {
         return fechaSalida;
+    }
+
+    public String getFechaSalida(String pattern) {
+        return DateTimeFormatter.ofPattern(pattern).format(this.fechaSalida);
+    }
+
+    public String getFechaLlegada(String pattern) {
+        return DateTimeFormatter.ofPattern(pattern).format(this.fechaLlegada);
     }
 
     public void setFechaSalida(LocalDateTime fechaSalida) {

@@ -14,4 +14,8 @@ public interface ServicioEnvio {
     List<Envio> obtenerEnvios();
 
     void devolverEnvio(Long idEnvio);
+
+    Envio obtenerEnvio(Long idEnvio);
+
+    List<Envio> obtenerEnviosPorVentaValidos(Long idVenta);
 }

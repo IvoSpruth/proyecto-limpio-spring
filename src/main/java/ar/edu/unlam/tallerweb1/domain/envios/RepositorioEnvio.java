@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.envios;
 
+import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
+
 import java.util.List;
 
 public interface RepositorioEnvio {
@@ -10,4 +12,6 @@ public interface RepositorioEnvio {
     void actualizarEnvio(Envio envio);
 
     List<Envio> obtenerTodosLosEnvios();
+
+    List<Envio> obtenerEnviosValidos(Venta venta);
 }

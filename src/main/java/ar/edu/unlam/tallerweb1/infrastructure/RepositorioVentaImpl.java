@@ -89,4 +89,10 @@ public class RepositorioVentaImpl implements RepositorioVenta {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Venta.class, id);
     }
+
+    @Override
+    public void actualizarVenta(Venta venta) {
+        Session session = sessionFactory.getCurrentSession();
+        session.update(venta);
+    }
 }

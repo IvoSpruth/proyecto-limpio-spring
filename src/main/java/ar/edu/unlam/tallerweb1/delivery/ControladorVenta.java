@@ -94,7 +94,7 @@ public class ControladorVenta {
         model.addAttribute("fecha", LocalDate.now().toString());
         model.addAttribute("productos", (List) prepareProductosModel(servicioVenta.getProductos(venta)));
 
-        venta.setId(1L);
+        //venta.setId(1L);
         model.put("idVenta", venta.getId()); //id de venta para envio
         model.addAttribute("exito", true);
         model.addAttribute("mensaje", "La venta se cargo con exito");

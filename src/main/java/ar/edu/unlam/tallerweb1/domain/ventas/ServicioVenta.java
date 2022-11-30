@@ -40,4 +40,6 @@ public interface ServicioVenta {
     Venta buscarVenta(Long idVenta);
 
     List<Producto> getProductos(Venta venta);
+
+    void actualizarVenta(Venta venta);
 }

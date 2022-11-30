@@ -26,7 +26,6 @@ public class ServicioVentaImpl implements ServicioVenta {
     private ServicioProducto servicioProducto;
     private ServicioEmpleado servicioEmpleado;
     private ServicioCierreDiario servicioCierreDiario;
-    private double subtotalProductos= 0.0;
     private ServicioMercadoPago servicioMercadoPago;
 
     @Autowired
@@ -259,5 +258,10 @@ public class ServicioVentaImpl implements ServicioVenta {
             }
         }
         return productosFinal;
+    }
+
+    @Override
+    public void actualizarVenta(Venta venta) {
+        repositorioVenta.actualizarVenta(venta);
     }
 }

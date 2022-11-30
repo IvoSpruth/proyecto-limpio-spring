@@ -22,4 +22,6 @@ public interface RepositorioVenta {
     List<Venta> listarVentasPorEmpleadoYFechas(Integer idEmpleado, LocalDate fechaInicial, LocalDate fechaFinal);
 
     Venta buscarVenta(Long id);
+
+    void actualizarVenta(Venta venta);
 }

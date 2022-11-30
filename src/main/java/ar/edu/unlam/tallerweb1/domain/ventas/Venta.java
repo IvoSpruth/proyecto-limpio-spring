@@ -3,11 +3,13 @@ package ar.edu.unlam.tallerweb1.domain.ventas;
 import ar.edu.unlam.tallerweb1.domain.cierreDiario.CierreDiario;
 import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import ar.edu.unlam.tallerweb1.domain.envios.Envio;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.*;
+
 import java.time.LocalTime;
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -21,7 +23,8 @@ public class Venta {
 
     private int idEmpleado;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @NotFound(action = NotFoundAction.IGNORE)
     private CierreDiario cierre;
 
@@ -44,8 +47,11 @@ public class Venta {
             orphanRemoval = true
     )
     private List<VentaProducto> productos = new ArrayList<>();
-    @OneToOne(mappedBy = "venta")
-    private Envio envio;
+
+
+    @OneToMany(mappedBy = "venta")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Envio> envios;
 
     public Long getId() {
         return id;
@@ -138,11 +144,16 @@ public class Venta {
         this.hora = hora;
     }
 
-    public Envio getEnvio() {
-        return envio;
+    public void agregarEnvio(Envio envio) {
+        this.total = this.total + envio.getCosto();
+        this.envios.add(envio);
     }
 
-    public void setEnvio(Envio envio) {
-        this.envio = envio;
+    public List<Envio> getEnvios() {
+        return envios;
+    }
+
+    public void setEnvios(List<Envio> envios) {
+        this.envios = envios;
     }
 }
