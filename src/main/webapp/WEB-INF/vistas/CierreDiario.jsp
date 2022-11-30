@@ -102,25 +102,15 @@
 <%-- --- --%>
 
 
-<div id="desgMinCNContainer" onclick="closeDesglose()">
+<div id="desgMinCNContainer" onclick="closeDesglose()" ">
   <div id="desgMinCN" class="white_content">
     <br><br>
-    <table class="basicTable">
-      <colgroup>
-        <col width="30%">
-        <col width="22%">
-        <col width="16%">
-        <col width="16%">
-        <col width="16%">
-      </colgroup>
-
-
+    <table class="w3-table w3-striped w3-border">
       <tr class="rowLine">
         <td>ID</td>
         <td>Fecha</td>
         <td>Cantidad Productos</td>
         <td>Total</td>
-        <td>Id Empleado</td>
       </tr>
 
       <c:forEach items="${cierres}" var="c">
@@ -129,7 +119,6 @@
           <td>${c.fecha}</td>
           <td>${c.cantProductos}</td>
           <td>${c.total}</td>
-          <td>${c.idEmpleado}</td>
         </tr>
       </c:forEach>
 
