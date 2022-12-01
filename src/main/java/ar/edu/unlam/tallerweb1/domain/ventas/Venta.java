@@ -53,6 +53,16 @@ public class Venta {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Envio> envios;
 
+    private String pathFactura;
+
+    public String getPathFactura() {
+        return pathFactura;
+    }
+
+    public void setPathFactura(String pathFactura) {
+        this.pathFactura = pathFactura;
+    }
+
     public Long getId() {
         return id;
     }

@@ -38,10 +38,12 @@ public class PdfManager {
     
     private int lastEmisionesLine;
     
-    @Value(value="${inputPathPDF}")
-    private String inputPath ;
-    @Value(value="${outputPathPDF}")
-    private String outputPath ;
+//    @Value(value="${inputPathPDF}")
+    private String inputPath = "C:\\Users\\IvoSpruth\\Documents\\Personal\\Taller Web I\\proyecto-limpio-spring\\resources\\pruebaTaller.pdf";
+
+
+//    @Value(value="${outputPathPDF}")
+    private String outputPath = "C:\\Users\\IvoSpruth\\Documents\\Personal\\Taller Web I\\proyecto-limpio-spring\\resources";
     private PdfReader reader;
     private PdfStamper stamper; // output PDF - SI ES SOLAMENTE 1
     private List<PdfContentByte> pdfs;
@@ -73,7 +75,7 @@ public class PdfManager {
         reader = new PdfReader(inputPath);
 
 
-        outputPath += String.valueOf(new Random().nextInt()*10)+_extension;
+        outputPath += "\\"+String.valueOf(new Random().nextInt()*10)+_extension;
 
         for (int i=1; i<=reader.getNumberOfPages(); i++){
             stamper = new PdfStamper(reader, new FileOutputStream(outputPath));

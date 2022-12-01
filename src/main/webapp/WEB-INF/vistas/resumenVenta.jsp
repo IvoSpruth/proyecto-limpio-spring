@@ -35,8 +35,7 @@
       <a href="${pagePath}/centroControl">Volver al inicio</a>
       <i class="fa fa-arrow-left"></i></button>
     <button class="w3-button w3-teal">
-      <!-- TODO: arreglar la factura -->
-      <a href="#">Descargar factura</a>
+      <a href="${pagePath}/getFactura?pathUrl=${urlFactura}">Descargar factura</a>
       <i class="fa fa-arrow-down"></i></button>
     <button class="w3-button w3-teal">
       <a href="${linkDePago}" target="_blank">

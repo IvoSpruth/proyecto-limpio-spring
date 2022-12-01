@@ -66,7 +66,7 @@
               </c:if>
             </c:forEach>
           </td>
-          <td><a href="${pagePath}/goPDF" class="btn btn-info" role="button">PDF</a></td>
+          <td><a href="${pagePath}/getFactura?pathUrl=${v.pathFactura}" class="btn btn-info" role="button">PDF</a></td>
           <td><a class="w3-button w3-teal" href="${pagePath}/envios/enviar/datosCliente?idVenta=${v.id}">Realizar
             envío</a></td>
         </tr>

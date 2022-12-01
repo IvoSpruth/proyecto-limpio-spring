@@ -49,7 +49,7 @@ public class ServicioVentaImpl implements ServicioVenta {
             repositorioVenta.addVenta(venta);
             actualizarCantidadesStock(venta);
             servicioMercadoPago.crearLinkDePago(venta);
-            createFactura(venta);
+            venta.setPathFactura(createFactura(venta).getName());
             return true;
         } catch (CantidadInsuficienteException cie) {
             throw new CantidadInsuficienteException(cie.getMessage());

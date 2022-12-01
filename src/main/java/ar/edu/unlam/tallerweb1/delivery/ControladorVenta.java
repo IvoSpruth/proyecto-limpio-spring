@@ -12,15 +12,18 @@ import ar.edu.unlam.tallerweb1.domain.ventas.IdEmpleadoNoValidoException;
 import ar.edu.unlam.tallerweb1.domain.ventas.ServicioVenta;
 import ar.edu.unlam.tallerweb1.domain.ventas.Venta;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,14 +57,6 @@ public class ControladorVenta {
         return new ModelAndView("ventaForm", model);
     }
 
-
-/*    @RequestMapping(path = "/goResumen", method = RequestMethod.GET )
-    public ModelAndView irAResumen(@ModelAttribute("venta") Venta venta ) {
-        ModelMap model = new ModelMap();
-
-        return new ModelAndView("resumenVenta", model);
-    }*/
-
     @RequestMapping(path = "/addVenta", method = RequestMethod.POST)
     public ModelAndView addVenta(@ModelAttribute("datosVenta") DatosVenta datosVenta, HttpServletRequest req) {
         ModelMap model = new ModelMap();
@@ -78,12 +73,32 @@ public class ControladorVenta {
             return new ModelAndView("ventaForm", getModelError("Hubo un error inesperado" + e.getMessage()));
         }
 
-        //String nombreEmpleado = servicioVenta.buscarNombreEmpleado(venta.getIdEmpleado());
-        //model.put("nombreEmpleado", nombreEmpleado);
-        //String nombreEmpleado = servicioVenta.buscarNombreDeEmpleadoPorId(venta.getIdEmpleado());
-
         cargaDeDatos(model, venta);
         return new ModelAndView("resumenVenta", model);
+    }
+
+    @RequestMapping(path = "/getFactura",produces = "application/pdf")
+    public ResponseEntity<Resource> getFactura(@RequestParam String pathUrl) {
+        File factura = new File("C://Users//IvoSpruth//Documents//Personal//Taller Web I//proyecto-limpio-spring//resources//"+pathUrl);
+        String filename = factura.getName();
+        InputStream targetStream;
+        FileInputStream fl;
+        InputStreamResource fsr;
+        try {
+            fl = new FileInputStream(factura);
+            targetStream = new ByteArrayInputStream(fl.readAllBytes());
+            fsr = new InputStreamResource(targetStream);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
+                .contentType(MediaType.parseMediaType("application/csv"))
+                .body(fsr);
     }
 
     private void cargaDeDatos(ModelMap model, Venta venta) {
@@ -97,6 +112,7 @@ public class ControladorVenta {
         model.addAttribute("productos", (List) prepareProductosModel(servicioVenta.getProductos(venta)));
 
         model.put("idVenta", venta.getId());
+        model.put("urlFactura", venta.getPathFactura());
         model.addAttribute("exito", true);
         model.addAttribute("mensaje", "La venta se cargó con éxito");
 
