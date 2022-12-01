@@ -67,7 +67,8 @@
             </c:forEach>
           </td>
           <td><a href="${pagePath}/goPDF" class="btn btn-info" role="button">PDF</a></td>
-          <td><a class="w3-button w3-teal" href="${pagePath}/envios/enviar/datosCliente?idVenta=${v.id}">Realizar envío</a></td>
+          <td><a class="w3-button w3-teal" href="${pagePath}/envios/enviar/datosCliente?idVenta=${v.id}">Realizar
+            envío</a></td>
         </tr>
       </c:forEach>
 
@@ -92,14 +93,6 @@
   </button>
 
 </div>
-<c:if test="${exito==false}">
-  <div classs="container p-5">
-    <div class="alert alert-danger" role="alert">
-        ${mensaje}
-    </div>
-  </div>
-</c:if>
-<%-- --- --%>
 
 
 <div id="desgMinCNContainer" onclick="closeDesglose()">
