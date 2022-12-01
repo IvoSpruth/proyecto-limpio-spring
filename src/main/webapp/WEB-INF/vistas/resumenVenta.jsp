@@ -42,7 +42,7 @@
       <a href="${linkDePago}" target="_blank" class="link">
         <i class="fa fa-arrow-right"></i>Ir a link de pago</a></button>
     <button class="w3-button w3-teal">
-      <a href="${pagePath}/envios/enviar/datosCliente?idVenta=${idVenta}">Enviar producto</a>
+      <a href="${pagePath}/envios/enviar/datosCliente?idVenta=${idVenta}">Enviar productos</a>
     </button>
   </div>
 
