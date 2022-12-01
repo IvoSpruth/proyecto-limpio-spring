@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain.cliente;
 
+import java.io.Serializable;
 import java.util.List;
 
 public interface RepositorioCliente {
@@ -15,4 +16,8 @@ public interface RepositorioCliente {
    Direccion obtenerDireccion(Long id);
 
    List<Direccion> obtenerDireccionCliente(Long idCliente);
+
+    Serializable crearCliente(Cliente cliente);
+
+   void actualizarCliente(Cliente cliente);
 }

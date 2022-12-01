@@ -41,7 +41,15 @@
       </h4>
     </div>
   </div>
-  <div class="w3-half w3-margin-top">
+  <div class="w3-quarter w3-margin-top">
+    <div class="w3-container w3-teal w3-padding-16">
+      <div class="w3-left"><i class="fa fa-user w3-xxxlarge w3-margin-right"></i></div>
+      <h4>
+        <a href="${pagePath}/clientes" class="link">Administrá los clientes</a>
+      </h4>
+    </div>
+  </div>
+  <div class="w3-quarter w3-margin-top">
     <div class="w3-container w3-green w3-padding-16">
       <div class="w3-left"><i class="fa fa-truck w3-xxxlarge w3-margin-right"></i></div>
       <h4>

@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.domain.cliente;
 
+import java.io.InputStream;
 import java.util.List;
 
 public interface ServicioCliente {
@@ -15,4 +16,12 @@ public interface ServicioCliente {
     List<Direccion> obtenerDireccionesCliente(Long idCliente);
 
     Direccion obtenerDireccion(Long idDireccion);
+
+    void crearCliente(Cliente cliente);
+
+    Cliente obtenerCliente(Long id);
+
+    void actualizarCliente(Cliente cliente);
+
+    InputStream exportarCSV();
 }

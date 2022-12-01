@@ -23,22 +23,23 @@
 <!-- TODO: TRES FORMAS DE MOSTRAR ERRORES!!!!!!!!!!!!! -->
 
 <c:if test="${exito==false}">
-  <div class="w3-panel w3-red">
-    <h4>Alerta!</h4>
-    <p>${mensaje}</p>
-  </div>
+    <div class="w3-panel w3-red">
+        <h4>Alerta!</h4>
+        <p>${mensaje}</p>
+    </div>
 </c:if>
 
 <c:if test="${not empty error}">
-  <div class="w3-panel w3-red">
-    <h4>Alerta!</h4>
-    <p>${error}</p>
-  </div>
+    <div class="w3-panel w3-red">
+        <h4>Alerta!</h4>
+        <p>${error}</p>
+    </div>
 </c:if>
 
 <c:if test="${not empty mensaje}">
-  <div class="w3-panel w3-blue">
-    <h4>Info!</h4>
-    <p>${mensaje}</p>
-  </div>
+    <div class="w3-panel w3-blue">
+        <h4>Info!</h4>
+        <p>${mensaje}</p>
+    </div>
+    <% session.removeAttribute("mensaje");%>
 </c:if>

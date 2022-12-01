@@ -1,12 +1,15 @@
 package ar.edu.unlam.tallerweb1.domain.cliente;
 
+import ar.edu.unlam.tallerweb1.domain.productos.Producto;
+import ar.edu.unlam.tallerweb1.domain.utils.CSVHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
 import java.util.List;
 
-@Service("servicioCliente")
+@Service
 @Transactional
 public class ServicioClienteImpl implements ServicioCliente {
 
@@ -46,4 +49,27 @@ public class ServicioClienteImpl implements ServicioCliente {
     public Direccion obtenerDireccion(Long id) {
         return repositorioCliente.obtenerDireccion(id);
     }
+
+    @Override
+    public void crearCliente(Cliente cliente) {
+        repositorioCliente.crearCliente(cliente);
+    }
+
+    @Override
+    public Cliente obtenerCliente(Long id) {
+        return repositorioCliente.buscarCliente(id);
+    }
+
+    @Override
+    public void actualizarCliente(Cliente cliente) {
+        repositorioCliente.actualizarCliente(cliente);
+    }
+
+    @Override
+    public InputStream exportarCSV() {
+        List<Cliente> clientes = repositorioCliente.buscarTodosLosClientes();
+        return CSVHelper.clientes2CSV(clientes);
+    }
+
+
 }

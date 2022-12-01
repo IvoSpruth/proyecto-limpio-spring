@@ -10,6 +10,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.util.List;
 
 
@@ -63,5 +64,17 @@ public class RepositorioClienteImpl implements RepositorioCliente {
         Criteria cr = session.createCriteria(Direccion.class);
         //cr.add(Restrictions.eq("cliente_id", idCliente));
         return cr.list();
+    }
+
+    @Override
+    public Serializable crearCliente(Cliente cliente) {
+        final Session session = sessionFactory.getCurrentSession();
+        return session.save(cliente);
+    }
+
+    @Override
+    public void actualizarCliente(Cliente cliente) {
+        final Session session = sessionFactory.getCurrentSession();
+        session.update(cliente);
     }
 }
