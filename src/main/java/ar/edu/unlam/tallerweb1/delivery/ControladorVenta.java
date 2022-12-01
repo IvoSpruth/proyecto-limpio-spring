@@ -97,7 +97,7 @@ public class ControladorVenta {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
-                .contentType(MediaType.parseMediaType("application/csv"))
+                .contentType(MediaType.parseMediaType("application/pdf"))
                 .body(fsr);
     }
 
