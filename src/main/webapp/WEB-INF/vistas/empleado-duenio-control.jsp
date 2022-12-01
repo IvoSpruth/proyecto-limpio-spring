@@ -35,7 +35,7 @@
   </div>
   <div class="w3-quarter">
     <div class="w3-container w3-orange w3-text-white w3-padding-16">
-      <div class="w3-left"><i class="fa fa-times-circle-o w3-xxxlarge w3-margin-right"></i></div>
+      <div class="w3-left"><i class="fa fa-dollar w3-xxxlarge w3-margin-right"></i></div>
       <h4>
         <a href="${pagePath}/goOfertas" class="link">Enviá tus ofertas</a>
       </h4>
@@ -43,7 +43,7 @@
   </div>
   <div class="w3-half w3-margin-top">
     <div class="w3-container w3-green w3-padding-16">
-      <div class="w3-left"><i class="fa fa-times-circle-o w3-xxxlarge w3-margin-right"></i></div>
+      <div class="w3-left"><i class="fa fa-truck w3-xxxlarge w3-margin-right"></i></div>
       <h4>
         <a href="${pagePath}/envios/mostrar" class="link">Administrá los envíos</a>
       </h4>
@@ -51,7 +51,7 @@
   </div>
   <div class="w3-half w3-margin-top">
     <div class="w3-container w3-purple w3-padding-16">
-      <div class="w3-left"><i class="fa fa-times-circle-o w3-xxxlarge w3-margin-right"></i></div>
+      <div class="w3-left"><i class="fa fa-clipboard w3-xxxlarge w3-margin-right"></i></div>
       <h4>
         <a href="${pagePath}/informes" class="link">Visualizá tus informes</a>
       </h4>
