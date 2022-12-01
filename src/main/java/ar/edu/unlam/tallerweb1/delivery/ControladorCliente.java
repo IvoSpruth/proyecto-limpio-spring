@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 import ar.edu.unlam.tallerweb1.delivery.forms.Fechas;
 import ar.edu.unlam.tallerweb1.domain.cliente.Cliente;
 import ar.edu.unlam.tallerweb1.domain.cliente.ServicioCliente;
+import ar.edu.unlam.tallerweb1.domain.utils.CSVHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -14,6 +15,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,6 +77,24 @@ public class ControladorCliente {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + filename)
                 .contentType(MediaType.parseMediaType("application/csv"))
                 .body(file);
+    }
+
+    @RequestMapping(path = "/importarClientes", method = RequestMethod.POST)
+    public ModelAndView importarCSVClientes(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+
+        ModelMap model = new ModelMap();
+
+        if (CSVHelper.hasCSVFormat(file)) {
+            try {
+                servicioCliente.importarSCV(file);
+                request.getSession().setAttribute("mensaje", "Archivo subido con éxito");
+            } catch (Exception e) {
+                request.getSession().setAttribute("mensaje", "No se pudo subir el archivo: " + file.getName() + "!");
+            }
+        } else {
+            request.getSession().setAttribute("mensaje", "El archivo subido no es un CSV");
+        }
+        return new ModelAndView("redirect:/clientes");
     }
 
 }

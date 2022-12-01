@@ -5,6 +5,7 @@ import ar.edu.unlam.tallerweb1.domain.utils.CSVHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.util.List;
@@ -69,6 +70,26 @@ public class ServicioClienteImpl implements ServicioCliente {
     public InputStream exportarCSV() {
         List<Cliente> clientes = repositorioCliente.buscarTodosLosClientes();
         return CSVHelper.clientes2CSV(clientes);
+    }
+
+
+    @Transactional
+    @Override
+    public void importarSCV(MultipartFile file) {
+        List<Cliente> clientes = CSVHelper.csv2Cliente(file);
+        Cliente clienteAux;
+        for (Cliente cliente : clientes) {
+            clienteAux = buscarCliente(cliente.getId());
+            if (clienteAux == null) {
+                repositorioCliente.crearCliente(cliente);
+            } else {
+                clienteAux.setMail(cliente.getMail());
+                clienteAux.setNotifEnable(cliente.isNotifEnable());
+                clienteAux.setNombre(cliente.getNombre());
+                clienteAux.setFechaIngreso(cliente.getFechaIngreso());
+                repositorioCliente.actualizarCliente(clienteAux);
+            }
+        }
     }
 
 

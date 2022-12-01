@@ -18,7 +18,7 @@ public class Cliente {
     Long id;
 
     @CreationTimestamp
-    @Column(name= "fecha", nullable = false, updatable = false, unique = false)
+    @Column(name = "fecha", nullable = false, updatable = false, unique = false)
     private LocalDate fechaIngreso;
 
     private String nombre;
@@ -35,8 +35,30 @@ public class Cliente {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Direccion> direcciones;
 
+    public Cliente() {
+    }
+
+    public Cliente(String nombre, String mail, LocalDate fechaIngreso, boolean notifEnable) {
+        this.fechaIngreso = fechaIngreso;
+        this.nombre = nombre;
+        this.notifEnable = notifEnable;
+        this.mail = mail;
+    }
+
+    public Cliente(Long id, String nombre, String mail, LocalDate fechaIngreso, boolean notifEnable) {
+        this.id = id;
+        this.fechaIngreso = fechaIngreso;
+        this.nombre = nombre;
+        this.notifEnable = notifEnable;
+        this.mail = mail;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LocalDate getFechaIngreso() {
@@ -45,10 +67,6 @@ public class Cliente {
 
     public void setFechaIngreso(LocalDate fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public boolean isNotifEnable() {

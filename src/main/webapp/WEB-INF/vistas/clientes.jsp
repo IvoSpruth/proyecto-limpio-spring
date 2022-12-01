@@ -6,7 +6,7 @@
 
     <div class="botones_separados">
         <h3>Nuevo cliente</h3>
-        <form action="importarClientes" method="post" enctype="multipart/form-data" class="form-inline">
+        <form action="${pagePath}/clientes/importarClientes" method="post" enctype="multipart/form-data" class="form-inline">
             <button type="submit" class="w3-bar-item w3-button w3-teal w3-margin w3-right">Enviar</button>
             <label for="file" class="w3-bar-item w3-button w3-light-blue w3-margin w3-right">Seleccionar CSV</label>
             <input type="file" alt="Seleccionar CSV" name="file" id="file" style="visibility:hidden;">
@@ -35,7 +35,7 @@
 
     <div class="botones_separados">
         <h3>Clientes activos</h3>
-        <a href="exportarClientes" class="w3-bar-item w3-button w3-teal w3-margin w3-right">Exportar</a>
+        <a href="${pagePath}/clientes/exportarClientes" class="w3-bar-item w3-button w3-teal w3-margin w3-right">Exportar</a>
     </div>
 
     <div class="w3-responsive">
