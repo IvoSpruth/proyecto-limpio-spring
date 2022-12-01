@@ -253,6 +253,9 @@ public class ServicioVentaImpl implements ServicioVenta {
             for(Producto pv : venta.getProductos()){
                 if(p.getId() == pv.getId()){
                     pv.setCosto(p.getCosto());
+                    pv.setNombre(p.getNombre());
+                    pv.setCantidad(p.getCantidad());
+
                     productosFinal.add(pv);
                 }
             }
