@@ -26,7 +26,7 @@ public class RepositorioOfertaTest extends SpringTest {
 
         dadoQueHayOfertas();
         List<Oferta> listaOfertas = cuandoConsultoPorLasOfertas();
-        entoncesObtengoLaCantidadCorrecta(listaOfertas, 2);
+        entoncesObtengoLaCantidadCorrecta(listaOfertas, 4);
     }
 
     private void entoncesEncuentro(CierreDiario cd) {

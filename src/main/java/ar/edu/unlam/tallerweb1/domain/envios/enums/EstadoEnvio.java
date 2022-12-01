@@ -4,7 +4,8 @@ public enum EstadoEnvio {
     EN_PREPARACION("En preparacion"),
     EN_CAMINO("En camino"),
     ENTREGADO("Entregado"),
-    DEVUELTO("Devuelto");
+    DEVUELTO("Devuelto"),
+    REENVIADO("Reenviado");
 
     private String nombreDisplay;
 

@@ -40,6 +40,14 @@ public class ServicioEnvioImpl implements ServicioEnvio {
         venta.agregarEnvio(envio);
         servicioVenta.actualizarVenta(venta);
 
+        List<Envio> devueltos = obtenerEnviosDevueltos(venta.getId());
+        if (devueltos != null) {
+            for (Envio envioDevuelto : devueltos) {
+                envioDevuelto.setEstadoEnvio(EstadoEnvio.REENVIADO);
+                repositorioEnvio.actualizarEnvio(envioDevuelto);
+            }
+        }
+
         return envio;
     }
 
@@ -87,7 +95,7 @@ public class ServicioEnvioImpl implements ServicioEnvio {
     public void devolverEnvio(Long id) {
         Envio envio = repositorioEnvio.obtenerEnvio(id);
 
-        if(envio.getEstadoEnvio() == EstadoEnvio.EN_PREPARACION){
+        if (envio.getEstadoEnvio() == EstadoEnvio.EN_PREPARACION) {
             Venta venta = envio.getVenta();
             venta.setTotal(venta.getTotal() - envio.getCosto());
             servicioVenta.actualizarVenta(venta);
@@ -106,6 +114,11 @@ public class ServicioEnvioImpl implements ServicioEnvio {
     @Override
     public List<Envio> obtenerEnviosPorVentaValidos(Long idVenta) {
         return repositorioEnvio.obtenerEnviosValidos(servicioVenta.buscarVenta(idVenta));
+    }
+
+    @Override
+    public List<Envio> obtenerEnviosDevueltos(Long idVenta) {
+        return repositorioEnvio.obtenerEnviosDevueltos(servicioVenta.buscarVenta(idVenta));
     }
 
 }

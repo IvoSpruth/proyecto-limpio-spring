@@ -42,6 +42,7 @@ public class ServicioEmpleadoImpl implements ServicioEmpleado {
     }
 
     @Override
+    @Transactional
     public List<Empleado> listarEmpleados() {
         return empleadoDao.traemeTodosLosEmpleados();
     }

@@ -132,14 +132,12 @@ public class ServicioVentaTest extends SpringTest {
         producto1.setCantidad(50);
         producto1.setCosto(500);
         producto1.setNombre("cargador");
-        producto1.setIdProveedor(1);
 
         producto2 = new Producto();
         producto2.setId((long) 2);
         producto2.setCantidad(100);
         producto2.setCosto(1700);
         producto2.setNombre("adaptador");
-        producto2.setIdProveedor(2);
 
         productos.add(producto1);
         productos.add(producto2);
@@ -156,14 +154,12 @@ public class ServicioVentaTest extends SpringTest {
         producto1.setCantidad(50);
         producto1.setCosto(500);
         producto1.setNombre("cargador");
-        producto1.setIdProveedor(1);
 
         producto2 = new Producto();
         producto2.setId((long)2);
         producto2.setCantidad(1000);
         producto2.setCosto(1700);
         producto2.setNombre("adaptador");
-        producto2.setIdProveedor(2);
 
         productos.add(producto1);
         productos.add(producto2);
@@ -180,14 +176,12 @@ public class ServicioVentaTest extends SpringTest {
         producto1.setCantidad(50);
         producto1.setCosto(500);
         producto1.setNombre("cargador");
-        producto1.setIdProveedor(1);
 
         producto2 = new Producto();
         producto2.setId((long)2);
         producto2.setCantidad(100);
         producto2.setCosto(1700);
         producto2.setNombre("adaptador");
-        producto2.setIdProveedor(2);
 
         productos.add(producto1);
         productos.add(producto2);

@@ -9,8 +9,11 @@
     <ul id="contenedorProductos" class="w3-ul w3-card-4 w3-white" style="margin: 2em auto;width: 50%;">
       <li id="empleado" class="w3-padding-16">
         <label for="idEmpleado"><h5>Id empleado: </h5></label>
-        <form:input path="idEmpleado" type="number" id="idEmpleado" class="w3-input"
-                    placeholder="Coloque el ID del empleado"/>
+        <form:select path="idEmpleado" class="form-control mb-25" placeholder="Id empleado">
+          <c:forEach items="${empleados}" var="empleado">
+            <form:option value="${empleado.id}" label="${empleado.name}"/>
+          </c:forEach>
+        </form:select>
       </li>
       <li id="1" class="w3-padding-16" style="display:none">
         <form:select path="idP1" class="w3-select">
@@ -90,10 +93,14 @@
     <button class="w3-button w3-block w3-red" type="Submit" style="margin: 2em auto;width: 50%;"><h5>Realizar venta</h5>
     </button>
   </form:form>
-
-
 </div>
-<hr>
+
+<c:if test="${exito==false}">
+  <div class="w3-panel w3-red">
+    <h4>Alerta!</h4>
+    <p>${mensaje}</p>
+  </div>
+</c:if>
 
 <script>
     var contador = 1;

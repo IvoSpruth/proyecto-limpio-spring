@@ -22,11 +22,11 @@ public class RepositorioClienteTest extends SpringTest {
     @Test
     @Rollback
     @Transactional
-    public void debeDevolverTodosLosCierresSiHayCargados(){
+    public void debeDevolverTodosLosClientesSiHayCargados(){
 
         dadoQueHayClientes();
         List<Cliente> listaClientes = cuandoConsultoPorLosClientes();
-        entoncesObtengoLaCantidadCorrecta(listaClientes, 2);
+        entoncesObtengoLaCantidadCorrecta(listaClientes, 4);
     }
 
     @Test
@@ -36,7 +36,7 @@ public class RepositorioClienteTest extends SpringTest {
 
         dadoQueHayClientes();
         List<Cliente> listaClientes = cuandoConsultoPorLosClientesSuscriptos();
-        entoncesObtengoLaCantidadCorrecta(listaClientes, 1);
+        entoncesObtengoLaCantidadCorrecta(listaClientes, 3);
     }
 
     private void entoncesEncuentro(CierreDiario cd) {
@@ -86,8 +86,6 @@ public class RepositorioClienteTest extends SpringTest {
         c2.setFechaIngreso(LocalDate.now());
         c2.setMail("lucas@gmail.com");
         c2.setNotifEnable(false);
-
-
 
         session().save(c1);
         session().save(c2);
