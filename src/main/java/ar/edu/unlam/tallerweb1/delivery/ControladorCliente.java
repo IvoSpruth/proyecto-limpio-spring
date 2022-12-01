@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.delivery;
 
 import ar.edu.unlam.tallerweb1.delivery.forms.Fechas;
 import ar.edu.unlam.tallerweb1.domain.cliente.Cliente;
+import ar.edu.unlam.tallerweb1.domain.cliente.Direccion;
 import ar.edu.unlam.tallerweb1.domain.cliente.ServicioCliente;
 import ar.edu.unlam.tallerweb1.domain.utils.CSVHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "/clientes")
@@ -68,8 +70,8 @@ public class ControladorCliente {
         return new ModelAndView("redirect:/clientes");
     }
 
-    @RequestMapping(path = "exportarClientes",method = RequestMethod.GET)
-    public ResponseEntity<Resource> exportarCSVClientes(){
+    @RequestMapping(path = "exportarClientes", method = RequestMethod.GET)
+    public ResponseEntity<Resource> exportarCSVClientes() {
         String filename = "clientes.csv";
         InputStreamResource file = new InputStreamResource(servicioCliente.exportarCSV());
 
@@ -80,7 +82,7 @@ public class ControladorCliente {
     }
 
     @RequestMapping(path = "/importarClientes", method = RequestMethod.POST)
-    public ModelAndView importarCSVClientes(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+    public ModelAndView importarCSVClientes(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
 
         ModelMap model = new ModelMap();
 
@@ -95,6 +97,41 @@ public class ControladorCliente {
             request.getSession().setAttribute("mensaje", "El archivo subido no es un CSV");
         }
         return new ModelAndView("redirect:/clientes");
+    }
+
+    @RequestMapping(path = "/direcciones", method = RequestMethod.GET)
+    public ModelAndView mostrarDirecciones(HttpServletRequest request, Long id) {
+        Cliente cliente = servicioCliente.buscarCliente(id);
+
+        if (cliente == null) {
+            request.getSession().setAttribute("error", "No existe un cliente con ese ID");
+            return new ModelAndView("redirect:/clientes");
+        }
+        ModelMap modelo = new ModelMap();
+        modelo.put("direccion", new Direccion());
+        modelo.put("cliente", cliente);
+        modelo.put("direcciones", servicioCliente.obtenerDireccionesCliente(id));
+        return new ModelAndView("direcciones", modelo);
+    }
+
+    @RequestMapping(path = "/direcciones/addDireccion", method = RequestMethod.POST)
+    public ModelAndView addDireccion(HttpServletRequest request, @ModelAttribute("cliente") Direccion direccion, Long id) {
+        Cliente cliente = servicioCliente.buscarCliente(id);
+
+        if (cliente == null) {
+            request.getSession().setAttribute("error", "No existe un cliente con ese ID");
+            return new ModelAndView("redirect:/clientes/direcciones?id=" + id);
+        }
+
+        List<Direccion> direcciones = cliente.getDirecciones();
+
+        direcciones.add(direccion);
+
+        cliente.setDirecciones(direcciones);
+
+        servicioCliente.actualizarCliente(cliente);
+
+        return new ModelAndView("redirect:/clientes/direcciones?id=" + id);
     }
 
 }

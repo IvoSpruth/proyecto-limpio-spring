@@ -20,7 +20,7 @@ public class RepositorioClienteImpl implements RepositorioCliente {
     private SessionFactory sessionFactory;
 
     @Autowired
-    public RepositorioClienteImpl(SessionFactory sessionFactory){
+    public RepositorioClienteImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
@@ -75,6 +75,12 @@ public class RepositorioClienteImpl implements RepositorioCliente {
     @Override
     public void actualizarCliente(Cliente cliente) {
         final Session session = sessionFactory.getCurrentSession();
+        for (Direccion direccion : cliente.getDirecciones()
+        ) {
+            direccion.setCliente(cliente);
+            session.saveOrUpdate(direccion);
+        }
+
         session.update(cliente);
     }
 }

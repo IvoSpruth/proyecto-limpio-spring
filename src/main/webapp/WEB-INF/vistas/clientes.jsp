@@ -6,7 +6,8 @@
 
     <div class="botones_separados">
         <h3>Nuevo cliente</h3>
-        <form action="${pagePath}/clientes/importarClientes" method="post" enctype="multipart/form-data" class="form-inline">
+        <form action="${pagePath}/clientes/importarClientes" method="post" enctype="multipart/form-data"
+              class="form-inline">
             <button type="submit" class="w3-bar-item w3-button w3-teal w3-margin w3-right">Enviar</button>
             <label for="file" class="w3-bar-item w3-button w3-light-blue w3-margin w3-right">Seleccionar CSV</label>
             <input type="file" alt="Seleccionar CSV" name="file" id="file" style="visibility:hidden;">
@@ -45,6 +46,7 @@
                 <td>Nombre</td>
                 <td>Mail</td>
                 <td>Notificacion</td>
+                <td>Direcciones</td>
             </tr>
 
             <c:forEach items="${clientes}" var="cliente">
@@ -55,18 +57,23 @@
                     <c:choose>
                         <c:when test="${cliente.notifEnable}">
 
-                            <td><a href="${pagePath}/clientes/desactivarNotif?id=${cliente.id}"><i class="fa fa-check"></i></a></td>
+                            <td><a href="${pagePath}/clientes/desactivarNotif?id=${cliente.id}"><i
+                                    class="fa fa-check"></i></a></td>
 
                         </c:when>
                         <c:when test="${!cliente.notifEnable}">
 
-                            <td><a href="${pagePath}/clientes/activarNotif?id=${cliente.id}"><i class="fa fa-remove"></i></a></td>
+                            <td><a href="${pagePath}/clientes/activarNotif?id=${cliente.id}"><i
+                                    class="fa fa-remove"></i></a></td>
 
                         </c:when>
                         <c:otherwise>
                             <td>ERROR</td>
                         </c:otherwise>
                     </c:choose>
+
+                    <td><a href="${pagePath}/clientes/direcciones?id=${cliente.id}"><i
+                            class="fa fa-home"></i></a></td>
                 </tr>
             </c:forEach>
 
