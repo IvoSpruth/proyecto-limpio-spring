@@ -95,38 +95,16 @@
   </form:form>
 </div>
 
-<c:if test="${exito==false}">
-  <div class="w3-panel w3-red">
-    <h4>Alerta!</h4>
-    <p>${mensaje}</p>
-  </div>
-</c:if>
-
 <script>
     var contador = 1;
 
     function addProducto() {
         if (contador < 11) {
-            console.log(contador);
             let producto = document.getElementById(contador);
             producto.style.display = "";
             contador++;
         }
     }
-
-    // window.onload = (event) => {
-    // console.log("page is fully loaded");
-    //  let content = document.getElementById('contenedorProductos');
-    //     let firstChild = content.firstChild.nodeName;
-    //     let lis = content.getElementsByTagName('li');
-    //     for(li in lis){
-    //         console.log(li.id);
-    //         //li.style.display = 'none';
-    //     }
-    //     console.log(firstChild);
-    // };
-
-
 </script>
 
 <%@ include file="generales/footer.jsp" %>

@@ -17,10 +17,6 @@ function closeDesglose() {
 function openDesglose() {
     target = event.target;
     id = target.id;
-    console.log(id);
-    //redesList = ['INSTAGRAM', 'FACEBOOK', 'TWITTER', 'UBER', 'SNAPCHAT', 'WHATSAPP'];
-
-
     document.getElementById('desgMinCNContainer').style.display = 'block';
     document.getElementById('desgMinCN').style.display = 'block';
 

@@ -30,7 +30,6 @@
 </c:if>
 
 <c:if test="${not empty error}">
-<<<<<<< HEAD
   <div class="w3-panel w3-red">
     <h4>Alerta!</h4>
     <p>${error}</p>

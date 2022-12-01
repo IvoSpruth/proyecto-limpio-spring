@@ -1,6 +1,5 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
 import ar.edu.unlam.tallerweb1.domain.utils.CSVHelper;
@@ -83,7 +82,7 @@ public class ControladorProducto {
         } catch (Exception e) {
             return new ModelAndView("empleado-duenio-control", new ModelMap());
         }
-        model.addAttribute("exito", false);
+        model.addAttribute("exito", true);
         model.addAttribute("mensaje", "El producto se cargó con éxito");
         return new ModelAndView("empleado-duenio-control", model);
     }

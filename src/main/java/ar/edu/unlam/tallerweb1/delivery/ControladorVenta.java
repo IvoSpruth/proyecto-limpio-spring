@@ -115,18 +115,10 @@ public class ControladorVenta {
         ModelMap modelError = new ModelMap();
         modelError.addAttribute("fecha", new Date().toString());
         modelError.addAttribute("productos", (List) servicioProducto.buscarProductos());
-        modelError.addAttribute("exito", false);
-        modelError.addAttribute("mensaje", mensaje);
+        modelError.addAttribute("error", mensaje);
         modelError.addAttribute("empleados",servicioEmpleado.listarEmpleados());
         return modelError;
     }
-
-//    public ModelMap getModelProductos(){
-//        ModelMap productos = new ModelMap();
-//        for (Map.Entry<String, Object> entry : map.entrySet()) {
-//            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-//        }
-//    }
 
     private List<ModelMap> prepareProductosModel(List<Producto> productos) {
         ArrayList<ModelMap> pp = new ArrayList<>();
