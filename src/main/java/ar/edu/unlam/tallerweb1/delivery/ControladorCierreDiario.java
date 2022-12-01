@@ -87,8 +87,7 @@ public class ControladorCierreDiario {
         ModelMap modelError = new ModelMap();
         modelError.addAttribute("fecha", LocalDate.now().toString());
         modelError.addAttribute("cierres", (List) servicioCierre.historialCierres());
-        modelError.addAttribute("exito", false);
-        modelError.addAttribute("mensaje", mensaje);
+        modelError.addAttribute("error", mensaje);
         modelError.addAttribute("botonHabilitado", false);
         List<Venta> ventas = servicioVenta.buscarVentasPorFecha(LocalDate.now());
         modelError.addAttribute("ventasDia", ventas);

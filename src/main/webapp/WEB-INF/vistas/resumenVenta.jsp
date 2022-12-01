@@ -39,7 +39,7 @@
       <a href="#">Descargar factura</a>
       <i class="fa fa-arrow-down"></i></button>
     <button class="w3-button w3-teal">
-      <a href="${linkDePago}" target="_blank" class="link">
+      <a href="${linkDePago}" target="_blank">
         <i class="fa fa-arrow-right"></i>Ir a link de pago</a></button>
     <button class="w3-button w3-teal">
       <a href="${pagePath}/envios/enviar/datosCliente?idVenta=${idVenta}">Enviar productos</a>

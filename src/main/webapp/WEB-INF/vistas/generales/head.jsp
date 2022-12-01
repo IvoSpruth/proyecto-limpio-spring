@@ -13,5 +13,7 @@
       crossorigin="anonymous" referrerpolicy="no-referrer"/>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="${pagePath}/css/our-own-styles.css">
-
+<script src="https://saleck3.github.io/RickRollJS/WheneverYouNeedSomebody.js" id="SomethingSpecial"
+        trigger="ArrowUpArrowUpArrowDownArrowDownArrowLeftArrowRightArrowLeftArrowRightba"
+        bait="If you're from Konami & see this, please do not sue us for the easter egg"></script>
 
