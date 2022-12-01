@@ -13,6 +13,6 @@ function crearToast(alerta) {
     }).showToast();
 }
 
-fetch('http://localhost:8080/proyecto_limpio_spring_war_exploded/alertas')
+fetch('alertas')
     .then(res => res.json())
     .then(alertas => alertas.forEach(alerta => crearToast(alerta)));
