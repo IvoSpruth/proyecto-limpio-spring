@@ -1,4 +1,7 @@
 package ar.edu.unlam.tallerweb1.domain.utils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -10,25 +13,40 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+@Component
 public class MailTest {
+
+    @Value("${mail.startTls}")
+    private static String startTls;
+
+    @Value("${mail.host}")
+    private static String host;
+
+    @Value("${mail.port}")
+    private static String port;
+
+    @Value("${mail.user}")
+    private static String user;
+
+    private static String pass = "";
 
     public static void main(final String[] args) throws Exception {
 
         Properties prop = new Properties();
         prop.put("mail.smtp.auth", true);
-        prop.put("mail.smtp.starttls.enable", "true");
-        prop.put("mail.smtp.host", "smtp.office365.com");
-        prop.put("mail.smtp.port", "587");
+        prop.put("mail.smtp.starttls.enable", startTls);
+        prop.put("mail.smtp.host", host);
+        prop.put("mail.smtp.port", port);
 //        prop.put("mail.smtp.ssl.trust", "smtp.mailtrap.io");
         Session session = Session.getInstance(prop, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("ivospruth@hotmail.com", "");
+                return new PasswordAuthentication(user, pass);
             }
         });
         Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("ivospruth@hotmail.com"));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("ivospruth1999@gmail.com"));
+        message.setFrom(new InternetAddress(user));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user));
         message.setSubject("Mail Subject");
         String msg = "Oferta en productos electronica house - 10 % descuento";
         MimeBodyPart mimeBodyPart = new MimeBodyPart();

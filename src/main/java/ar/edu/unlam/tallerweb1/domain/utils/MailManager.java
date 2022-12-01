@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.domain.utils;
 
 import ar.edu.unlam.tallerweb1.domain.ofertas.Oferta;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.*;
 
+@Component
 public class MailManager {
 
     private Properties prop;
