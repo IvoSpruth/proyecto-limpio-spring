@@ -1,6 +1,5 @@
 package ar.edu.unlam.tallerweb1.delivery;
 
-import ar.edu.unlam.tallerweb1.domain.empleados.Empleado;
 import ar.edu.unlam.tallerweb1.domain.empleados.ServicioEmpleado;
 import ar.edu.unlam.tallerweb1.domain.productos.Producto;
 import ar.edu.unlam.tallerweb1.domain.productos.ServicioProducto;
@@ -24,15 +23,13 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class ControladorABM {
+public class ControladorProducto {
 
     private ServicioProducto servicioProducto;
-    private ServicioEmpleado servicioEmpleado;
 
     @Autowired
-    public ControladorABM(ServicioProducto servicioProducto, ServicioEmpleado servicioEmpleado) {
+    public ControladorProducto(ServicioProducto servicioProducto) {
         this.servicioProducto = servicioProducto;
-        this.servicioEmpleado = servicioEmpleado;
     }
 
     @RequestMapping(path = "/goProductoForm", method = RequestMethod.GET)
@@ -90,26 +87,4 @@ public class ControladorABM {
         model.addAttribute("mensaje", "El producto se cargó con éxito");
         return new ModelAndView("empleado-duenio-control", model);
     }
-
-    @RequestMapping(path = "/goEmpleadoForm", method = RequestMethod.GET)
-    public ModelAndView irEmpleadoForm(@ModelAttribute("empleado") Empleado empleado) {
-        return new ModelAndView("EmpleadoForm");
-    }
-
-
-    @RequestMapping(path = "/addEmpleado", method = RequestMethod.POST)
-    public ModelAndView addProducto(@ModelAttribute("empleado") Empleado empleado, BindingResult bindingResult, HttpServletRequest req) {
-        ModelMap model = new ModelMap();
-        try {
-            servicioEmpleado.addEmpleado(empleado);
-
-        } catch (Exception e) {
-            return new ModelAndView("empleado-duenio-control", new ModelMap());
-        }
-        model.addAttribute("exito", false);
-        model.addAttribute("mensaje", "El empleado se cargó con éxito");
-        return new ModelAndView("empleado-duenio-control", model);
-    }
-
-
 }
